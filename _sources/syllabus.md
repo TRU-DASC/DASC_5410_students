@@ -19,10 +19,8 @@ languages
 
 ## Schedule & office hours
 
-- Wednesday 12:30-2:20 pm
-- Thursday 2:30-3:20 pm
-
-Location: in the computer lab OM 1241 at Old Main building.
+- Tuesday 12:30 – 13:20 pm in OM2612
+- Wednesday 12:30-2:20 pm in OM 1241
 
 Office hour: Thu 11:30 AM-12:30 PM at OM 1232. Please book your timeslot [here](https://calendly.com/quan3010/office-hour-with-quan)
 
