@@ -1,13 +1,11 @@
 # Installation instruction for macOS
 
-## Installation notes
+Attribution
 
-If you have already installed Git, Latex, or any of the Python related packages
-**please uninstall these and follow the instructions below to reinstall them**
-(make sure to also remove any user configuration files and backup them if desired).
-In order to be able to support you effectively
-and minimize setup issues and software conflicts,
-we require all students to install the software stack the same way.
+This installation guide was adapted from the [UBC MDS installation guide](https://ubc-mds.github.io/resources_pages/install_ds_stack_mac/)
+
+
+## Installation notes
 
 In all the sections below,
 if you are presented with the choice to download either a 64-bit (also called x64)
@@ -29,7 +27,9 @@ to check that all software is setup correctly.
 
 ## Bash shell
 
-Apple recently changed the Mac default shell in the Terminal to Zsh, however, we aim to teach with the same shell across all three operating systems we support, which is the Bash shell. Thus, we ask that you change the default shell in your Terminal to Bash by opening the Terminal ([how to video](https://youtu.be/5AJbWEWwnbY)) and typing:
+Apple recently changed the Mac default shell in the Terminal to Zsh, however, we aim to teach with the same shell across all three operating systems we support, which is the Bash shell. Thus, we ask that you change the default shell in your Terminal to Bash by opening the Terminal and typing:
+
+![](/resources_pages/imgs/terminal.png)
 
 ```shell
 chsh -s /bin/bash
@@ -243,12 +243,12 @@ Also note that we may occasionally need to install packages using `pip`, the sta
 
 In the next session
 we will use `conda` to install
-some of the key packages we will use in MDS.
+some of the key packages we will use.
 
 ## JupyterLab setup
 
 We will be using `JupyterLab` as our main coding environment
-and `pandas` is one of the key data analyses packages in MDS.
+and `pandas` is one of the key data analyses packages .
 The Jupytext Python package and the JupyterLab git extension facilitates
 using notebooks in JupyterLab together with Git & GitHub.
 The spellchecker helps us correcting typos in our writing.
@@ -258,59 +258,21 @@ Install them via the following commands:
 conda install pandas jupyterlab jupyterlab-git jupyterlab-spellchecker
 ```
 
-We will grade part of your assignments in MDS using the Otter-Grader package. For your Jupyter-based assignments, you need to install Otter-Grader using the following command:
+We will grade part of your assignments using the Otter-Grader package. For your Jupyter-based assignments, you need to install Otter-Grader using the following command:
 
 ```bash
 pip install otter-grader
 ```
 
-> Note: You will also install Otter-Grader for R in the later sections of this guide.
 
 To test that your JupyterLab installation is functional, you can type `jupyter lab` into a terminal,
 which should open a new tab in your default browser with the JupyterLab interface.
 To exit out of JupyterLab you can click `File -> Shutdown`,
 or go to the terminal from which you launched JupyterLab and hold `Ctrl` while pressing `c` twice.
 
-![](/resources_pages/imgs/jupyter_lab.PNG)
-
-> **Note:** we will use many more packages than those listed above across the MDS program, however we will manage these using virtual environments (which you will learn about in DSCI 521: Platforms for Data Science).
-
-
-### WebPDF export
-
-Jupyter recently added another way to export notebooks to PDF
-which does not require Latex
-and makes the exported PDF look similar to notebooks exported to HTML.
-This requires the an additional package,
-which we can install as follows.
-
-```bash
-pip install "nbconvert[webpdf]"
-playwright install chromium
-```
-
-Try this by going to `File -> Save and Export Notebook As... -> WebPDF`.
-
-## PostgreSQL
-
-We will be using PostgreSQL as our database management system. You can download the most recent version of PostgreSQL from [here](https://www.enterprisedb.com/downloads/postgres-postgresql-downloads). Follow the instructions for the installation. In the password page, type whatever password you want, **and make sure you save it using a password manager or similar so that you know what it is in November when the SQL course starts** (otherwise you will need to reinstall PostgreSQL). For all the other options, use the default. You do not need to run "StackBuilder" at the end of the installation (if you accidentally launch the StackBuilder, click "cancel", you don't need to check any boxes).
-
-To test if the installation was successful open the `SQL Shell` app from the LaunchPad or applications directory. You will be asked to setup your configuration:
-
-- Accept the default value (the one within square brackets) for the first three values by pressing enter three times,
-- Enter `postgres` as the default username and hit enter,
-- Finally, type in the password that you set during installation and press enter one last time.
-
-It should look like this if it is working correctly:
-
-![](/resources_pages/imgs/psql-mac-2022-23.png)
-
-
 ## VS Code extensions
 
 The real magic of VS Code is in the extensions that let you add languages, debuggers, and tools to your installation to support your specific workflow. Now that we have installed all our other Data Science tools, we can install the VS Code extensions that work really well with them. From within VS Code you can open up the [Extension Marketplace (read more here)](https://code.visualstudio.com/docs/editor/extension-gallery) to browse and install extensions by clicking on the Extensions icon in the Activity Bar indicated in the figure below.
-
-![](/resources_pages/imgs/vscode.png)
 
 To install an extension, go to `View -> Extensions` or click in the icon as you can see in the image above. Then, search for the names of the ones you are interested in the search bar, click the extension you want, and click "Install". There are extensions available to make almost any workflow or task you are interested in more efficient! Here we are interested in setting up VS Code as a Python IDE. To do this, search for and install the following extensions:
 
@@ -318,8 +280,6 @@ To install an extension, go to `View -> Extensions` or click in the icon as you 
 - markdownlint (markdown linting and style checking extension)
 - GitLens - Git supercharged (powerful extension that extends VS Code's native git capabilities)
 - Git History (intutive view of your git history)
-- Docker (easily use Docker from VS Code)
-- Quarto (integrated render and preview for Quarto documents and [more](https://quarto.org/docs/tools/vscode.html))
 
 - (Optional) Material Theme and/or Predawn Theme Kit (additional colour themes to choose from)
 - (Optional) Material Icon Theme (great-looking custom file icons!)

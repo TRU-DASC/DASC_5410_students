@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>Installation instruction for macOS &#8212; DASC 5410 - Data and Database Management for Data Science</title>
+    <title>Installation instruction for Windows &#8212; DASC 5410 - Data and Database Management for Data Science</title>
   
   
   
@@ -57,11 +57,10 @@
     <script async="async" src="_static/sphinx-thebe.js?v=c100c467"></script>
     <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
     <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
-    <script>DOCUMENTATION_OPTIONS.pagename = 'installation_mac';</script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'installation_windows';</script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="Installation instruction for Windows" href="installation_windows.html" />
-    <link rel="prev" title="Lecture 1: Data types and data structures" href="lectures/lecture1.html" />
+    <link rel="prev" title="Installation instruction for macOS" href="installation_mac.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
   </head>
@@ -185,8 +184,8 @@
 </ul>
 <p aria-level="2" class="caption" role="heading"><span class="caption-text">Installation Guide</span></p>
 <ul class="current nav bd-sidenav">
-<li class="toctree-l1 current active"><a class="current reference internal" href="#">Installation instruction for macOS</a></li>
-<li class="toctree-l1"><a class="reference internal" href="installation_windows.html">Installation instruction for Windows</a></li>
+<li class="toctree-l1"><a class="reference internal" href="installation_mac.html">Installation instruction for macOS</a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">Installation instruction for Windows</a></li>
 </ul>
 
     </div>
@@ -241,7 +240,7 @@
       
       
       
-      <li><a href="_sources/installation_mac.md" target="_blank"
+      <li><a href="_sources/installation_windows.md" target="_blank"
    class="btn btn-sm btn-download-source-button dropdown-item"
    title="Download source file"
    data-bs-placement="left" data-bs-toggle="tooltip"
@@ -325,7 +324,7 @@ document.write(`
               
 
 <div id="jb-print-docs-body" class="onlyprint">
-    <h1>Installation instruction for macOS</h1>
+    <h1>Installation instruction for Windows</h1>
     <!-- Table of contents -->
     <div id="print-main-content">
         <div id="jb-print-toc">
@@ -336,22 +335,20 @@ document.write(`
             <nav aria-label="Page">
                 <ul class="visible nav section-nav flex-column">
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#installation-notes">Installation notes</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#bash-shell">Bash shell</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#visual-studio-code">Visual Studio Code</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#installing">Installing</a></li>
-</ul>
-</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#visual-studio-code">Visual Studio Code</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#github">GitHub</a><ul class="nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#github-com">GitHub.com</a></li>
 </ul>
 </li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#git">Git</a><ul class="nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#git-bash-and-windows-terminal">Git, Bash, and Windows Terminal</a><ul class="nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#configuring-git-user-info">Configuring Git user info</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#setting-vs-code-as-the-default-editor">Setting VS Code as the default editor</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#setting-git-bash-as-the-default-vs-code-terminal-profile">Setting Git Bash as the default VS Code terminal profile</a></li>
 </ul>
 </li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#python-conda-and-jupyterlab">Python, Conda, and JupyterLab</a><ul class="nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#python-and-conda">Python and Conda</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#integrating-python-with-the-git-bash-terminal">Integrating Python with the Git Bash terminal</a></li>
 </ul>
 </li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#installing-python-packages">Installing Python packages</a></li>
@@ -368,59 +365,31 @@ document.write(`
 <div id="searchbox"></div>
                 <article class="bd-article">
                   
-  <section class="tex2jax_ignore mathjax_ignore" id="installation-instruction-for-macos">
-<h1>Installation instruction for macOS<a class="headerlink" href="#installation-instruction-for-macos" title="Link to this heading">#</a></h1>
+  <section class="tex2jax_ignore mathjax_ignore" id="installation-instruction-for-windows">
+<h1>Installation instruction for Windows<a class="headerlink" href="#installation-instruction-for-windows" title="Link to this heading">#</a></h1>
 <p>Attribution</p>
-<p>This installation guide was adapted from the <a class="reference external" href="https://ubc-mds.github.io/resources_pages/install_ds_stack_mac/">UBC MDS installation guide</a></p>
+<p>This installation guide was adapted from the <a class="reference external" href="https://ubc-mds.github.io/resources_pages/install_ds_stack_windows/">UBC MDS installation guide</a></p>
 <section id="installation-notes">
 <h2>Installation notes<a class="headerlink" href="#installation-notes" title="Link to this heading">#</a></h2>
 <p>In all the sections below,
 if you are presented with the choice to download either a 64-bit (also called x64)
 or a 32-bit (also called x86) version of the application <strong>always</strong> choose the 64-bit version.</p>
-<blockquote>
-<div><p><strong>Important</strong>
-Mac computers are transitioning from
-Intel processors to <a class="reference external" href="https://support.apple.com/en-us/HT211814">Apple silicon</a>.
-If you have a new laptop (Mac M1 or Mac M2)
-for some software
-you will have to use a different installer
-than Macs with Intel processors.</p>
-</div></blockquote>
-<p>Once you have completed these installation instructions,
-make sure to follow the post-installation notes at the end
-to check that all software is setup correctly.</p>
-</section>
-<section id="bash-shell">
-<h2>Bash shell<a class="headerlink" href="#bash-shell" title="Link to this heading">#</a></h2>
-<p>Apple recently changed the Mac default shell in the Terminal to Zsh, however, we aim to teach with the same shell across all three operating systems we support, which is the Bash shell. Thus, we ask that you change the default shell in your Terminal to Bash by opening the Terminal and typing:</p>
-<p><img alt="" src="_images/terminal.png" /></p>
-<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>chsh<span class="w"> </span>-s<span class="w"> </span>/bin/bash
-</pre></div>
-</div>
-<p>You will have to quit all instances of open Terminals and then <strong>restart</strong> the Terminal for this to take effect.</p>
 </section>
 <section id="visual-studio-code">
 <h2>Visual Studio Code<a class="headerlink" href="#visual-studio-code" title="Link to this heading">#</a></h2>
-<section id="installing">
-<h3>Installing<a class="headerlink" href="#installing" title="Link to this heading">#</a></h3>
-<p>The open-source text editor Visual Studio Code (VS Code) is both a powerful text editor and a full-blown Python IDE, which we will use for more complex analysis. You can download and install the macOS version of VS Code from the VS code website <a class="reference external" href="https://code.visualstudio.com/download">https://code.visualstudio.com/download</a>.</p>
-<p>Pay attention here if you have to download the “Intel Chip” or “Apple silicon” installer.</p>
-<p>Once the download is finished, click “Open with Archive utility”, and move the extracted VS Code application from “Downloads” to “Applications”.
-In addition to reading the <a class="reference external" href="https://code.visualstudio.com/docs/setup/mac">getting started instructions</a>, <strong>be sure to follow the <a class="reference external" href="https://code.visualstudio.com/docs/setup/mac#_launching-from-the-command-line">“Launching from the command line”</a> steps as well.</strong></p>
-<p>You can test that VS code is installed and can be opened from Terminal by <strong>restarting</strong> terminal and typing the following command:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>code<span class="w"> </span>--version
-</pre></div>
-</div>
-<p>you should see something like this if you were successful:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="mf">1.81.1</span>
-<span class="mi">5763</span><span class="n">d909d5f12fe19f215cbfdd29a91c0fa9208a</span>
-<span class="n">arm64</span>
-</pre></div>
-</div>
-<blockquote>
-<div><p><strong>Note:</strong> If you get an error message such as <code class="docutils literal notranslate"><span class="pre">-bash:</span> <span class="pre">code:</span> <span class="pre">command</span> <span class="pre">not</span> <span class="pre">found</span></code>, but you can see the VS Code application has been installed, then something went wrong with setting up the launch from the command line. Try following <a class="reference external" href="https://code.visualstudio.com/docs/setup/mac#_launching-from-the-command-line">these instructions</a> again, in particular you might want to try the described manual method of adding VS Code to your path.</p>
-</div></blockquote>
-</section>
+<p>The open-source text editor Visual Studio Code (VS Code) is both a powerful text editor and a full-blown Python IDE, which we will use for more complex analysis. Go to <a class="reference external" href="https://code.visualstudio.com/download">https://code.visualstudio.com/download</a> and download the windows version of VS Code. After the download has finished, run the installer and accept the default configuration for all pages except for the following:</p>
+<ul class="simple">
+<li><p><em>Optional</em> On the <strong>Select Additional Tasks</strong> page, check “Create a desktop icon” under “Additional icons”.</p></li>
+<li><p>Also on the <strong>Select Additional Tasks</strong> page check all four boxes under “Other”</p>
+<ul>
+<li><p>“Add ‘Open with Code’ action to Windows file context menu”</p></li>
+<li><p>“Add ‘Open with Code’ action to Windows directory context menu”</p></li>
+<li><p>“Register Code as an editor for supported file types”</p></li>
+<li><p>“Add to PATH” (this should be selected by default).</p></li>
+</ul>
+</li>
+</ul>
+<p><img alt="" src="_images/vs_code.png" /></p>
 </section>
 <section id="github">
 <h2>GitHub<a class="headerlink" href="#github" title="Link to this heading">#</a></h2>
@@ -429,50 +398,152 @@ In addition to reading the <a class="reference external" href="https://code.visu
 <p>Sign up for a free account at <a class="reference external" href="https://github.com/">GitHub.com</a> if you don’t have one already.</p>
 </section>
 </section>
-<section id="git">
-<h2>Git<a class="headerlink" href="#git" title="Link to this heading">#</a></h2>
-<p>We will be using the command line version of Git as well as Git through RStudio and JupyterLab. Some of the Git commands we will use are only available since Git 2.23, so if your Git is older than this version, we ask you to update it using the Xcode command line tools (not all of Xcode), which includes Git.</p>
-<p>Open Terminal and type the following command to install Xcode command line tools:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>xcode-select<span class="w"> </span>--install
+<section id="git-bash-and-windows-terminal">
+<h2>Git, Bash, and Windows Terminal<a class="headerlink" href="#git-bash-and-windows-terminal" title="Link to this heading">#</a></h2>
+<p>Although these three are separate programs,
+we are including them in the same section here
+since they are related and used together on Windows.
+Briefly, we will be using the Bash shell to interact with our computers via a command line interface,
+Git to keep a version history of our files and upload to/download from to GitHub,
+and Windows Terminal to run the both Bash and Git.</p>
+<p>Go to <a class="reference external" href="https://git-scm.com/download/win">https://git-scm.com/download/win</a> and download the windows version of git
+(this installer also includes Bash and we will refer to it as Git Bash).
+After the download has finished,
+run the installer and accept the default configuration for all pages except for the following:</p>
+<ul>
+<li><p>On the <strong>Select Components</strong> page, add a Git Bash profile to Windows Terminal.</p>
+<p><img alt="" src="_images/gitbash-terminal-profile.png" /></p>
+</li>
+<li><p>On the <strong>Choosing the default editor used by Git</strong> page, select “Use Visual Studio Code as Git’s default editor” from the drop-down menu’</p>
+<ul class="simple">
+<li><p>You should already have VS Code installed from an earlier installation step</p></li>
+</ul>
+<p><img alt="" src="_images/vscode-as-git-editor.png" /></p>
+</li>
+<li><p>Set the default branch name to <code class="docutils literal notranslate"><span class="pre">main</span></code></p>
+<p><img alt="" src="_images/gitbash-defualt_main.png" /></p>
+</li>
+</ul>
+<p>For the remainder screens, pick the default selected options:</p>
+<ul class="simple">
+<li><p>Adjusting your PATH environment: Git from the command line and also from 3rd-party software</p></li>
+<li><p>Choosing the SSH executable: Use bundled OpenSSH</p></li>
+<li><p>Choosing HTTPS transport backend: Use the OpenSSL library</p></li>
+<li><p>Configuring the line ending conversions: Checkout Windows-style, commit Unix-style line endings</p></li>
+<li><p>Configuring the terminal emulator to use with Git Bash: Use MinTTY (the default terminal of MSYS2)</p></li>
+<li><p>Choose the default behavior of ‘git pull’: Fast-forward or merge</p></li>
+<li><p>Choose a credential helper: Git Credential Manager</p></li>
+<li><p>Configuring extra options: Enable file system caching</p>
+<ul>
+<li><p>You can also choose to “Enable symbolic links”</p></li>
+</ul>
+</li>
+<li><p>Configuring experimental options: leave it unchecked</p></li>
+</ul>
+<p><a class="reference external" href="https://aka.ms/terminal">To install windows terminal visit this link</a>
+and click <code class="docutils literal notranslate"><span class="pre">Get</span></code> to open it in Windows Store.
+Inside the Store, click <code class="docutils literal notranslate"><span class="pre">Get</span></code> again and then click <code class="docutils literal notranslate"><span class="pre">Install</span></code>.
+After installation,
+click <code class="docutils literal notranslate"><span class="pre">Launch</span></code> to start Windows Terminal.
+In the top of the window,
+you will see the tab bar with one open tab,
+a plus sign,
+and a down arrow.
+Click the down arrow and select <code class="docutils literal notranslate"><span class="pre">Settings</span></code>
+(or type the shortcut <code class="docutils literal notranslate"><span class="pre">Ctrl</span></code> + <code class="docutils literal notranslate"><span class="pre">,</span></code>).
+In the <code class="docutils literal notranslate"><span class="pre">Startup</span></code> section,
+click the dropdown menu under <code class="docutils literal notranslate"><span class="pre">Default</span> <span class="pre">profile</span></code>
+and select <code class="docutils literal notranslate"><span class="pre">Git</span> <span class="pre">Bash</span></code>.</p>
+<p><img alt="" src="_images/git-bash-default-shell.png" /></p>
+<p>You can now launch the Windows terminal from the start menu
+or pin it to the taskbar like any other program
+(you can read the rest of the article linked above for additional tips if you wish).
+To make sure everything worked,
+close down Windows Terminal,
+and open it again.
+Git Bash should open by default,
+the text should be green and purple,
+and the tab should read  <code class="docutils literal notranslate"><span class="pre">MINGW64:/c/Users/$USERNAME</span></code>
+(you should also see <code class="docutils literal notranslate"><span class="pre">/c/Users/$USERNAME</span></code> if you type <code class="docutils literal notranslate"><span class="pre">pwd</span></code> into the terminal).
+This screenshot shows what it should look like:</p>
+<p><img alt="" src="_images/windows-terminal-gitbash.png" /></p>
+<blockquote>
+<div><p><strong>Note:</strong> Whenever we refer to “the terminal” in these installation instructions,
+we want you to use the Windows Terminal that you just installed with the Git Bash profile.
+Do <strong>not</strong> use Windows PowerShell, CMD, or anything else unless explicitly instructed to do so.</p>
+</div></blockquote>
+<p>To open a new tab you can click the plus sign or use <code class="docutils literal notranslate"><span class="pre">Ctrl</span> <span class="pre">+</span> <span class="pre">Shift</span> <span class="pre">+</span> <span class="pre">t</span></code>
+(you can close a tab with <code class="docutils literal notranslate"><span class="pre">Ctrl</span> <span class="pre">+</span> <span class="pre">Shift</span> <span class="pre">+</span> <span class="pre">w</span></code>).
+To copy text from the terminal,
+you can highlight it with the mouse and then click <code class="docutils literal notranslate"><span class="pre">Ctrl</span> <span class="pre">+</span> <span class="pre">Shift</span> <span class="pre">+</span> <span class="pre">c</span></code>.
+To paste text you use <code class="docutils literal notranslate"><span class="pre">Ctrl</span> <span class="pre">+</span> <span class="pre">Shift</span> <span class="pre">+</span> <span class="pre">v</span></code>,
+try it by pasting the following into the terminal
+to check which version of Bash you just installed:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">bash</span> <span class="o">--</span><span class="n">version</span>
 </pre></div>
 </div>
-<p>After installation, in terminal type the following to ask for the version:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>--version
-</pre></div>
-</div>
-<p>you should see something like this (does not have to be the exact same version) if you were successful:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">git</span> <span class="n">version</span> <span class="mf">2.39.2</span> <span class="p">(</span><span class="n">Apple</span> <span class="n">Git</span><span class="o">-</span><span class="mi">143</span><span class="p">)</span>
+<p>The output should look similar to this:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">GNU</span> <span class="n">bash</span><span class="p">,</span> <span class="n">version</span> <span class="mf">5.2.15</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span><span class="o">-</span><span class="n">release</span> <span class="p">(</span><span class="n">x86_64</span><span class="o">-</span><span class="n">pc</span><span class="o">-</span><span class="n">msys</span><span class="p">)</span>
+<span class="n">Copyright</span> <span class="p">(</span><span class="n">C</span><span class="p">)</span> <span class="mi">2020</span> <span class="n">Free</span> <span class="n">Software</span> <span class="n">Foundation</span><span class="p">,</span> <span class="n">Inc</span><span class="o">.</span>
+<span class="n">License</span> <span class="n">GPLv3</span><span class="o">+</span><span class="p">:</span> <span class="n">GNU</span> <span class="n">GPL</span> <span class="n">version</span> <span class="mi">3</span> <span class="ow">or</span> <span class="n">later</span> <span class="o">&lt;</span><span class="n">http</span><span class="p">:</span><span class="o">//</span><span class="n">gnu</span><span class="o">.</span><span class="n">org</span><span class="o">/</span><span class="n">licenses</span><span class="o">/</span><span class="n">gpl</span><span class="o">.</span><span class="n">html</span><span class="o">&gt;</span>
+
+<span class="n">This</span> <span class="ow">is</span> <span class="n">free</span> <span class="n">software</span><span class="p">;</span> <span class="n">you</span> <span class="n">are</span> <span class="n">free</span> <span class="n">to</span> <span class="n">change</span> <span class="ow">and</span> <span class="n">redistribute</span> <span class="n">it</span><span class="o">.</span>
+<span class="n">There</span> <span class="ow">is</span> <span class="n">NO</span> <span class="n">WARRANTY</span><span class="p">,</span> <span class="n">to</span> <span class="n">the</span> <span class="n">extent</span> <span class="n">permitted</span> <span class="n">by</span> <span class="n">law</span><span class="o">.</span>
 </pre></div>
 </div>
 <blockquote>
-<div><p><strong>Note:</strong> If you run into trouble, please see that Install Git &gt; Mac OS section from <a class="reference external" href="http://happygitwithr.com/install-git.html#mac-os">Happy Git and GitHub for the useR</a> for additional help or strategies for Git installation.</p>
+<div><p><strong>Note:</strong> If there is a newline (the <code class="docutils literal notranslate"><span class="pre">enter</span></code> character) in the clipboard
+when you are pasting into the terminal,
+you will be asked if you are sure you want to paste
+since this newline will act as if you pressed <code class="docutils literal notranslate"><span class="pre">enter</span></code>
+and run the command.
+As a guideline you can press <code class="docutils literal notranslate"><span class="pre">Paste</span> <span class="pre">anyway</span></code>
+unless you are sure you don’t want this to happen.</p>
 </div></blockquote>
+<p>Let’s also check which version of git was installed:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">git</span> <span class="o">--</span><span class="n">version</span>
+</pre></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">git</span> <span class="n">version</span> <span class="mf">2.42.0</span><span class="o">.</span><span class="n">windows</span><span class="mf">.2</span>
+</pre></div>
+</div>
+<blockquote>
+<div><p><strong>Note:</strong>  You can launch many windows programs from the terminal, e.g. to launch VS Code that we installed previously, you would type in <code class="docutils literal notranslate"><span class="pre">code</span></code>, let’s use this to check the version of vscode that we installed:</p>
+</div></blockquote>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">code</span> <span class="o">--</span><span class="n">version</span>
+</pre></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="mf">1.81.1</span>
+<span class="mi">6</span><span class="n">d9b74a70ca9c7733b29f0456fd8195364076dda</span>
+<span class="n">x64</span>
+</pre></div>
+</div>
 <section id="configuring-git-user-info">
 <h3>Configuring Git user info<a class="headerlink" href="#configuring-git-user-info" title="Link to this heading">#</a></h3>
 <p>Next, we need to configure Git by telling it your name and email. To do this type the following into the terminal (replacing Jane Doe and janedoe&#64;example.com, with your name and email (the same used to sign up for GitHub), respectively):</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>config<span class="w"> </span>--global<span class="w"> </span>user.name<span class="w"> </span><span class="s2">&quot;Jane Doe&quot;</span>
-git<span class="w"> </span>config<span class="w"> </span>--global<span class="w"> </span>user.email<span class="w"> </span>janedoe@example.com
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">git</span> <span class="n">config</span> <span class="o">--</span><span class="k">global</span> <span class="n">user</span><span class="o">.</span><span class="n">name</span> <span class="s2">&quot;Jane Doe&quot;</span>
+<span class="n">git</span> <span class="n">config</span> <span class="o">--</span><span class="k">global</span> <span class="n">user</span><span class="o">.</span><span class="n">email</span> <span class="n">janedoe</span><span class="nd">@example</span><span class="o">.</span><span class="n">com</span>
 </pre></div>
 </div>
 <blockquote>
-<div><p><strong>Note:</strong> To ensure that you haven’t made a typo in any of the above, you can view your global Git configurations by either opening the configuration file in a text editor (e.g. via the command <code class="docutils literal notranslate"><span class="pre">code</span> <span class="pre">~/.gitconfig</span></code>) or by typing <code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">config</span> <span class="pre">--list</span> <span class="pre">--global</span></code>.</p>
+<div><p><strong>Note</strong>: to ensure that you haven’t made a typo in any of the above, you can view your global Git configurations by either opening the configuration file in a text editor (e.g. via the command <code class="docutils literal notranslate"><span class="pre">code</span> <span class="pre">~/.gitconfig</span></code>) or by typing <code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">config</span> <span class="pre">--list</span> <span class="pre">--global</span></code>.</p>
 </div></blockquote>
 </section>
 <section id="setting-vs-code-as-the-default-editor">
 <h3>Setting VS Code as the default editor<a class="headerlink" href="#setting-vs-code-as-the-default-editor" title="Link to this heading">#</a></h3>
-<p>To make programs run from the terminal (such as <code class="docutils literal notranslate"><span class="pre">git</span></code>) use vscode by default, we will modify <code class="docutils literal notranslate"><span class="pre">~/.bash_profile</span></code>. First, open it using VS Code (this will also create the file if it doesn’t already exist):</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>code<span class="w"> </span>~/.bash_profile
+<p>To make programs run from the terminal (such as <code class="docutils literal notranslate"><span class="pre">git</span></code>) use VS Code by default, we will modify <code class="docutils literal notranslate"><span class="pre">~/.bash_profile</span></code>. First, open it using VS Code:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">code</span> <span class="o">~/.</span><span class="n">bash_profile</span>
 </pre></div>
 </div>
 <blockquote>
-<div><p><strong>Note:</strong> If you see any existing lines in your <code class="docutils literal notranslate"><span class="pre">~/.bash_profile</span></code>
+<div><p><strong>Note</strong>: If you see any existing lines in your <code class="docutils literal notranslate"><span class="pre">~/.bash_profile</span></code>
 related to a previous Python or R installation,
 please remove these.</p>
 </div></blockquote>
-<p>Now append the following lines to <code class="docutils literal notranslate"><span class="pre">~/.bash_profile</span></code>:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># Set the default editor for programs launch from terminal</span>
-<span class="nv">EDITOR</span><span class="o">=</span><span class="s2">&quot;code --wait&quot;</span>
-<span class="nv">VISUAL</span><span class="o">=</span><span class="nv">$EDITOR</span><span class="w">  </span><span class="c1"># Use the same value as for &quot;EDITOR&quot; in the line above</span>
+<p>Append the following lines:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span># Set the default editor for programs launch from terminal
+EDITOR=&quot;code --wait&quot;
+VISUAL=$EDITOR  # Use the same value as for &quot;EDITOR&quot; in the line above
 </pre></div>
 </div>
 <p>Then save the file and exit VS Code.</p>
@@ -487,8 +558,8 @@ also run the following from your terminal:</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>config<span class="w"> </span>--global<span class="w"> </span>core.editor<span class="w"> </span><span class="s2">&quot;code --wait&quot;</span>
 </pre></div>
 </div>
-<p>On MacOS,
-VScode sometimes reads a different configuration file than your other programs.
+<p>On Windows,
+VScode sometimes reads a different configuration file than Git Bash.
 To avoid this,
 open your <code class="docutils literal notranslate"><span class="pre">~/.bashrc</span></code> file:</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>code<span class="w"> </span>~/.bashrc
@@ -504,6 +575,18 @@ open your <code class="docutils literal notranslate"><span class="pre">~/.bashrc
 <p>The comment is a reminder to your future self
 who might open up this file a few months from now =)</p>
 </section>
+<section id="setting-git-bash-as-the-default-vs-code-terminal-profile">
+<h3>Setting Git Bash as the default VS Code terminal profile<a class="headerlink" href="#setting-git-bash-as-the-default-vs-code-terminal-profile" title="Link to this heading">#</a></h3>
+<p>Finally,
+let’s make sure the VS Code uses our newly installed Git Bash shell
+as its default terminal profile:</p>
+<ol class="arabic simple">
+<li><p>Open Up VS Code and go to the general preferences / settings (shortcut <code class="docutils literal notranslate"><span class="pre">Ctrl</span></code> + <code class="docutils literal notranslate"><span class="pre">,</span></code>).</p></li>
+<li><p>Type in “Default terminal profile” and find the entry that reads <code class="docutils literal notranslate"><span class="pre">Terminal</span> <span class="pre">&gt;</span> <span class="pre">Integrated</span> <span class="pre">&gt;</span> <span class="pre">Default</span> <span class="pre">profile:</span> <span class="pre">Windows</span></code>.</p></li>
+<li><p>Select Git Bash from the drop down menu of this entry.</p></li>
+</ol>
+<p>Now Git Bash should be opened automatically each time you open a new terminal in side VS Code.</p>
+</section>
 </section>
 <section id="python-conda-and-jupyterlab">
 <h2>Python, Conda, and JupyterLab<a class="headerlink" href="#python-conda-and-jupyterlab" title="Link to this heading">#</a></h2>
@@ -511,44 +594,74 @@ who might open up this file a few months from now =)</p>
 <h3>Python and Conda<a class="headerlink" href="#python-and-conda" title="Link to this heading">#</a></h3>
 <p>We will be using Python for a large part of the program, and <code class="docutils literal notranslate"><span class="pre">conda</span></code> as our Python package manager. To install Python and the <code class="docutils literal notranslate"><span class="pre">conda</span></code> package manager, we will use the <a class="reference external" href="https://github.com/conda-forge/miniforge">Miniforge platform (read more here)</a>.</p>
 <p>Select the appropriate link:</p>
-<p>You can find the Mac ARM and Intel download links here: <a class="reference external" href="https://conda-forge.org/miniforge/">https://conda-forge.org/miniforge/</a>.
+<p>You can find the Windows download links here: <a class="reference external" href="https://conda-forge.org/miniforge/">https://conda-forge.org/miniforge/</a>.
 Make sure you use the <code class="docutils literal notranslate"><span class="pre">Miniforge3</span></code> installers, not the other ones listed.
 We will assume you downloaded the file into your <code class="docutils literal notranslate"><span class="pre">Downloads</span></code> folder.</p>
-<p>Once downloaded, open up a terminal and run the following command</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>bash<span class="w"> </span><span class="si">${</span><span class="nv">HOME</span><span class="si">}</span>/Downloads/Miniforge3.sh<span class="w"> </span>-b<span class="w"> </span>-p<span class="w"> </span><span class="s2">&quot;</span><span class="si">${</span><span class="nv">HOME</span><span class="si">}</span><span class="s2">/miniforge3&quot;</span>
-</pre></div>
-</div>
-<p>After installation run the following commands</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">source</span><span class="w"> </span><span class="s2">&quot;</span><span class="si">${</span><span class="nv">HOME</span><span class="si">}</span><span class="s2">/miniforge3/etc/profile.d/conda.sh&quot;</span>
-conda<span class="w"> </span>activate
-conda<span class="w"> </span>init
-</pre></div>
-</div>
-<p>After installation, <strong>restart</strong> the terminal. If the installation was successful, you will see <code class="docutils literal notranslate"><span class="pre">(base)</span></code> prepending to your prompt string. To confirm that <code class="docutils literal notranslate"><span class="pre">conda</span></code> is working, you can ask it which version was installed:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>conda<span class="w"> </span>--version
-</pre></div>
-</div>
-<p>which should return something like this:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">conda</span> <span class="mf">23.5.2</span>
-</pre></div>
-</div>
+<p>Once downloaded, run the installer.</p>
+<p>Use all the default options in the installer.</p>
+<p>The install location should look something like: <code class="docutils literal notranslate"><span class="pre">C:\Users\YOUR_USER_NAME\miniforge3</span></code></p>
 <blockquote>
-<div><p><strong>Note:</strong> If you see <code class="docutils literal notranslate"><span class="pre">zsh:</span> <span class="pre">command</span> <span class="pre">not</span> <span class="pre">found:</span> <span class="pre">conda</span></code>, see the section on <a class="reference internal" href="#bash-shell"><span class="xref myst">Bash</span></a>{:target=”_self”} above to set your default Terminal shell to Bash as opposed to Zsh.</p>
+<div><p><strong>Note:</strong> Do <em>not</em> add miniforge to PATH. We will set this up later.</p>
 </div></blockquote>
-<p>Next, type the following to ask for the version of Python:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>python<span class="w"> </span>--version
+<p>After installation, open the Start Menu and search for the program called “Miniforge Prompt”. When this opens you will see a prompt similar to <code class="docutils literal notranslate"><span class="pre">(base)</span> <span class="pre">C:\Users\your_name</span></code>. Type the following to check that your Python installation is working:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">python</span> <span class="o">--</span><span class="n">version</span>
 </pre></div>
 </div>
-<p>Make sure it returns Python 3.11.0 or greater:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">Python</span> <span class="mf">3.11.4</span>
+<p>which should return Python 3.11.0 or greater:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">Python</span> <span class="mf">3.11.0</span>
 </pre></div>
 </div>
-<p>If you do not see Python &gt;3.11, close your terminal and open a new one.
+<p>If not, run the following command in the Miniforge Prompt,
 Confirm that you are in the <code class="docutils literal notranslate"><span class="pre">(base)</span></code> environment.
 Then update the base python with:</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>conda<span class="w"> </span>install<span class="w"> </span><span class="nv">python</span><span class="o">=</span><span class="m">3</span>.11
 </pre></div>
 </div>
+</section>
+<section id="integrating-python-with-the-git-bash-terminal">
+<h3>Integrating Python with the Git Bash terminal<a class="headerlink" href="#integrating-python-with-the-git-bash-terminal" title="Link to this heading">#</a></h3>
+<p>To avoid having to open the separate Anaconda Prompt every time we want to use Python, we can make it available from the (Git Bash) terminal, which is what we will be using most of the time. To set this up, open the “Miniforge Prompt” again and type:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">conda</span> <span class="n">init</span> <span class="n">bash</span>
+</pre></div>
+</div>
+<p>You will see that this modified a few configuration files, which makes <code class="docutils literal notranslate"><span class="pre">conda</span></code> visible to the terminal. Close all open terminal windows and launch a new one, you should now see that the prompt string has changed to include the word <code class="docutils literal notranslate"><span class="pre">(base)</span></code> as in the screenshot below:</p>
+<p><img alt="" src="_images/add-conda-env-to-ps1.png" /></p>
+<p>If you type</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">python</span> <span class="o">--</span><span class="n">version</span>
+</pre></div>
+</div>
+<p>you should now see the same output as above:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">Python</span> <span class="mf">3.11.0</span>
+</pre></div>
+</div>
+<p>Let’s also check the version of the <code class="docutils literal notranslate"><span class="pre">conda</span></code> package manager. If you type</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">conda</span> <span class="o">--</span><span class="n">version</span>
+</pre></div>
+</div>
+<p>you should see something like this</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">conda</span> <span class="mf">23.5.2</span>
+</pre></div>
+</div>
+<blockquote>
+<div><p><strong>Optional:</strong> One annoyance with our current terminal setup is that the word <code class="docutils literal notranslate"><span class="pre">(base)</span></code> is not on the same row as the rest of the prompt string (the part with <code class="docutils literal notranslate"><span class="pre">your_name&#64;your_computer</span></code>. To fix this we can edit the <code class="docutils literal notranslate"><span class="pre">.bash_profile</span></code> configuration file to indicate that we do not want a newline at the beginning of the prompt string. Open up the configuration file using VS Code by typing the following command into a terminal:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">code</span> <span class="s2">&quot;/c/Program Files/Git/etc/profile.d/git-prompt.sh&quot;</span>
+</pre></div>
+</div>
+<p>Delete the line that reads the following (it should be line 13):</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">PS1</span><span class="o">=</span><span class="s2">&quot;$PS1&quot;</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span>       <span class="c1"># new line</span>
+</pre></div>
+</div>
+<p>While we are in this file,
+let’s also remove the line that says <code class="docutils literal notranslate"><span class="pre">PS1=&quot;$PS1&quot;'$MSYSTEM</span> <span class="pre">'</span>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; <span class="pre">#</span> <span class="pre">show</span> <span class="pre">MSYSTEM</span></code> (now should be line 16),
+to remove some clutter from the terminal.</p>
+<p>Click to save the file,
+when VS Code prompts you that the saving failed,
+click “Retry as Admin” and then “Yes”.
+That’s it!
+Now if you launch a new terminal instance,
+you will see <code class="docutils literal notranslate"><span class="pre">(base)</span></code> on the same line as the rest of the prompt string as in the screenshot below.</p>
+<p><img alt="" src="_images/remove-newline-from-ps1.png" /></p>
+</div></blockquote>
 </section>
 </section>
 <section id="installing-python-packages">
@@ -576,14 +689,16 @@ some of the key packages we will use.</p>
 <section id="jupyterlab-setup">
 <h2>JupyterLab setup<a class="headerlink" href="#jupyterlab-setup" title="Link to this heading">#</a></h2>
 <p>We will be using <code class="docutils literal notranslate"><span class="pre">JupyterLab</span></code> as our main coding environment
-and <code class="docutils literal notranslate"><span class="pre">pandas</span></code> is one of the key data analyses packages .
+and <code class="docutils literal notranslate"><span class="pre">pandas</span></code> is one of the key data analyses packages.
 The Jupytext Python package and the JupyterLab git extension facilitates
 using notebooks in JupyterLab together with Git &amp; GitHub.
-The spellchecker helps us correcting typos in our writing.
+The spellchecker helps us correcting typos in our writing
+and the LSP packages fill the same function for our code.
 Install them via the following commands:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>conda<span class="w"> </span>install<span class="w"> </span>pandas<span class="w"> </span>jupyterlab<span class="w"> </span>jupyterlab-git<span class="w"> </span>jupyterlab-spellchecker
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>conda<span class="w"> </span>install<span class="w"> </span>pandas<span class="w"> </span><span class="nv">jupyterlab</span><span class="o">=</span><span class="m">4</span><span class="w"> </span>jupyterlab-git<span class="w"> </span>jupyterlab-spellchecker<span class="w"> </span>jupytext
 </pre></div>
 </div>
+<p>If the above command fails, try installing a few packages at a time instead of all of them at once.</p>
 <p>We will grade part of your assignments using the Otter-Grader package. For your Jupyter-based assignments, you need to install Otter-Grader using the following command:</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>pip<span class="w"> </span>install<span class="w"> </span>otter-grader
 </pre></div>
@@ -595,17 +710,18 @@ or go to the terminal from which you launched JupyterLab and hold <code class="d
 </section>
 <section id="vs-code-extensions">
 <h2>VS Code extensions<a class="headerlink" href="#vs-code-extensions" title="Link to this heading">#</a></h2>
-<p>The real magic of VS Code is in the extensions that let you add languages, debuggers, and tools to your installation to support your specific workflow. Now that we have installed all our other Data Science tools, we can install the VS Code extensions that work really well with them. From within VS Code you can open up the <a class="reference external" href="https://code.visualstudio.com/docs/editor/extension-gallery">Extension Marketplace (read more here)</a> to browse and install extensions by clicking on the Extensions icon in the Activity Bar indicated in the figure below.</p>
-<p>To install an extension, go to <code class="docutils literal notranslate"><span class="pre">View</span> <span class="pre">-&gt;</span> <span class="pre">Extensions</span></code> or click in the icon as you can see in the image above. Then, search for the names of the ones you are interested in the search bar, click the extension you want, and click “Install”. There are extensions available to make almost any workflow or task you are interested in more efficient! Here we are interested in setting up VS Code as a Python IDE. To do this, search for and install the following extensions:</p>
+<p>The real magic of VS Code is in the extensions that let you add languages, debuggers, and tools to your installation to support your specific workflow. From within VS Code you can open up the <a class="reference external" href="https://code.visualstudio.com/docs/editor/extension-gallery">Extension Marketplace</a> to browse and install extensions by clicking on the Extensions icon in the Activity Bar indicated in the figure below.</p>
+<p><img alt="" src="_images/vscode.png" /></p>
+<p>To install an extension, you simply search for it in the search bar, click the extension you want, and then click “Install”. There are extensions available to make almost any workflow or task you are interested in more efficient! Here we are interested in setting up VS Code as a Python IDE. To do this, search for and install the following extensions:</p>
 <ul class="simple">
 <li><p>Python (everything Python: notebooks, debugging, linting, formatting, etc.)</p></li>
 <li><p>markdownlint (markdown linting and style checking extension)</p></li>
-<li><p>GitLens - Git supercharged (powerful extension that extends VS Code’s native git capabilities)</p></li>
+<li><p>GitLens (powerful extension that extends VS Code’s native git capabilities)</p></li>
 <li><p>Git History (intutive view of your git history)</p></li>
 <li><p>(Optional) Material Theme and/or Predawn Theme Kit (additional colour themes to choose from)</p></li>
 <li><p>(Optional) Material Icon Theme (great-looking custom file icons!)</p></li>
 </ul>
-<p><a class="reference external" href="https://www.youtube.com/watch?v=06I63_p-2A4">This video tutorial</a> is an excellent introduction to using VS Code in Python.</p>
+<p>This <a class="reference external" href="https://www.youtube.com/watch?v=-nh9rCzPJ20">video tutorial</a> is an excellent introduction to using VS Code in Python.</p>
 </section>
 </section>
 
@@ -640,22 +756,13 @@ or go to the terminal from which you launched JupyterLab and hold <code class="d
                   
 <div class="prev-next-area">
     <a class="left-prev"
-       href="lectures/lecture1.html"
+       href="installation_mac.html"
        title="previous page">
       <i class="fa-solid fa-angle-left"></i>
       <div class="prev-next-info">
         <p class="prev-next-subtitle">previous</p>
-        <p class="prev-next-title">Lecture 1: Data types and data structures</p>
+        <p class="prev-next-title">Installation instruction for macOS</p>
       </div>
-    </a>
-    <a class="right-next"
-       href="installation_windows.html"
-       title="next page">
-      <div class="prev-next-info">
-        <p class="prev-next-subtitle">next</p>
-        <p class="prev-next-title">Installation instruction for Windows</p>
-      </div>
-      <i class="fa-solid fa-angle-right"></i>
     </a>
 </div>
                 </footer>
@@ -674,22 +781,20 @@ or go to the terminal from which you launched JupyterLab and hold <code class="d
   <nav class="bd-toc-nav page-toc">
     <ul class="visible nav section-nav flex-column">
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#installation-notes">Installation notes</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#bash-shell">Bash shell</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#visual-studio-code">Visual Studio Code</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#installing">Installing</a></li>
-</ul>
-</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#visual-studio-code">Visual Studio Code</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#github">GitHub</a><ul class="nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#github-com">GitHub.com</a></li>
 </ul>
 </li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#git">Git</a><ul class="nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#git-bash-and-windows-terminal">Git, Bash, and Windows Terminal</a><ul class="nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#configuring-git-user-info">Configuring Git user info</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#setting-vs-code-as-the-default-editor">Setting VS Code as the default editor</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#setting-git-bash-as-the-default-vs-code-terminal-profile">Setting Git Bash as the default VS Code terminal profile</a></li>
 </ul>
 </li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#python-conda-and-jupyterlab">Python, Conda, and JupyterLab</a><ul class="nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#python-and-conda">Python and Conda</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#integrating-python-with-the-git-bash-terminal">Integrating Python with the Git Bash terminal</a></li>
 </ul>
 </li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#installing-python-packages">Installing Python packages</a></li>
