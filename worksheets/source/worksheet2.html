@@ -1,0 +1,1516 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Worksheet 2: Introduction to relational models &#8212; DASC 5410 - Data and Database Management for Data Science</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../../_static/styles/theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../../_static/styles/bootstrap.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../../_static/styles/pydata-sphinx-theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+
+  
+  <link href="../../_static/vendor/fontawesome/6.5.2/css/all.min.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=fa44fd50" />
+    <link rel="stylesheet" type="text/css" href="../../_static/styles/sphinx-book-theme.css?v=a3416100" />
+    <link rel="stylesheet" type="text/css" href="../../_static/togglebutton.css?v=13237357" />
+    <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css?v=be8a1c11" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sphinx-thebe.css?v=4fa983c6" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sphinx-design.min.css?v=95c83b7e" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" />
+<link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
+  <script src="../../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+    <script src="../../_static/documentation_options.js?v=9eb32ce0"></script>
+    <script src="../../_static/doctools.js?v=9a2dae69"></script>
+    <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../../_static/copybutton.js?v=f281be69"></script>
+    <script src="../../_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="../../_static/togglebutton.js?v=4a39c7ea"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="../../_static/design-tabs.js?v=f930bc37"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script async="async" src="../../_static/sphinx-thebe.js?v=c100c467"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'worksheets/source/worksheet2';</script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-primary-sidebar-checkbox"/>
+  <label class="overlay overlay-primary" for="pst-primary-sidebar-checkbox"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-secondary-sidebar-checkbox"/>
+  <label class="overlay overlay-secondary" for="pst-secondary-sidebar-checkbox"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search this book..."
+         aria-label="Search this book..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+        
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../../syllabus.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="../../_static/TRU_Logo.png" class="logo__image only-light" alt="DASC 5410 - Data and Database Management for Data Science - Home"/>
+    <script>document.write(`<img src="../../_static/TRU_Logo.png" class="logo__image only-dark" alt="DASC 5410 - Data and Database Management for Data Science - Home"/>`);</script>
+  
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+ <script>
+ document.write(`
+   <button class="btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="../../syllabus.html">
+                    DASC 5410 - Data and Database Management for Data Science
+                </a>
+            </li>
+        </ul>
+        <p aria-level="2" class="caption" role="heading"><span class="caption-text">Lectures Notes</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../../lectures/lecture1.html">Lecture 1: Data types and data structures</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../lectures/lecture2.html">Lecture 2: Relational models</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../lectures/lecture3.html">Lecture 3: Relational models part 2</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Installation Guide</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../../installation_mac.html">Installation instruction for macOS</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../installation_windows.html">Installation instruction for Windows</a></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</button></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="../../_sources/worksheets/source/worksheet2.ipynb" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.ipynb</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
+  </button>
+`);
+</script>
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm pst-navbar-icon search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+  </button>
+`);
+</script>
+<button class="sidebar-toggle secondary-toggle btn btn-sm" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</button>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>Worksheet 2: Introduction to relational models</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-1-understanding-relational-database-concepts">Exercise 1: Understanding Relational Database Concepts</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#objective">Objective</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#sample-dataset-bookstore">Sample Dataset: Bookstore</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#books-table"><code class="docutils literal notranslate"><span class="pre">Books</span></code> Table</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#authors-table"><code class="docutils literal notranslate"><span class="pre">Authors</span></code> Table</a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#key-properties-of-relations">1.1: Key Properties of Relations</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#questions">Questions</a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#different-types-of-keys">1.2: Different Types of Keys</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#id1">Questions</a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#the-four-integrity-rules">1.3: The Four Integrity Rules</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#id2">Questions</a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-2-understanding-relational-algebra-with-sql">Exercise 2: Understanding Relational Algebra with SQL</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#id3">Objective</a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id4">Sample Dataset: Bookstore</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#id5"><code class="docutils literal notranslate"><span class="pre">Books</span></code> Table</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#id6"><code class="docutils literal notranslate"><span class="pre">Authors</span></code> Table</a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#relational-algebra-operations-options">Relational Algebra Operations Options</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#id7">Questions</a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-3-understanding-different-types-of-relationships-in-relational-databases">Exercise 3: Understanding Different Types of Relationships in Relational Databases</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#id8">Objective</a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id9">Sample Dataset: Bookstore</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#id10"><code class="docutils literal notranslate"><span class="pre">Books</span></code> Table</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#id11"><code class="docutils literal notranslate"><span class="pre">Authors</span></code> Table</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#sales-table"><code class="docutils literal notranslate"><span class="pre">Sales</span></code> Table</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#genres-table"><code class="docutils literal notranslate"><span class="pre">Genres</span></code> Table</a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#types-of-relationships">Types of Relationships</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id12">Questions</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#submission-instructions">Submission instructions</a></li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="worksheet-2-introduction-to-relational-models">
+<h1>Worksheet 2: Introduction to relational models<a class="headerlink" href="#worksheet-2-introduction-to-relational-models" title="Link to this heading">#</a></h1>
+<section id="exercise-1-understanding-relational-database-concepts">
+<h2>Exercise 1: Understanding Relational Database Concepts<a class="headerlink" href="#exercise-1-understanding-relational-database-concepts" title="Link to this heading">#</a></h2>
+<p>rubric: {accuracy = 12}</p>
+<section id="objective">
+<h3>Objective<a class="headerlink" href="#objective" title="Link to this heading">#</a></h3>
+<p>Test your understanding of key properties of relations, different types of keys, and the four integrity rules in relational databases.</p>
+</section>
+<section id="sample-dataset-bookstore">
+<h3>Sample Dataset: Bookstore<a class="headerlink" href="#sample-dataset-bookstore" title="Link to this heading">#</a></h3>
+<section id="books-table">
+<h4><code class="docutils literal notranslate"><span class="pre">Books</span></code> Table<a class="headerlink" href="#books-table" title="Link to this heading">#</a></h4>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>BookID</p></th>
+<th class="head"><p>Title</p></th>
+<th class="head"><p>Genre</p></th>
+<th class="head"><p>Price</p></th>
+<th class="head"><p>AuthorID</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>1</p></td>
+<td><p>The Great Gatsby</p></td>
+<td><p>Fiction</p></td>
+<td><p>10.99</p></td>
+<td><p>101</p></td>
+</tr>
+<tr class="row-odd"><td><p>2</p></td>
+<td><p>To Kill a Mockingbird</p></td>
+<td><p>Fiction</p></td>
+<td><p>8.99</p></td>
+<td><p>102</p></td>
+</tr>
+<tr class="row-even"><td><p>3</p></td>
+<td><p>A Brief History of Time</p></td>
+<td><p>Non-Fiction</p></td>
+<td><p>15.99</p></td>
+<td><p>103</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</section>
+<section id="authors-table">
+<h4><code class="docutils literal notranslate"><span class="pre">Authors</span></code> Table<a class="headerlink" href="#authors-table" title="Link to this heading">#</a></h4>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>AuthorID</p></th>
+<th class="head"><p>FirstName</p></th>
+<th class="head"><p>LastName</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>101</p></td>
+<td><p>F. Scott</p></td>
+<td><p>Fitzgerald</p></td>
+</tr>
+<tr class="row-odd"><td><p>102</p></td>
+<td><p>Harper</p></td>
+<td><p>Lee</p></td>
+</tr>
+<tr class="row-even"><td><p>103</p></td>
+<td><p>Stephen</p></td>
+<td><p>Hawking</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</section>
+</section>
+<section id="key-properties-of-relations">
+<h3>1.1: Key Properties of Relations<a class="headerlink" href="#key-properties-of-relations" title="Link to this heading">#</a></h3>
+<section id="questions">
+<h4>Questions<a class="headerlink" href="#questions" title="Link to this heading">#</a></h4>
+<ol class="arabic simple">
+<li><p><strong>Attributes</strong>:</p>
+<ul class="simple">
+<li><p>Define what an attribute is in the context of a relational database.</p>
+<ul>
+<li><p><strong>Answer</strong>:</p></li>
+</ul>
+</li>
+<li><p>Provide an example of an attribute in the <code class="docutils literal notranslate"><span class="pre">Books</span></code> table.</p>
+<ul>
+<li><p><strong>Answer</strong>:</p></li>
+</ul>
+</li>
+</ul>
+</li>
+</ol>
+<ol class="arabic simple" start="2">
+<li><p><strong>Tuples</strong>:</p>
+<ul class="simple">
+<li><p>Define what a tuple is in the context of a relational database.</p>
+<ul>
+<li><p><strong>Answer</strong>:</p></li>
+</ul>
+</li>
+<li><p>Provide an example of a tuple in the <code class="docutils literal notranslate"><span class="pre">Books</span></code> table.</p>
+<ul>
+<li><p><strong>Answer</strong>:</p></li>
+</ul>
+</li>
+</ul>
+</li>
+</ol>
+<ol class="arabic simple" start="3">
+<li><p><strong>Domain</strong>:</p>
+<ul class="simple">
+<li><p>Define what a domain is in the context of a relational database.</p>
+<ul>
+<li><p><strong>Answer</strong>:</p></li>
+</ul>
+</li>
+<li><p>Provide an example of a domain for the <code class="docutils literal notranslate"><span class="pre">Price</span></code> attribute in the <code class="docutils literal notranslate"><span class="pre">Books</span></code> table.</p>
+<ul>
+<li><p><strong>Answer</strong>:</p></li>
+</ul>
+</li>
+</ul>
+</li>
+</ol>
+<ol class="arabic simple" start="4">
+<li><p><strong>Degree</strong>:</p>
+<ul class="simple">
+<li><p>Define what the degree of a relation is.</p>
+<ul>
+<li><p><strong>Answer</strong>:</p></li>
+</ul>
+</li>
+<li><p>Determine the degree of the <code class="docutils literal notranslate"><span class="pre">Books</span></code> table.</p>
+<ul>
+<li><p><strong>Answer</strong>:</p></li>
+</ul>
+</li>
+</ul>
+</li>
+</ol>
+</section>
+</section>
+<section id="different-types-of-keys">
+<h3>1.2: Different Types of Keys<a class="headerlink" href="#different-types-of-keys" title="Link to this heading">#</a></h3>
+<section id="id1">
+<h4>Questions<a class="headerlink" href="#id1" title="Link to this heading">#</a></h4>
+<ol class="arabic simple">
+<li><p><strong>Primary Key</strong>:</p>
+<ul class="simple">
+<li><p>Define what a primary key is.</p>
+<ul>
+<li><p><strong>Answer</strong>:</p></li>
+</ul>
+</li>
+<li><p>Identify the primary key in the <code class="docutils literal notranslate"><span class="pre">Books</span></code> table.</p>
+<ul>
+<li><p><strong>Answer</strong>:</p></li>
+</ul>
+</li>
+</ul>
+</li>
+</ol>
+<ol class="arabic simple" start="2">
+<li><p><strong>Foreign Key</strong>:</p>
+<ul class="simple">
+<li><p>Define what a foreign key is.</p>
+<ul>
+<li><p><strong>Answer</strong>:</p></li>
+</ul>
+</li>
+<li><p>Identify the foreign key in the <code class="docutils literal notranslate"><span class="pre">Books</span></code> table.</p>
+<ul>
+<li><p><strong>Answer</strong>:</p></li>
+</ul>
+</li>
+</ul>
+</li>
+</ol>
+<ol class="arabic simple" start="3">
+<li><p><strong>Candidate Key</strong>:</p>
+<ul class="simple">
+<li><p>Define what a candidate key is.</p>
+<ul>
+<li><p><strong>Answer</strong>:</p></li>
+</ul>
+</li>
+<li><p>Identify any candidate keys in the <code class="docutils literal notranslate"><span class="pre">Books</span></code> table.</p>
+<ul>
+<li><p><strong>Answer</strong>:</p></li>
+</ul>
+</li>
+</ul>
+</li>
+</ol>
+<ol class="arabic simple" start="4">
+<li><p><strong>Composite Key</strong>:</p>
+<ul class="simple">
+<li><p>Define what a composite key is.</p>
+<ul>
+<li><p><strong>Answer</strong>:</p></li>
+</ul>
+</li>
+<li><p>Provide an example of a composite key in a hypothetical <code class="docutils literal notranslate"><span class="pre">Sales</span></code> table.</p>
+<ul>
+<li><p><strong>Answer</strong>:</p></li>
+</ul>
+</li>
+</ul>
+</li>
+</ol>
+</section>
+</section>
+<section id="the-four-integrity-rules">
+<h3>1.3: The Four Integrity Rules<a class="headerlink" href="#the-four-integrity-rules" title="Link to this heading">#</a></h3>
+<section id="id2">
+<h4>Questions<a class="headerlink" href="#id2" title="Link to this heading">#</a></h4>
+<ol class="arabic simple">
+<li><p><strong>Entity Integrity</strong>:</p>
+<ul class="simple">
+<li><p>Define what entity integrity is.</p>
+<ul>
+<li><p><strong>Answer</strong>:</p></li>
+</ul>
+</li>
+<li><p>Explain how entity integrity is enforced in the <code class="docutils literal notranslate"><span class="pre">Books</span></code> table.</p>
+<ul>
+<li><p><strong>Answer</strong>:</p></li>
+</ul>
+</li>
+</ul>
+</li>
+</ol>
+<ol class="arabic simple" start="2">
+<li><p><strong>Referential Integrity</strong>:</p>
+<ul class="simple">
+<li><p>Define what referential integrity is.</p>
+<ul>
+<li><p><strong>Answer</strong>:</p></li>
+</ul>
+</li>
+<li><p>Explain how referential integrity is enforced between the <code class="docutils literal notranslate"><span class="pre">Books</span></code> and <code class="docutils literal notranslate"><span class="pre">Authors</span></code> tables.</p>
+<ul>
+<li><p><strong>Answer</strong>:</p></li>
+</ul>
+</li>
+</ul>
+</li>
+</ol>
+<ol class="arabic simple" start="3">
+<li><p><strong>Domain Integrity</strong>:</p>
+<ul class="simple">
+<li><p>Define what domain integrity is.</p>
+<ul>
+<li><p><strong>Answer</strong>:</p></li>
+</ul>
+</li>
+<li><p>Provide an example of domain integrity in the <code class="docutils literal notranslate"><span class="pre">Books</span></code> table.</p>
+<ul>
+<li><p><strong>Answer</strong>:</p></li>
+</ul>
+</li>
+</ul>
+</li>
+</ol>
+<ol class="arabic simple" start="4">
+<li><p><strong>User-Defined Integrity</strong>:</p>
+<ul class="simple">
+<li><p>Define what user-defined integrity is.</p>
+<ul>
+<li><p><strong>Answer</strong>:</p></li>
+</ul>
+</li>
+<li><p>Provide an example of a user-defined integrity rule in the <code class="docutils literal notranslate"><span class="pre">Books</span></code> table.</p>
+<ul>
+<li><p><strong>Answer</strong>:</p></li>
+</ul>
+</li>
+</ul>
+</li>
+</ol>
+</section>
+</section>
+<section id="exercise-2-understanding-relational-algebra-with-sql">
+<h3>Exercise 2: Understanding Relational Algebra with SQL<a class="headerlink" href="#exercise-2-understanding-relational-algebra-with-sql" title="Link to this heading">#</a></h3>
+<p>rubric: {accuracy = 7}</p>
+<section id="id3">
+<h4>Objective<a class="headerlink" href="#id3" title="Link to this heading">#</a></h4>
+<p>Test your understanding of relational algebra operations using SQL queries on a sample dataset from a bookstore. Predict the type of relational algebra operation based on the given SQL query and its output. Choose the correct operation from the provided list of options.</p>
+</section>
+</section>
+<section id="id4">
+<h3>Sample Dataset: Bookstore<a class="headerlink" href="#id4" title="Link to this heading">#</a></h3>
+<section id="id5">
+<h4><code class="docutils literal notranslate"><span class="pre">Books</span></code> Table<a class="headerlink" href="#id5" title="Link to this heading">#</a></h4>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>BookID</p></th>
+<th class="head"><p>Title</p></th>
+<th class="head"><p>Genre</p></th>
+<th class="head"><p>Price</p></th>
+<th class="head"><p>AuthorID</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>1</p></td>
+<td><p>The Great Gatsby</p></td>
+<td><p>Fiction</p></td>
+<td><p>10.99</p></td>
+<td><p>101</p></td>
+</tr>
+<tr class="row-odd"><td><p>2</p></td>
+<td><p>To Kill a Mockingbird</p></td>
+<td><p>Fiction</p></td>
+<td><p>8.99</p></td>
+<td><p>102</p></td>
+</tr>
+<tr class="row-even"><td><p>3</p></td>
+<td><p>A Brief History of Time</p></td>
+<td><p>Non-Fiction</p></td>
+<td><p>15.99</p></td>
+<td><p>103</p></td>
+</tr>
+<tr class="row-odd"><td><p>4</p></td>
+<td><p>The Catcher in the Rye</p></td>
+<td><p>Fiction</p></td>
+<td><p>7.99</p></td>
+<td><p>104</p></td>
+</tr>
+<tr class="row-even"><td><p>5</p></td>
+<td><p>Sapiens</p></td>
+<td><p>Non-Fiction</p></td>
+<td><p>18.99</p></td>
+<td><p>105</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</section>
+<section id="id6">
+<h4><code class="docutils literal notranslate"><span class="pre">Authors</span></code> Table<a class="headerlink" href="#id6" title="Link to this heading">#</a></h4>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>AuthorID</p></th>
+<th class="head"><p>FirstName</p></th>
+<th class="head"><p>LastName</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>101</p></td>
+<td><p>F. Scott</p></td>
+<td><p>Fitzgerald</p></td>
+</tr>
+<tr class="row-odd"><td><p>102</p></td>
+<td><p>Harper</p></td>
+<td><p>Lee</p></td>
+</tr>
+<tr class="row-even"><td><p>103</p></td>
+<td><p>Stephen</p></td>
+<td><p>Hawking</p></td>
+</tr>
+<tr class="row-odd"><td><p>104</p></td>
+<td><p>J.D.</p></td>
+<td><p>Salinger</p></td>
+</tr>
+<tr class="row-even"><td><p>105</p></td>
+<td><p>Yuval</p></td>
+<td><p>Harari</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</section>
+</section>
+<section id="relational-algebra-operations-options">
+<h3>Relational Algebra Operations Options<a class="headerlink" href="#relational-algebra-operations-options" title="Link to this heading">#</a></h3>
+<ol class="arabic simple">
+<li><p>Selection (σ)</p></li>
+<li><p>Projection (π)</p></li>
+<li><p>Union (∪)</p></li>
+<li><p>Set Difference (−)</p></li>
+<li><p>Cartesian Product (×)</p></li>
+<li><p>Join (⨝)</p></li>
+<li><p>Intersection (∩)</p></li>
+</ol>
+<p>For each of the query below, I have provided a sample SQL query and the output from that query. Your task is to determine what type of relational algebra operation it is (e.g. select, projection, union, product, join, etc…)</p>
+<section id="id7">
+<h4>Questions<a class="headerlink" href="#id7" title="Link to this heading">#</a></h4>
+<ol class="arabic">
+<li><p><strong>Query 1</strong>:</p>
+<ul>
+<li><p><strong>SQL Query</strong>:</p>
+<div class="highlight-sql notranslate"><div class="highlight"><pre><span></span><span class="k">SELECT</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="k">FROM</span><span class="w"> </span><span class="n">Books</span><span class="w"> </span><span class="k">WHERE</span><span class="w"> </span><span class="n">Genre</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">&#39;Fiction&#39;</span><span class="p">;</span>
+</pre></div>
+</div>
+</li>
+<li><p><strong>Output</strong>:</p>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>BookID</p></th>
+<th class="head"><p>Title</p></th>
+<th class="head"><p>Genre</p></th>
+<th class="head"><p>Price</p></th>
+<th class="head"><p>AuthorID</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>1</p></td>
+<td><p>The Great Gatsby</p></td>
+<td><p>Fiction</p></td>
+<td><p>10.99</p></td>
+<td><p>101</p></td>
+</tr>
+<tr class="row-odd"><td><p>2</p></td>
+<td><p>To Kill a Mockingbird</p></td>
+<td><p>Fiction</p></td>
+<td><p>8.99</p></td>
+<td><p>102</p></td>
+</tr>
+<tr class="row-even"><td><p>4</p></td>
+<td><p>The Catcher in the Rye</p></td>
+<td><p>Fiction</p></td>
+<td><p>7.99</p></td>
+<td><p>104</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</li>
+</ul>
+</li>
+</ol>
+<ul class="simple">
+<li><p><strong>Predict the type of relational algebra operation</strong>:</p>
+<ul>
+<li><p><strong>Answer</strong>:</p></li>
+</ul>
+</li>
+</ul>
+<ol class="arabic" start="2">
+<li><p><strong>Query 2</strong>:</p>
+<ul>
+<li><p><strong>SQL Query</strong>:</p>
+<div class="highlight-sql notranslate"><div class="highlight"><pre><span></span><span class="k">SELECT</span><span class="w"> </span><span class="n">Title</span><span class="p">,</span><span class="w"> </span><span class="n">Price</span><span class="w"> </span><span class="k">FROM</span><span class="w"> </span><span class="n">Books</span><span class="p">;</span>
+</pre></div>
+</div>
+</li>
+<li><p><strong>Output</strong>:</p>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>Title</p></th>
+<th class="head"><p>Price</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>The Great Gatsby</p></td>
+<td><p>10.99</p></td>
+</tr>
+<tr class="row-odd"><td><p>To Kill a Mockingbird</p></td>
+<td><p>8.99</p></td>
+</tr>
+<tr class="row-even"><td><p>A Brief History of Time</p></td>
+<td><p>15.99</p></td>
+</tr>
+<tr class="row-odd"><td><p>The Catcher in the Rye</p></td>
+<td><p>7.99</p></td>
+</tr>
+<tr class="row-even"><td><p>Sapiens</p></td>
+<td><p>18.99</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</li>
+</ul>
+</li>
+</ol>
+<ul class="simple">
+<li><p><strong>Predict the type of relational algebra operation</strong>:</p>
+<ul>
+<li><p><strong>Answer</strong>:</p></li>
+</ul>
+</li>
+</ul>
+<ol class="arabic" start="3">
+<li><p><strong>Query 3</strong>:</p>
+<ul>
+<li><p><strong>SQL Query</strong>:</p>
+<div class="highlight-sql notranslate"><div class="highlight"><pre><span></span><span class="k">SELECT</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="k">FROM</span><span class="w"> </span><span class="n">Books</span><span class="w"> </span><span class="k">WHERE</span><span class="w"> </span><span class="n">Price</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="mi">10</span>
+<span class="k">UNION</span>
+<span class="k">SELECT</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="k">FROM</span><span class="w"> </span><span class="n">Books</span><span class="w"> </span><span class="k">WHERE</span><span class="w"> </span><span class="n">Price</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="mi">15</span><span class="p">;</span>
+</pre></div>
+</div>
+</li>
+<li><p><strong>Output</strong>:</p>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>BookID</p></th>
+<th class="head"><p>Title</p></th>
+<th class="head"><p>Genre</p></th>
+<th class="head"><p>Price</p></th>
+<th class="head"><p>AuthorID</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>4</p></td>
+<td><p>The Catcher in the Rye</p></td>
+<td><p>Fiction</p></td>
+<td><p>7.99</p></td>
+<td><p>104</p></td>
+</tr>
+<tr class="row-odd"><td><p>5</p></td>
+<td><p>Sapiens</p></td>
+<td><p>Non-Fiction</p></td>
+<td><p>18.99</p></td>
+<td><p>105</p></td>
+</tr>
+<tr class="row-even"><td><p>3</p></td>
+<td><p>A Brief History of Time</p></td>
+<td><p>Non-Fiction</p></td>
+<td><p>15.99</p></td>
+<td><p>103</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</li>
+</ul>
+</li>
+</ol>
+<ul class="simple">
+<li><p><strong>Predict the type of relational algebra operation</strong>:</p>
+<ul>
+<li><p><strong>Answer</strong>:</p></li>
+</ul>
+</li>
+</ul>
+<ol class="arabic" start="4">
+<li><p><strong>Query 4</strong>:</p>
+<ul>
+<li><p><strong>SQL Query</strong>:</p>
+<div class="highlight-sql notranslate"><div class="highlight"><pre><span></span><span class="k">SELECT</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="k">FROM</span><span class="w"> </span><span class="n">Books</span><span class="w"> </span><span class="k">WHERE</span><span class="w"> </span><span class="n">Genre</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">&#39;Fiction&#39;</span><span class="w"> </span><span class="k">AND</span><span class="w"> </span><span class="n">AuthorID</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="mi">102</span><span class="p">;</span>
+</pre></div>
+</div>
+</li>
+<li><p><strong>Output</strong>:</p>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>BookID</p></th>
+<th class="head"><p>Title</p></th>
+<th class="head"><p>Genre</p></th>
+<th class="head"><p>Price</p></th>
+<th class="head"><p>AuthorID</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>1</p></td>
+<td><p>The Great Gatsby</p></td>
+<td><p>Fiction</p></td>
+<td><p>10.99</p></td>
+<td><p>101</p></td>
+</tr>
+<tr class="row-odd"><td><p>4</p></td>
+<td><p>The Catcher in the Rye</p></td>
+<td><p>Fiction</p></td>
+<td><p>7.99</p></td>
+<td><p>104</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</li>
+</ul>
+</li>
+</ol>
+<ul class="simple">
+<li><p><strong>Predict the type of relational algebra operation</strong>:</p>
+<ul>
+<li><p><strong>Answer</strong>:</p></li>
+</ul>
+</li>
+</ul>
+<ol class="arabic" start="5">
+<li><p><strong>Query 5</strong>:</p>
+<ul>
+<li><p><strong>SQL Query</strong>:</p>
+<div class="highlight-sql notranslate"><div class="highlight"><pre><span></span><span class="k">SELECT</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="k">FROM</span><span class="w"> </span><span class="n">Books</span><span class="p">,</span><span class="w"> </span><span class="n">Authors</span><span class="p">;</span>
+</pre></div>
+</div>
+</li>
+<li><p><strong>Output</strong>: (Note: This will produce a large number of rows, showing all possible combinations of <code class="docutils literal notranslate"><span class="pre">Books</span></code> and <code class="docutils literal notranslate"><span class="pre">Authors</span></code>.)</p></li>
+</ul>
+</li>
+</ol>
+<ul class="simple">
+<li><p><strong>Predict the type of relational algebra operation</strong>:</p>
+<ul>
+<li><p><strong>Answer</strong>:</p></li>
+</ul>
+</li>
+</ul>
+<ol class="arabic" start="6">
+<li><p><strong>Query 6</strong>:</p>
+<ul>
+<li><p><strong>SQL Query</strong>:</p>
+<div class="highlight-sql notranslate"><div class="highlight"><pre><span></span><span class="k">SELECT</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="k">FROM</span><span class="w"> </span><span class="n">Books</span><span class="w"> </span><span class="k">JOIN</span><span class="w"> </span><span class="n">Authors</span><span class="w"> </span><span class="k">ON</span><span class="w"> </span><span class="n">Books</span><span class="p">.</span><span class="n">AuthorID</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Authors</span><span class="p">.</span><span class="n">AuthorID</span><span class="p">;</span>
+</pre></div>
+</div>
+</li>
+<li><p><strong>Output</strong>:</p>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>BookID</p></th>
+<th class="head"><p>Title</p></th>
+<th class="head"><p>Genre</p></th>
+<th class="head"><p>Price</p></th>
+<th class="head"><p>AuthorID</p></th>
+<th class="head"><p>FirstName</p></th>
+<th class="head"><p>LastName</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>1</p></td>
+<td><p>The Great Gatsby</p></td>
+<td><p>Fiction</p></td>
+<td><p>10.99</p></td>
+<td><p>101</p></td>
+<td><p>F. Scott</p></td>
+<td><p>Fitzgerald</p></td>
+</tr>
+<tr class="row-odd"><td><p>2</p></td>
+<td><p>To Kill a Mockingbird</p></td>
+<td><p>Fiction</p></td>
+<td><p>8.99</p></td>
+<td><p>102</p></td>
+<td><p>Harper</p></td>
+<td><p>Lee</p></td>
+</tr>
+<tr class="row-even"><td><p>3</p></td>
+<td><p>A Brief History of Time</p></td>
+<td><p>Non-Fiction</p></td>
+<td><p>15.99</p></td>
+<td><p>103</p></td>
+<td><p>Stephen</p></td>
+<td><p>Hawking</p></td>
+</tr>
+<tr class="row-odd"><td><p>4</p></td>
+<td><p>The Catcher in the Rye</p></td>
+<td><p>Fiction</p></td>
+<td><p>7.99</p></td>
+<td><p>104</p></td>
+<td><p>J.D.</p></td>
+<td><p>Salinger</p></td>
+</tr>
+<tr class="row-even"><td><p>5</p></td>
+<td><p>Sapiens</p></td>
+<td><p>Non-Fiction</p></td>
+<td><p>18.99</p></td>
+<td><p>105</p></td>
+<td><p>Yuval</p></td>
+<td><p>Harari</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</li>
+</ul>
+</li>
+</ol>
+<ul class="simple">
+<li><p><strong>Predict the type of relational algebra operation</strong>:</p>
+<ul>
+<li><p><strong>Answer</strong>:</p></li>
+</ul>
+</li>
+</ul>
+<ol class="arabic" start="7">
+<li><p><strong>Query 7</strong>:</p>
+<ul>
+<li><p><strong>SQL Query</strong>:</p>
+<div class="highlight-sql notranslate"><div class="highlight"><pre><span></span><span class="k">SELECT</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="k">FROM</span><span class="w"> </span><span class="n">Books</span><span class="w"> </span><span class="k">WHERE</span><span class="w"> </span><span class="n">Genre</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">&#39;Fiction&#39;</span>
+<span class="k">EXCEPT</span>
+<span class="k">SELECT</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="k">FROM</span><span class="w"> </span><span class="n">Books</span><span class="w"> </span><span class="k">WHERE</span><span class="w"> </span><span class="n">AuthorID</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">102</span><span class="p">;</span>
+</pre></div>
+</div>
+</li>
+<li><p><strong>Output</strong>:</p>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>BookID</p></th>
+<th class="head"><p>Title</p></th>
+<th class="head"><p>Genre</p></th>
+<th class="head"><p>Price</p></th>
+<th class="head"><p>AuthorID</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>1</p></td>
+<td><p>The Great Gatsby</p></td>
+<td><p>Fiction</p></td>
+<td><p>10.99</p></td>
+<td><p>101</p></td>
+</tr>
+<tr class="row-odd"><td><p>4</p></td>
+<td><p>The Catcher in the Rye</p></td>
+<td><p>Fiction</p></td>
+<td><p>7.99</p></td>
+<td><p>104</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</li>
+</ul>
+</li>
+</ol>
+<ul class="simple">
+<li><p><strong>Predict the type of relational algebra operation</strong>:</p>
+<ul>
+<li><p><strong>Answer</strong></p></li>
+</ul>
+</li>
+</ul>
+</section>
+</section>
+<section id="exercise-3-understanding-different-types-of-relationships-in-relational-databases">
+<h3>Exercise 3: Understanding Different Types of Relationships in Relational Databases<a class="headerlink" href="#exercise-3-understanding-different-types-of-relationships-in-relational-databases" title="Link to this heading">#</a></h3>
+<p>rubric: {accuracy = 4}</p>
+<section id="id8">
+<h4>Objective<a class="headerlink" href="#id8" title="Link to this heading">#</a></h4>
+<p>Test your understanding of different types of relationships in relational databases using a sample dataset from a bookstore. Identify the type of relationship based on the given tables and their relationships. Justify your choice</p>
+</section>
+</section>
+<section id="id9">
+<h3>Sample Dataset: Bookstore<a class="headerlink" href="#id9" title="Link to this heading">#</a></h3>
+<section id="id10">
+<h4><code class="docutils literal notranslate"><span class="pre">Books</span></code> Table<a class="headerlink" href="#id10" title="Link to this heading">#</a></h4>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>BookID</p></th>
+<th class="head"><p>Title</p></th>
+<th class="head"><p>GenreID</p></th>
+<th class="head"><p>Price</p></th>
+<th class="head"><p>AuthorID</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>1</p></td>
+<td><p>The Great Gatsby</p></td>
+<td><p>1</p></td>
+<td><p>10.99</p></td>
+<td><p>101</p></td>
+</tr>
+<tr class="row-odd"><td><p>2</p></td>
+<td><p>To Kill a Mockingbird</p></td>
+<td><p>1</p></td>
+<td><p>8.99</p></td>
+<td><p>102</p></td>
+</tr>
+<tr class="row-even"><td><p>3</p></td>
+<td><p>A Brief History of Time</p></td>
+<td><p>2</p></td>
+<td><p>15.99</p></td>
+<td><p>103</p></td>
+</tr>
+<tr class="row-odd"><td><p>4</p></td>
+<td><p>The Catcher in the Rye</p></td>
+<td><p>1</p></td>
+<td><p>7.99</p></td>
+<td><p>104</p></td>
+</tr>
+<tr class="row-even"><td><p>5</p></td>
+<td><p>Sapiens</p></td>
+<td><p>2</p></td>
+<td><p>18.99</p></td>
+<td><p>105</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</section>
+<section id="id11">
+<h4><code class="docutils literal notranslate"><span class="pre">Authors</span></code> Table<a class="headerlink" href="#id11" title="Link to this heading">#</a></h4>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>AuthorID</p></th>
+<th class="head"><p>FirstName</p></th>
+<th class="head"><p>LastName</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>101</p></td>
+<td><p>F. Scott</p></td>
+<td><p>Fitzgerald</p></td>
+</tr>
+<tr class="row-odd"><td><p>102</p></td>
+<td><p>Harper</p></td>
+<td><p>Lee</p></td>
+</tr>
+<tr class="row-even"><td><p>103</p></td>
+<td><p>Stephen</p></td>
+<td><p>Hawking</p></td>
+</tr>
+<tr class="row-odd"><td><p>104</p></td>
+<td><p>J.D.</p></td>
+<td><p>Salinger</p></td>
+</tr>
+<tr class="row-even"><td><p>105</p></td>
+<td><p>Yuval</p></td>
+<td><p>Harari</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</section>
+<section id="sales-table">
+<h4><code class="docutils literal notranslate"><span class="pre">Sales</span></code> Table<a class="headerlink" href="#sales-table" title="Link to this heading">#</a></h4>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>SaleID</p></th>
+<th class="head"><p>BookID</p></th>
+<th class="head"><p>Quantity</p></th>
+<th class="head"><p>SaleDate</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>1</p></td>
+<td><p>1</p></td>
+<td><p>2</p></td>
+<td><p>2023-01-15</p></td>
+</tr>
+<tr class="row-odd"><td><p>2</p></td>
+<td><p>3</p></td>
+<td><p>1</p></td>
+<td><p>2023-01-16</p></td>
+</tr>
+<tr class="row-even"><td><p>3</p></td>
+<td><p>2</p></td>
+<td><p>3</p></td>
+<td><p>2023-01-17</p></td>
+</tr>
+<tr class="row-odd"><td><p>4</p></td>
+<td><p>4</p></td>
+<td><p>1</p></td>
+<td><p>2023-01-18</p></td>
+</tr>
+<tr class="row-even"><td><p>5</p></td>
+<td><p>5</p></td>
+<td><p>2</p></td>
+<td><p>2023-01-19</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</section>
+<section id="genres-table">
+<h4><code class="docutils literal notranslate"><span class="pre">Genres</span></code> Table<a class="headerlink" href="#genres-table" title="Link to this heading">#</a></h4>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>GenreID</p></th>
+<th class="head"><p>GenreName</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>1</p></td>
+<td><p>Fiction</p></td>
+</tr>
+<tr class="row-odd"><td><p>2</p></td>
+<td><p>Non-Fiction</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</section>
+</section>
+<section id="types-of-relationships">
+<h3>Types of Relationships<a class="headerlink" href="#types-of-relationships" title="Link to this heading">#</a></h3>
+<ol class="arabic simple">
+<li><p>One-to-One (1:1)</p></li>
+<li><p>One-to-Many (1:N)</p></li>
+<li><p>Many-to-Many (M:N)</p></li>
+</ol>
+</section>
+<section id="id12">
+<h3>Questions<a class="headerlink" href="#id12" title="Link to this heading">#</a></h3>
+<ol class="arabic simple">
+<li><p><strong>Relationship 1</strong>:</p>
+<ul class="simple">
+<li><p><strong>Tables</strong>: <code class="docutils literal notranslate"><span class="pre">Books</span></code> and <code class="docutils literal notranslate"><span class="pre">Authors</span></code></p></li>
+</ul>
+</li>
+</ol>
+<ul class="simple">
+<li><p><strong>Type of Relationship and Description</strong>:</p>
+<ul>
+<li><p><strong>Sample Answer</strong>:
+One-to-Many (1:N). Each book is written by one author, and each author can write multiple books</p></li>
+</ul>
+</li>
+</ul>
+<ol class="arabic simple" start="2">
+<li><p><strong>Relationship 2</strong>:</p>
+<ul class="simple">
+<li><p><strong>Tables</strong>: <code class="docutils literal notranslate"><span class="pre">Books</span></code> and <code class="docutils literal notranslate"><span class="pre">Sales</span></code></p></li>
+</ul>
+</li>
+</ol>
+<ul class="simple">
+<li><p><strong>Type of Relationship and Description</strong>:</p>
+<ul>
+<li><p><strong>Answer</strong>:</p></li>
+</ul>
+</li>
+</ul>
+<ol class="arabic simple" start="3">
+<li><p><strong>Relationship 3</strong>:</p>
+<ul class="simple">
+<li><p><strong>Tables</strong>: <code class="docutils literal notranslate"><span class="pre">Authors</span></code> and <code class="docutils literal notranslate"><span class="pre">Sales</span></code></p></li>
+</ul>
+</li>
+</ol>
+<ul class="simple">
+<li><p><strong>Type of Relationship and Description</strong>:</p>
+<ul>
+<li><p><strong>Answer</strong>:</p></li>
+</ul>
+</li>
+</ul>
+<ol class="arabic simple" start="4">
+<li><p><strong>Relationship 4</strong>:</p>
+<ul class="simple">
+<li><p><strong>Tables</strong>: <code class="docutils literal notranslate"><span class="pre">Books</span></code> and <code class="docutils literal notranslate"><span class="pre">Genres</span></code></p></li>
+</ul>
+</li>
+</ol>
+<ul class="simple">
+<li><p><strong>Type of Relationship and Description</strong>:</p>
+<ul>
+<li><p><strong>Answer</strong>:</p></li>
+</ul>
+</li>
+</ul>
+<ol class="arabic simple" start="5">
+<li><p><strong>Relationship 5</strong>:</p>
+<ul class="simple">
+<li><p><strong>Tables</strong>: <code class="docutils literal notranslate"><span class="pre">Authors</span></code> and <code class="docutils literal notranslate"><span class="pre">Genres</span></code></p></li>
+</ul>
+</li>
+</ol>
+<ul class="simple">
+<li><p><strong>Type of Relationship and Description</strong>:</p>
+<ul>
+<li><p><strong>Answer</strong>:</p></li>
+</ul>
+</li>
+</ul>
+</section>
+</section>
+<section id="submission-instructions">
+<h2>Submission instructions<a class="headerlink" href="#submission-instructions" title="Link to this heading">#</a></h2>
+<p>{rubric: mechanics = 5}</p>
+<ul class="simple">
+<li><p>Make sure the notebook can run from top to bottom without any error. Restart the kernel and run all cells.</p></li>
+<li><p>Commit and push your notebook to the github repo</p></li>
+<li><p>Double check your notebook is rendered properly on Github and you can see all the outputs clearly</p></li>
+<li><p>Submit URL of your Github repo to Moodle under worksheet 2</p></li>
+</ul>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./worksheets/source"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-1-understanding-relational-database-concepts">Exercise 1: Understanding Relational Database Concepts</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#objective">Objective</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#sample-dataset-bookstore">Sample Dataset: Bookstore</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#books-table"><code class="docutils literal notranslate"><span class="pre">Books</span></code> Table</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#authors-table"><code class="docutils literal notranslate"><span class="pre">Authors</span></code> Table</a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#key-properties-of-relations">1.1: Key Properties of Relations</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#questions">Questions</a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#different-types-of-keys">1.2: Different Types of Keys</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#id1">Questions</a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#the-four-integrity-rules">1.3: The Four Integrity Rules</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#id2">Questions</a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-2-understanding-relational-algebra-with-sql">Exercise 2: Understanding Relational Algebra with SQL</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#id3">Objective</a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id4">Sample Dataset: Bookstore</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#id5"><code class="docutils literal notranslate"><span class="pre">Books</span></code> Table</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#id6"><code class="docutils literal notranslate"><span class="pre">Authors</span></code> Table</a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#relational-algebra-operations-options">Relational Algebra Operations Options</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#id7">Questions</a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-3-understanding-different-types-of-relationships-in-relational-databases">Exercise 3: Understanding Different Types of Relationships in Relational Databases</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#id8">Objective</a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id9">Sample Dataset: Bookstore</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#id10"><code class="docutils literal notranslate"><span class="pre">Books</span></code> Table</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#id11"><code class="docutils literal notranslate"><span class="pre">Authors</span></code> Table</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#sales-table"><code class="docutils literal notranslate"><span class="pre">Sales</span></code> Table</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#genres-table"><code class="docutils literal notranslate"><span class="pre">Genres</span></code> Table</a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#types-of-relationships">Types of Relationships</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id12">Questions</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#submission-instructions">Submission instructions</a></li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By Quan Nguyen
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2023.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b"></script>
+<script src="../../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>
