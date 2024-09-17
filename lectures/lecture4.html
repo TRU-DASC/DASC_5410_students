@@ -1,0 +1,3219 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Lecture 4: PostgreSQL part 1 &#8212; DASC 5410 - Data and Database Management for Data Science</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../_static/styles/bootstrap.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+
+  
+  <link href="../_static/vendor/fontawesome/6.5.2/css/all.min.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=fa44fd50" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/sphinx-book-theme.css?v=a3416100" />
+    <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css?v=13237357" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css?v=be8a1c11" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-thebe.css?v=4fa983c6" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-design.min.css?v=95c83b7e" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
+  <script src="../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+    <script src="../_static/documentation_options.js?v=9eb32ce0"></script>
+    <script src="../_static/doctools.js?v=9a2dae69"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../_static/copybutton.js?v=f281be69"></script>
+    <script src="../_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="../_static/togglebutton.js?v=4a39c7ea"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="../_static/design-tabs.js?v=f930bc37"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script async="async" src="../_static/sphinx-thebe.js?v=c100c467"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'lectures/lecture4';</script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Installation instruction for macOS" href="../installation_mac.html" />
+    <link rel="prev" title="Lecture 3: Relational models part 2" href="lecture3.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-primary-sidebar-checkbox"/>
+  <label class="overlay overlay-primary" for="pst-primary-sidebar-checkbox"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-secondary-sidebar-checkbox"/>
+  <label class="overlay overlay-secondary" for="pst-secondary-sidebar-checkbox"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search this book..."
+         aria-label="Search this book..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../syllabus.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="../_static/TRU_Logo.png" class="logo__image only-light" alt="DASC 5410 - Data and Database Management for Data Science - Home"/>
+    <script>document.write(`<img src="../_static/TRU_Logo.png" class="logo__image only-dark" alt="DASC 5410 - Data and Database Management for Data Science - Home"/>`);</script>
+  
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+ <script>
+ document.write(`
+   <button class="btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="../syllabus.html">
+                    DASC 5410 - Data and Database Management for Data Science
+                </a>
+            </li>
+        </ul>
+        <p aria-level="2" class="caption" role="heading"><span class="caption-text">Lectures Notes</span></p>
+<ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="lecture1.html">Lecture 1: Data types and data structures</a></li>
+<li class="toctree-l1"><a class="reference internal" href="lecture2.html">Lecture 2: Relational models</a></li>
+<li class="toctree-l1"><a class="reference internal" href="lecture3.html">Lecture 3: Relational models part 2</a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">Lecture 4: PostgreSQL part 1</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Installation Guide</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../installation_mac.html">Installation instruction for macOS</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../installation_windows.html">Installation instruction for Windows</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Github tutorial</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="tutorial_github.html">Version control with GitHub</a></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</button></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="../_sources/lectures/lecture4.ipynb" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.ipynb</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
+  </button>
+`);
+</script>
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm pst-navbar-icon search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+  </button>
+`);
+</script>
+<button class="sidebar-toggle secondary-toggle btn btn-sm" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</button>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>Lecture 4: PostgreSQL part 1</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#learning-objectives">Learning objectives</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#connect-to-database">Connect to database</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#data-types-in-sql">Data Types in SQL</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#introduction">Introduction</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#convert-between-different-data-types">Convert between different data types</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#numeric-data-types">Numeric Data Types</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#int">1. INT</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#float">2. FLOAT</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#decimal">3. DECIMAL</a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#character-data-types">Character Data Types</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#char">4. CHAR</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#varchar">5. VARCHAR</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#text">6. TEXT</a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#date-and-time-data-types">Date and Time Data Types</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#date">7. DATE</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#time">8. TIME</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#timestamp">9. TIMESTAMP</a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#boolean-data-type">Boolean Data Type</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#boolean">10. BOOLEAN</a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#filtering-using-where-clause-in-sql">Filtering Using <code class="docutils literal notranslate"><span class="pre">WHERE</span></code> Clause in SQL</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#id1">Introduction</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#basic-syntax">Basic Syntax</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#common-operators">Common Operators</a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#examples-using-dvdrental-database">Examples Using <code class="docutils literal notranslate"><span class="pre">dvdrental</span></code> Database</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#example-1-basic-filtering">Example 1: Basic Filtering</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#example-2-using-and-and-or-operators">Example 2: Using <code class="docutils literal notranslate"><span class="pre">AND</span></code> and <code class="docutils literal notranslate"><span class="pre">OR</span></code> Operators</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#example-3-using-like-for-pattern-matching">Example 3: Using <code class="docutils literal notranslate"><span class="pre">LIKE</span></code> for Pattern Matching</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#example-4-using-between-for-range-filtering">Example 4: Using <code class="docutils literal notranslate"><span class="pre">BETWEEN</span></code> for Range Filtering</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#example-5-using-in-for-set-membership">Example 5: Using <code class="docutils literal notranslate"><span class="pre">IN</span></code> for Set Membership</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#example-6-checking-for-null-values">Example 6: Checking for <code class="docutils literal notranslate"><span class="pre">NULL</span></code> Values</a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#derived-columns-in-sql">Derived Columns in SQL</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#id2">Introduction</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#id3">Basic Syntax</a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id4">Examples Using <code class="docutils literal notranslate"><span class="pre">dvdrental</span></code> Database</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#example-1-concatenating-columns">Example 1: Concatenating Columns</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#example-2-calculating-age-from-date-of-birth">Example 2: Calculating Age from Date of Birth</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#example-3-formatting-dates">Example 3: Formatting Dates</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#example-4-conditional-derived-column">Example 4: Conditional Derived Column</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#example-5-arithmetic-operations">Example 5: Arithmetic Operations</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="lecture-4-postgresql-part-1">
+<h1>Lecture 4: PostgreSQL part 1<a class="headerlink" href="#lecture-4-postgresql-part-1" title="Link to this heading">#</a></h1>
+<section id="learning-objectives">
+<h2>Learning objectives<a class="headerlink" href="#learning-objectives" title="Link to this heading">#</a></h2>
+<p>By the end of this lecture, students should be able to apply and practice:</p>
+<ul class="simple">
+<li><p>Understand different data types in SQL</p></li>
+<li><p>Filtering rows based on specific conditions using WHERE</p></li>
+<li><p>Create derived columns</p></li>
+<li><p>Conditional logic with CASE</p></li>
+<li><p>Built-in functions &amp; operators in SQL</p></li>
+</ul>
+</section>
+<section id="connect-to-database">
+<h2>Connect to database<a class="headerlink" href="#connect-to-database" title="Link to this heading">#</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># load the ipython-sql extension</span>
+<span class="o">%</span><span class="k">load_ext</span> sql
+
+<span class="kn">import</span> <span class="nn">json</span>
+<span class="kn">import</span> <span class="nn">urllib.parse</span>
+
+<span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s1">&#39;data/credentials.json&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+    <span class="n">login</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">f</span><span class="p">)</span>
+    
+<span class="n">username</span> <span class="o">=</span> <span class="n">login</span><span class="p">[</span><span class="s1">&#39;user&#39;</span><span class="p">]</span>
+<span class="n">password</span> <span class="o">=</span> <span class="n">urllib</span><span class="o">.</span><span class="n">parse</span><span class="o">.</span><span class="n">quote</span><span class="p">(</span><span class="n">login</span><span class="p">[</span><span class="s1">&#39;password&#39;</span><span class="p">])</span>
+<span class="n">host</span> <span class="o">=</span> <span class="n">login</span><span class="p">[</span><span class="s1">&#39;host&#39;</span><span class="p">]</span>
+<span class="n">port</span> <span class="o">=</span> <span class="n">login</span><span class="p">[</span><span class="s1">&#39;port&#39;</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>Let’s connect to your dvdrental database</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">%</span><span class="k">sql</span> postgresql://{username}:{password}@{host}:{port}/dvdrental
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&#39;Connected: postgres@dvdrental&#39;
+</pre></div>
+</div>
+</div>
+</div>
+<p>Let’s try to print out the list of tables in this <code class="docutils literal notranslate"><span class="pre">dvdrental</span></code> database</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">%%</span><span class="k">sql</span>
+
+SELECT 
+    * 
+FROM
+    information_schema.tables 
+WHERE 
+    table_schema = &#39;public&#39;
+    AND
+    table_type = &#39;BASE TABLE&#39;
+;
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> * postgresql://postgres:***@localhost:5432/dvdrental
+15 rows affected.
+</pre></div>
+</div>
+<div class="output text_html"><table>
+    <thead>
+        <tr>
+            <th>table_catalog</th>
+            <th>table_schema</th>
+            <th>table_name</th>
+            <th>table_type</th>
+            <th>self_referencing_column_name</th>
+            <th>reference_generation</th>
+            <th>user_defined_type_catalog</th>
+            <th>user_defined_type_schema</th>
+            <th>user_defined_type_name</th>
+            <th>is_insertable_into</th>
+            <th>is_typed</th>
+            <th>commit_action</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>dvdrental</td>
+            <td>public</td>
+            <td>actor</td>
+            <td>BASE TABLE</td>
+            <td>None</td>
+            <td>None</td>
+            <td>None</td>
+            <td>None</td>
+            <td>None</td>
+            <td>YES</td>
+            <td>NO</td>
+            <td>None</td>
+        </tr>
+        <tr>
+            <td>dvdrental</td>
+            <td>public</td>
+            <td>store</td>
+            <td>BASE TABLE</td>
+            <td>None</td>
+            <td>None</td>
+            <td>None</td>
+            <td>None</td>
+            <td>None</td>
+            <td>YES</td>
+            <td>NO</td>
+            <td>None</td>
+        </tr>
+        <tr>
+            <td>dvdrental</td>
+            <td>public</td>
+            <td>address</td>
+            <td>BASE TABLE</td>
+            <td>None</td>
+            <td>None</td>
+            <td>None</td>
+            <td>None</td>
+            <td>None</td>
+            <td>YES</td>
+            <td>NO</td>
+            <td>None</td>
+        </tr>
+        <tr>
+            <td>dvdrental</td>
+            <td>public</td>
+            <td>category</td>
+            <td>BASE TABLE</td>
+            <td>None</td>
+            <td>None</td>
+            <td>None</td>
+            <td>None</td>
+            <td>None</td>
+            <td>YES</td>
+            <td>NO</td>
+            <td>None</td>
+        </tr>
+        <tr>
+            <td>dvdrental</td>
+            <td>public</td>
+            <td>city</td>
+            <td>BASE TABLE</td>
+            <td>None</td>
+            <td>None</td>
+            <td>None</td>
+            <td>None</td>
+            <td>None</td>
+            <td>YES</td>
+            <td>NO</td>
+            <td>None</td>
+        </tr>
+        <tr>
+            <td>dvdrental</td>
+            <td>public</td>
+            <td>country</td>
+            <td>BASE TABLE</td>
+            <td>None</td>
+            <td>None</td>
+            <td>None</td>
+            <td>None</td>
+            <td>None</td>
+            <td>YES</td>
+            <td>NO</td>
+            <td>None</td>
+        </tr>
+        <tr>
+            <td>dvdrental</td>
+            <td>public</td>
+            <td>customer</td>
+            <td>BASE TABLE</td>
+            <td>None</td>
+            <td>None</td>
+            <td>None</td>
+            <td>None</td>
+            <td>None</td>
+            <td>YES</td>
+            <td>NO</td>
+            <td>None</td>
+        </tr>
+        <tr>
+            <td>dvdrental</td>
+            <td>public</td>
+            <td>film_actor</td>
+            <td>BASE TABLE</td>
+            <td>None</td>
+            <td>None</td>
+            <td>None</td>
+            <td>None</td>
+            <td>None</td>
+            <td>YES</td>
+            <td>NO</td>
+            <td>None</td>
+        </tr>
+        <tr>
+            <td>dvdrental</td>
+            <td>public</td>
+            <td>film_category</td>
+            <td>BASE TABLE</td>
+            <td>None</td>
+            <td>None</td>
+            <td>None</td>
+            <td>None</td>
+            <td>None</td>
+            <td>YES</td>
+            <td>NO</td>
+            <td>None</td>
+        </tr>
+        <tr>
+            <td>dvdrental</td>
+            <td>public</td>
+            <td>inventory</td>
+            <td>BASE TABLE</td>
+            <td>None</td>
+            <td>None</td>
+            <td>None</td>
+            <td>None</td>
+            <td>None</td>
+            <td>YES</td>
+            <td>NO</td>
+            <td>None</td>
+        </tr>
+        <tr>
+            <td>dvdrental</td>
+            <td>public</td>
+            <td>language</td>
+            <td>BASE TABLE</td>
+            <td>None</td>
+            <td>None</td>
+            <td>None</td>
+            <td>None</td>
+            <td>None</td>
+            <td>YES</td>
+            <td>NO</td>
+            <td>None</td>
+        </tr>
+        <tr>
+            <td>dvdrental</td>
+            <td>public</td>
+            <td>rental</td>
+            <td>BASE TABLE</td>
+            <td>None</td>
+            <td>None</td>
+            <td>None</td>
+            <td>None</td>
+            <td>None</td>
+            <td>YES</td>
+            <td>NO</td>
+            <td>None</td>
+        </tr>
+        <tr>
+            <td>dvdrental</td>
+            <td>public</td>
+            <td>staff</td>
+            <td>BASE TABLE</td>
+            <td>None</td>
+            <td>None</td>
+            <td>None</td>
+            <td>None</td>
+            <td>None</td>
+            <td>YES</td>
+            <td>NO</td>
+            <td>None</td>
+        </tr>
+        <tr>
+            <td>dvdrental</td>
+            <td>public</td>
+            <td>payment</td>
+            <td>BASE TABLE</td>
+            <td>None</td>
+            <td>None</td>
+            <td>None</td>
+            <td>None</td>
+            <td>None</td>
+            <td>YES</td>
+            <td>NO</td>
+            <td>None</td>
+        </tr>
+        <tr>
+            <td>dvdrental</td>
+            <td>public</td>
+            <td>film</td>
+            <td>BASE TABLE</td>
+            <td>None</td>
+            <td>None</td>
+            <td>None</td>
+            <td>None</td>
+            <td>None</td>
+            <td>YES</td>
+            <td>NO</td>
+            <td>None</td>
+        </tr>
+    </tbody>
+</table></div></div>
+</div>
+<p>Let’s print out the schema of table <code class="docutils literal notranslate"><span class="pre">actor</span></code></p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">%%</span><span class="k">sql</span>
+
+SELECT column_name, data_type, is_nullable, column_default
+     FROM information_schema.columns
+     WHERE table_name = &#39;actor&#39;;
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> * postgresql://postgres:***@localhost:5432/dvdrental
+4 rows affected.
+</pre></div>
+</div>
+<div class="output text_html"><table>
+    <thead>
+        <tr>
+            <th>column_name</th>
+            <th>data_type</th>
+            <th>is_nullable</th>
+            <th>column_default</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>actor_id</td>
+            <td>integer</td>
+            <td>NO</td>
+            <td>nextval(&#x27;actor_actor_id_seq&#x27;::regclass)</td>
+        </tr>
+        <tr>
+            <td>first_name</td>
+            <td>character varying</td>
+            <td>NO</td>
+            <td>None</td>
+        </tr>
+        <tr>
+            <td>last_name</td>
+            <td>character varying</td>
+            <td>NO</td>
+            <td>None</td>
+        </tr>
+        <tr>
+            <td>last_update</td>
+            <td>timestamp without time zone</td>
+            <td>NO</td>
+            <td>now()</td>
+        </tr>
+    </tbody>
+</table></div></div>
+</div>
+<p>Print out the first few rows of table <code class="docutils literal notranslate"><span class="pre">actor</span></code>:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">%%</span><span class="k">sql</span>
+
+SELECT * FROM actor LIMIT 5;
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> * postgresql://postgres:***@localhost:5432/dvdrental
+5 rows affected.
+</pre></div>
+</div>
+<div class="output text_html"><table>
+    <thead>
+        <tr>
+            <th>actor_id</th>
+            <th>first_name</th>
+            <th>last_name</th>
+            <th>last_update</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>1</td>
+            <td>Penelope</td>
+            <td>Guiness</td>
+            <td>2013-05-26 14:47:57.620000</td>
+        </tr>
+        <tr>
+            <td>2</td>
+            <td>Nick</td>
+            <td>Wahlberg</td>
+            <td>2013-05-26 14:47:57.620000</td>
+        </tr>
+        <tr>
+            <td>3</td>
+            <td>Ed</td>
+            <td>Chase</td>
+            <td>2013-05-26 14:47:57.620000</td>
+        </tr>
+        <tr>
+            <td>4</td>
+            <td>Jennifer</td>
+            <td>Davis</td>
+            <td>2013-05-26 14:47:57.620000</td>
+        </tr>
+        <tr>
+            <td>5</td>
+            <td>Johnny</td>
+            <td>Lollobrigida</td>
+            <td>2013-05-26 14:47:57.620000</td>
+        </tr>
+    </tbody>
+</table></div></div>
+</div>
+</section>
+<section id="data-types-in-sql">
+<h2>Data Types in SQL<a class="headerlink" href="#data-types-in-sql" title="Link to this heading">#</a></h2>
+<section id="introduction">
+<h3>Introduction<a class="headerlink" href="#introduction" title="Link to this heading">#</a></h3>
+<p>Data types in SQL define the type of data that can be stored in a column. Choosing the correct data type is crucial for optimizing storage, ensuring data integrity, and improving query performance.</p>
+</section>
+<section id="convert-between-different-data-types">
+<h3>Convert between different data types<a class="headerlink" href="#convert-between-different-data-types" title="Link to this heading">#</a></h3>
+<p>To help you better understand the different data types in SQL. Let’s first learn how to convert between different data type using <code class="docutils literal notranslate"><span class="pre">CAST</span></code> function</p>
+<p>To use the <code class="docutils literal notranslate"><span class="pre">CAST</span></code> function in PostgreSQL, you can follow the syntax below:</p>
+<div class="highlight-sql notranslate"><div class="highlight"><pre><span></span><span class="k">SELECT</span><span class="w"> </span><span class="k">CAST</span><span class="p">(</span><span class="n">expression</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="n">target_data_type</span><span class="p">)</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="n">alias_name</span><span class="p">;</span>
+</pre></div>
+</div>
+<p>Here’s an example of how to use <code class="docutils literal notranslate"><span class="pre">CAST</span></code> in PostgreSQL:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">%</span><span class="k">sql</span> SELECT CAST(12.312121 AS INT) AS converted_value;
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> * postgresql://postgres:***@localhost:5432/dvdrental
+1 rows affected.
+</pre></div>
+</div>
+<div class="output text_html"><table>
+    <thead>
+        <tr>
+            <th>converted_value</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>12</td>
+        </tr>
+    </tbody>
+</table></div></div>
+</div>
+<p>You can use the <code class="docutils literal notranslate"><span class="pre">::</span></code> shortcut to cast values to different data types in PostgreSQL</p>
+<div class="highlight-sql notranslate"><div class="highlight"><pre><span></span><span class="o">&lt;</span><span class="k">column</span><span class="o">&gt;</span><span class="p">::</span><span class="o">&lt;</span><span class="n">data_type</span><span class="o">&gt;</span>
+</pre></div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">%</span><span class="k">sql</span> SELECT 12.312121::INT AS converted_value;
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> * postgresql://postgres:***@localhost:5432/dvdrental
+1 rows affected.
+</pre></div>
+</div>
+<div class="output text_html"><table>
+    <thead>
+        <tr>
+            <th>converted_value</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>12</td>
+        </tr>
+    </tbody>
+</table></div></div>
+</div>
+</section>
+<section id="numeric-data-types">
+<h3>Numeric Data Types<a class="headerlink" href="#numeric-data-types" title="Link to this heading">#</a></h3>
+<section id="int">
+<h4>1. INT<a class="headerlink" href="#int" title="Link to this heading">#</a></h4>
+<ul class="simple">
+<li><p><strong>Description</strong>: Integer data type. Used for whole numbers.</p></li>
+<li><p><strong>Example</strong>:</p></li>
+</ul>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>Data Type</p></th>
+<th class="head"><p>Range</p></th>
+<th class="head"><p>Description</p></th>
+<th class="head"><p>Storage Size</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>TINYINT</p></td>
+<td><p>-128 to 127 (signed) or 0 to 255 (unsigned)</p></td>
+<td><p>Very small integer</p></td>
+<td><p>1 byte</p></td>
+</tr>
+<tr class="row-odd"><td><p>SMALLINT</p></td>
+<td><p>-32,768 to 32,767 (signed) or 0 to 65,535 (unsigned)</p></td>
+<td><p>Small integer</p></td>
+<td><p>2 bytes</p></td>
+</tr>
+<tr class="row-even"><td><p>MEDIUMINT</p></td>
+<td><p>-8,388,608 to 8,388,607 (signed) or 0 to 16,777,215 (unsigned)</p></td>
+<td><p>Medium-sized integer</p></td>
+<td><p>3 bytes</p></td>
+</tr>
+<tr class="row-odd"><td><p>INT</p></td>
+<td><p>-2,147,483,648 to 2,147,483,647 (signed) or 0 to 4,294,967,295 (unsigned)</p></td>
+<td><p>Standard integer</p></td>
+<td><p>4 bytes</p></td>
+</tr>
+<tr class="row-even"><td><p>BIGINT</p></td>
+<td><p>-9,223,372,036,854,775,808 to 9,223,372,036,854,775,807 (signed) or 0 to 18,446,744,073,709,551,615 (unsigned)</p></td>
+<td><p>Large integer</p></td>
+<td><p>8 bytes</p></td>
+</tr>
+<tr class="row-odd"><td><p>SERIAL</p></td>
+<td><p>1 to 2,147,483,647 (signed) or 0 to 4,294,967,295 (unsigned)</p></td>
+<td><p>Auto-incrementing integer</p></td>
+<td><p>4 bytes</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>Note: The range and storage size may vary slightly depending on the specific database system you are using.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">%%</span><span class="k">sql</span>
+
+SELECT CAST(44.7874 AS SMALLINT);
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> * postgresql://postgres:***@localhost:5432/dvdrental
+1 rows affected.
+</pre></div>
+</div>
+<div class="output text_html"><table>
+    <thead>
+        <tr>
+            <th>int2</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>45</td>
+        </tr>
+    </tbody>
+</table></div></div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">%%</span><span class="k">sql</span>
+
+SELECT column_name, data_type, udt_name, is_nullable, column_default
+     FROM information_schema.columns
+     WHERE table_name = &#39;products&#39;;
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> * postgresql://postgres:***@localhost:5432/dvdrental
+3 rows affected.
+</pre></div>
+</div>
+<div class="output text_html"><table>
+    <thead>
+        <tr>
+            <th>column_name</th>
+            <th>data_type</th>
+            <th>udt_name</th>
+            <th>is_nullable</th>
+            <th>column_default</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>product_id</td>
+            <td>integer</td>
+            <td>int4</td>
+            <td>NO</td>
+            <td>None</td>
+        </tr>
+        <tr>
+            <td>product_name</td>
+            <td>character varying</td>
+            <td>varchar</td>
+            <td>YES</td>
+            <td>None</td>
+        </tr>
+        <tr>
+            <td>quantity</td>
+            <td>integer</td>
+            <td>int4</td>
+            <td>YES</td>
+            <td>None</td>
+        </tr>
+    </tbody>
+</table></div></div>
+</div>
+</section>
+<section id="float">
+<h4>2. FLOAT<a class="headerlink" href="#float" title="Link to this heading">#</a></h4>
+<ul class="simple">
+<li><p><strong>Description</strong>: Floating-point number. Used for approximate numeric values.</p></li>
+<li><p><strong>Example</strong>:</p></li>
+</ul>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>Data Type</p></th>
+<th class="head"><p>Description</p></th>
+<th class="head"><p>Range</p></th>
+<th class="head"><p>Storage Size</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>FLOAT</p></td>
+<td><p>Floating-point number</p></td>
+<td><p>-1.79E+308 to 1.79E+308</p></td>
+<td><p>4 or 8 bytes</p></td>
+</tr>
+<tr class="row-odd"><td><p>REAL</p></td>
+<td><p>Single-precision floating-point number</p></td>
+<td><p>-3.40E+38 to 3.40E+38</p></td>
+<td><p>4 bytes</p></td>
+</tr>
+<tr class="row-even"><td><p>DOUBLE</p></td>
+<td><p>Double-precision floating-point number</p></td>
+<td><p>-1.79E+308 to 1.79E+308</p></td>
+<td><p>8 bytes</p></td>
+</tr>
+<tr class="row-odd"><td><p>DECIMAL</p></td>
+<td><p>Exact numeric value with a specified precision and scale</p></td>
+<td><p>Variable</p></td>
+<td><p>Variable</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">%</span><span class="k">sql</span> SELECT CAST(4.54021223948E-8 AS FLOAT);
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> * postgresql://postgres:***@localhost:5432/dvdrental
+1 rows affected.
+</pre></div>
+</div>
+<div class="output text_html"><table>
+    <thead>
+        <tr>
+            <th>float8</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>4.54021223948e-08</td>
+        </tr>
+    </tbody>
+</table></div></div>
+</div>
+</section>
+<section id="decimal">
+<h4>3. DECIMAL<a class="headerlink" href="#decimal" title="Link to this heading">#</a></h4>
+<ul class="simple">
+<li><p><strong>Description</strong>: Fixed-point number. Used for exact numeric values with a specified precision and scale.</p></li>
+<li><p><strong>Example</strong>:</p></li>
+</ul>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">%</span><span class="k">sql</span> SELECT CAST(4.54021223948E-8 AS DECIMAL(10,10));
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> * postgresql://postgres:***@localhost:5432/dvdrental
+1 rows affected.
+</pre></div>
+</div>
+<div class="output text_html"><table>
+    <thead>
+        <tr>
+            <th>numeric</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>4.54E-8</td>
+        </tr>
+    </tbody>
+</table></div></div>
+</div>
+</section>
+</section>
+<section id="character-data-types">
+<h3>Character Data Types<a class="headerlink" href="#character-data-types" title="Link to this heading">#</a></h3>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>Data Type</p></th>
+<th class="head"><p>Description</p></th>
+<th class="head"><p>Example</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>CHAR(n)</p></td>
+<td><p>Fixed-length character string with a maximum length of n characters.</p></td>
+<td><p>CHAR(10)</p></td>
+</tr>
+<tr class="row-odd"><td><p>VARCHAR(n)</p></td>
+<td><p>Variable-length character string with a maximum length of n characters.</p></td>
+<td><p>VARCHAR(255)</p></td>
+</tr>
+<tr class="row-even"><td><p>TEXT</p></td>
+<td><p>Variable-length character string with no maximum length.</p></td>
+<td><p>TEXT</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<section id="char">
+<h4>4. CHAR<a class="headerlink" href="#char" title="Link to this heading">#</a></h4>
+<ul class="simple">
+<li><p><strong>Description</strong>: Fixed-length character string. Used for strings of a specified length.</p></li>
+<li><p><strong>Example</strong>:</p></li>
+</ul>
+</section>
+<section id="varchar">
+<h4>5. VARCHAR<a class="headerlink" href="#varchar" title="Link to this heading">#</a></h4>
+<ul class="simple">
+<li><p><strong>Description</strong>: Variable-length character string. Used for strings of varying length.</p></li>
+<li><p><strong>Example</strong>:</p></li>
+</ul>
+</section>
+<section id="text">
+<h4>6. TEXT<a class="headerlink" href="#text" title="Link to this heading">#</a></h4>
+<ul class="simple">
+<li><p><strong>Description</strong>: Variable-length character string. Used for large text data.</p></li>
+<li><p><strong>Example</strong>:</p></li>
+</ul>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">%%</span><span class="k">sql</span>
+
+SELECT
+    &#39;banana&#39;::CHAR(50),
+    &#39;banana&#39;::VARCHAR(2),
+    &#39;banana&#39;::TEXT
+;
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> * postgresql://postgres:***@localhost:5432/dvdrental
+1 rows affected.
+</pre></div>
+</div>
+<div class="output text_html"><table>
+    <thead>
+        <tr>
+            <th>bpchar</th>
+            <th>varchar</th>
+            <th>text</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>banana                                            </td>
+            <td>ba</td>
+            <td>banana</td>
+        </tr>
+    </tbody>
+</table></div></div>
+</div>
+<blockquote>
+<div><p>Note that you can’t see the space-padding for CHAR(50) ‘banana’ in the Jupyter notebook, but if you run the same statement in psql, you will see ‘banana’ + 44 spaces in the output.</p>
+</div></blockquote>
+</section>
+</section>
+<section id="date-and-time-data-types">
+<h3>Date and Time Data Types<a class="headerlink" href="#date-and-time-data-types" title="Link to this heading">#</a></h3>
+<section id="date">
+<h4>7. DATE<a class="headerlink" href="#date" title="Link to this heading">#</a></h4>
+<ul class="simple">
+<li><p><strong>Description</strong>: Date value. Used for storing dates without time.</p></li>
+<li><p><strong>Example</strong>:</p></li>
+</ul>
+<p>PostgreSQL does a good job of parsing an input to datetime even if we don’t enter it exactly according to ISO way</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">%%</span><span class="k">sql</span>
+
+SELECT
+    &#39;Oct 23, 2021&#39;::DATE,
+    &#39;23 October 2021&#39;::DATE,
+    &#39;2021 10 23&#39;::DATE,
+    &#39;10/23/2021&#39;::DATE,
+    &#39;today&#39;::DATE,
+    &#39;tomorrow&#39;::DATE
+;
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> * postgresql://postgres:***@localhost:5432/dvdrental
+1 rows affected.
+</pre></div>
+</div>
+<div class="output text_html"><table>
+    <thead>
+        <tr>
+            <th>date</th>
+            <th>date_1</th>
+            <th>date_2</th>
+            <th>date_3</th>
+            <th>date_4</th>
+            <th>date_5</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>2021-10-23</td>
+            <td>2021-10-23</td>
+            <td>2021-10-23</td>
+            <td>2021-10-23</td>
+            <td>2024-09-16</td>
+            <td>2024-09-17</td>
+        </tr>
+    </tbody>
+</table></div></div>
+</div>
+</section>
+<section id="time">
+<h4>8. TIME<a class="headerlink" href="#time" title="Link to this heading">#</a></h4>
+<ul class="simple">
+<li><p><strong>Description</strong>: Time value. Used for storing time without date.</p></li>
+<li><p><strong>Example</strong>:</p></li>
+</ul>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">%%</span><span class="k">sql</span>
+
+SELECT
+    &#39;14:24:00&#39;::TIME,
+    &#39;2:24pm&#39;::TIME,
+    &#39;2:24 PM PST&#39;::TIME WITH TIME ZONE,
+    &#39;now&#39;::TIME,
+    &#39;now&#39;::TIME WITH TIME ZONE
+;
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> * postgresql://postgres:***@localhost:5432/dvdrental
+1 rows affected.
+</pre></div>
+</div>
+<div class="output text_html"><table>
+    <thead>
+        <tr>
+            <th>time</th>
+            <th>time_1</th>
+            <th>timetz</th>
+            <th>time_2</th>
+            <th>timetz_1</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>14:24:00</td>
+            <td>14:24:00</td>
+            <td>14:24:00-08:00</td>
+            <td>16:57:27.492849</td>
+            <td>16:57:27.492849-07:00</td>
+        </tr>
+    </tbody>
+</table></div></div>
+</div>
+</section>
+<section id="timestamp">
+<h4>9. TIMESTAMP<a class="headerlink" href="#timestamp" title="Link to this heading">#</a></h4>
+<ul class="simple">
+<li><p><strong>Description</strong>: Date and time value with time zone. Used for storing both date and time with time zone information.</p></li>
+<li><p><strong>Example</strong>:</p></li>
+</ul>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">%</span><span class="k">sql</span> SELECT &#39;2021-11-18 8:30:00&#39;::TIMESTAMP;
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> * postgresql://postgres:***@localhost:5432/dvdrental
+1 rows affected.
+</pre></div>
+</div>
+<div class="output text_html"><table>
+    <thead>
+        <tr>
+            <th>timestamp</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>2021-11-18 08:30:00</td>
+        </tr>
+    </tbody>
+</table></div></div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">%</span><span class="k">sql</span> SELECT &#39;2021-11-18 8:30:00 EST&#39;::TIMESTAMPTZ;
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> * postgresql://postgres:***@localhost:5432/dvdrental
+1 rows affected.
+</pre></div>
+</div>
+<div class="output text_html"><table>
+    <thead>
+        <tr>
+            <th>timestamptz</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>2021-11-18 05:30:00-08:00</td>
+        </tr>
+    </tbody>
+</table></div></div>
+</div>
+<p>When you insert a timestamp without specifying a time zone, PostgreSQL assumes the timestamp is in the server’s current time zone.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">%</span><span class="k">sql</span> SHOW TIMEZONE;
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> * postgresql://postgres:***@localhost:5432/dvdrental
+1 rows affected.
+</pre></div>
+</div>
+<div class="output text_html"><table>
+    <thead>
+        <tr>
+            <th>TimeZone</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>America/Vancouver</td>
+        </tr>
+    </tbody>
+</table></div></div>
+</div>
+</section>
+</section>
+<section id="boolean-data-type">
+<h3>Boolean Data Type<a class="headerlink" href="#boolean-data-type" title="Link to this heading">#</a></h3>
+<section id="boolean">
+<h4>10. BOOLEAN<a class="headerlink" href="#boolean" title="Link to this heading">#</a></h4>
+<ul class="simple">
+<li><p><strong>Description</strong>: Boolean value. Used for storing true or false values.</p></li>
+<li><p><strong>Example</strong>:</p></li>
+</ul>
+<p>Valid values are</p>
+<p>‘TRUE’, 1 (or any other positive integer), ‘YES’, ‘Y’, ‘T’</p>
+<p>‘FALSE’, ‘0’, ‘NO’, ‘N’, ‘F’</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">%%</span><span class="k">sql</span>
+
+SELECT
+    &#39;TRUE&#39;::BOOLEAN,
+    &#39;true&#39;::BOOLEAN,
+    &#39;t&#39;::BOOLEAN,
+    &#39;1&#39;::BOOLEAN,
+    &#39;YES&#39;::BOOLEAN
+    ;
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> * postgresql://postgres:***@localhost:5432/dvdrental
+1 rows affected.
+</pre></div>
+</div>
+<div class="output text_html"><table>
+    <thead>
+        <tr>
+            <th>bool</th>
+            <th>bool_1</th>
+            <th>bool_2</th>
+            <th>bool_3</th>
+            <th>bool_4</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>True</td>
+            <td>True</td>
+            <td>True</td>
+            <td>True</td>
+            <td>True</td>
+        </tr>
+    </tbody>
+</table></div></div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">%%</span><span class="k">sql</span>
+
+SELECT
+    &#39;FALSE&#39;::BOOLEAN,
+    &#39;false&#39;::BOOLEAN,
+    &#39;f&#39;::BOOLEAN,
+    &#39;F&#39;::BOOLEAN,
+    &#39;n&#39;::BOOLEAN,
+    &#39;N&#39;::BOOLEAN,
+    &#39;no&#39;::BOOLEAN
+    ;
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> * postgresql://postgres:***@localhost:5432/dvdrental
+1 rows affected.
+</pre></div>
+</div>
+<div class="output text_html"><table>
+    <thead>
+        <tr>
+            <th>bool</th>
+            <th>bool_1</th>
+            <th>bool_2</th>
+            <th>bool_3</th>
+            <th>bool_4</th>
+            <th>bool_5</th>
+            <th>bool_6</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>False</td>
+            <td>False</td>
+            <td>False</td>
+            <td>False</td>
+            <td>False</td>
+            <td>False</td>
+            <td>False</td>
+        </tr>
+    </tbody>
+</table></div></div>
+</div>
+</section>
+</section>
+<section id="filtering-using-where-clause-in-sql">
+<h3>Filtering Using <code class="docutils literal notranslate"><span class="pre">WHERE</span></code> Clause in SQL<a class="headerlink" href="#filtering-using-where-clause-in-sql" title="Link to this heading">#</a></h3>
+<section id="id1">
+<h4>Introduction<a class="headerlink" href="#id1" title="Link to this heading">#</a></h4>
+<p>The <code class="docutils literal notranslate"><span class="pre">WHERE</span></code> clause in SQL is used to filter records that meet certain conditions. It is commonly used in <code class="docutils literal notranslate"><span class="pre">SELECT</span></code>, <code class="docutils literal notranslate"><span class="pre">UPDATE</span></code>, <code class="docutils literal notranslate"><span class="pre">DELETE</span></code>, and <code class="docutils literal notranslate"><span class="pre">INSERT</span></code> statements to specify which records should be affected by the query.</p>
+</section>
+<section id="basic-syntax">
+<h4>Basic Syntax<a class="headerlink" href="#basic-syntax" title="Link to this heading">#</a></h4>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">SELECT</span> <span class="n">column1</span><span class="p">,</span> <span class="n">column2</span><span class="p">,</span> <span class="o">...</span>
+<span class="n">FROM</span> <span class="n">table_name</span>
+<span class="n">WHERE</span> <span class="n">condition</span><span class="p">;</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="common-operators">
+<h4>Common Operators<a class="headerlink" href="#common-operators" title="Link to this heading">#</a></h4>
+<ul class="simple">
+<li><p><strong>Comparison Operators</strong>: <code class="docutils literal notranslate"><span class="pre">=</span></code>, <code class="docutils literal notranslate"><span class="pre">!=</span></code>, <code class="docutils literal notranslate"><span class="pre">&gt;</span></code>, <code class="docutils literal notranslate"><span class="pre">&lt;</span></code>, <code class="docutils literal notranslate"><span class="pre">&gt;=</span></code>, <code class="docutils literal notranslate"><span class="pre">&lt;=</span></code></p></li>
+<li><p><strong>Logical Operators</strong>: <code class="docutils literal notranslate"><span class="pre">AND</span></code>, <code class="docutils literal notranslate"><span class="pre">OR</span></code>, <code class="docutils literal notranslate"><span class="pre">NOT</span></code></p></li>
+<li><p><strong>Pattern Matching</strong>: <code class="docutils literal notranslate"><span class="pre">LIKE</span></code>, <code class="docutils literal notranslate"><span class="pre">ILIKE</span></code> (case-insensitive in PostgreSQL)</p></li>
+<li><p><strong>Range</strong>: <code class="docutils literal notranslate"><span class="pre">BETWEEN</span></code></p></li>
+<li><p><strong>Set Membership</strong>: <code class="docutils literal notranslate"><span class="pre">IN</span></code></p></li>
+<li><p><strong>Null Check</strong>: <code class="docutils literal notranslate"><span class="pre">IS</span> <span class="pre">NULL</span></code>, <code class="docutils literal notranslate"><span class="pre">IS</span> <span class="pre">NOT</span> <span class="pre">NULL</span></code></p></li>
+</ul>
+</section>
+</section>
+<section id="examples-using-dvdrental-database">
+<h3>Examples Using <code class="docutils literal notranslate"><span class="pre">dvdrental</span></code> Database<a class="headerlink" href="#examples-using-dvdrental-database" title="Link to this heading">#</a></h3>
+<section id="example-1-basic-filtering">
+<h4>Example 1: Basic Filtering<a class="headerlink" href="#example-1-basic-filtering" title="Link to this heading">#</a></h4>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">%%</span><span class="k">sql</span>
+SELECT * FROM customer
+WHERE store_id = 2
+LIMIT 10;
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> * postgresql://postgres:***@localhost:5432/dvdrental
+10 rows affected.
+</pre></div>
+</div>
+<div class="output text_html"><table>
+    <thead>
+        <tr>
+            <th>customer_id</th>
+            <th>store_id</th>
+            <th>first_name</th>
+            <th>last_name</th>
+            <th>email</th>
+            <th>address_id</th>
+            <th>activebool</th>
+            <th>create_date</th>
+            <th>last_update</th>
+            <th>active</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>4</td>
+            <td>2</td>
+            <td>Barbara</td>
+            <td>Jones</td>
+            <td>barbara.jones@sakilacustomer.org</td>
+            <td>8</td>
+            <td>True</td>
+            <td>2006-02-14</td>
+            <td>2013-05-26 14:49:45.738000</td>
+            <td>1</td>
+        </tr>
+        <tr>
+            <td>6</td>
+            <td>2</td>
+            <td>Jennifer</td>
+            <td>Davis</td>
+            <td>jennifer.davis@sakilacustomer.org</td>
+            <td>10</td>
+            <td>True</td>
+            <td>2006-02-14</td>
+            <td>2013-05-26 14:49:45.738000</td>
+            <td>1</td>
+        </tr>
+        <tr>
+            <td>8</td>
+            <td>2</td>
+            <td>Susan</td>
+            <td>Wilson</td>
+            <td>susan.wilson@sakilacustomer.org</td>
+            <td>12</td>
+            <td>True</td>
+            <td>2006-02-14</td>
+            <td>2013-05-26 14:49:45.738000</td>
+            <td>1</td>
+        </tr>
+        <tr>
+            <td>9</td>
+            <td>2</td>
+            <td>Margaret</td>
+            <td>Moore</td>
+            <td>margaret.moore@sakilacustomer.org</td>
+            <td>13</td>
+            <td>True</td>
+            <td>2006-02-14</td>
+            <td>2013-05-26 14:49:45.738000</td>
+            <td>1</td>
+        </tr>
+        <tr>
+            <td>11</td>
+            <td>2</td>
+            <td>Lisa</td>
+            <td>Anderson</td>
+            <td>lisa.anderson@sakilacustomer.org</td>
+            <td>15</td>
+            <td>True</td>
+            <td>2006-02-14</td>
+            <td>2013-05-26 14:49:45.738000</td>
+            <td>1</td>
+        </tr>
+        <tr>
+            <td>13</td>
+            <td>2</td>
+            <td>Karen</td>
+            <td>Jackson</td>
+            <td>karen.jackson@sakilacustomer.org</td>
+            <td>17</td>
+            <td>True</td>
+            <td>2006-02-14</td>
+            <td>2013-05-26 14:49:45.738000</td>
+            <td>1</td>
+        </tr>
+        <tr>
+            <td>14</td>
+            <td>2</td>
+            <td>Betty</td>
+            <td>White</td>
+            <td>betty.white@sakilacustomer.org</td>
+            <td>18</td>
+            <td>True</td>
+            <td>2006-02-14</td>
+            <td>2013-05-26 14:49:45.738000</td>
+            <td>1</td>
+        </tr>
+        <tr>
+            <td>16</td>
+            <td>2</td>
+            <td>Sandra</td>
+            <td>Martin</td>
+            <td>sandra.martin@sakilacustomer.org</td>
+            <td>20</td>
+            <td>True</td>
+            <td>2006-02-14</td>
+            <td>2013-05-26 14:49:45.738000</td>
+            <td>0</td>
+        </tr>
+        <tr>
+            <td>18</td>
+            <td>2</td>
+            <td>Carol</td>
+            <td>Garcia</td>
+            <td>carol.garcia@sakilacustomer.org</td>
+            <td>22</td>
+            <td>True</td>
+            <td>2006-02-14</td>
+            <td>2013-05-26 14:49:45.738000</td>
+            <td>1</td>
+        </tr>
+        <tr>
+            <td>20</td>
+            <td>2</td>
+            <td>Sharon</td>
+            <td>Robinson</td>
+            <td>sharon.robinson@sakilacustomer.org</td>
+            <td>24</td>
+            <td>True</td>
+            <td>2006-02-14</td>
+            <td>2013-05-26 14:49:45.738000</td>
+            <td>1</td>
+        </tr>
+    </tbody>
+</table></div></div>
+</div>
+<p>This query selects all columns from the <code class="docutils literal notranslate"><span class="pre">customer</span></code> table where the <code class="docutils literal notranslate"><span class="pre">store_id</span></code> is 2</p>
+</section>
+<section id="example-2-using-and-and-or-operators">
+<h4>Example 2: Using <code class="docutils literal notranslate"><span class="pre">AND</span></code> and <code class="docutils literal notranslate"><span class="pre">OR</span></code> Operators<a class="headerlink" href="#example-2-using-and-and-or-operators" title="Link to this heading">#</a></h4>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">%%</span><span class="k">sql</span>
+SELECT * FROM customer
+WHERE active = 1 AND store_id = 2
+LIMIT 10;
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> * postgresql://postgres:***@localhost:5432/dvdrental
+10 rows affected.
+</pre></div>
+</div>
+<div class="output text_html"><table>
+    <thead>
+        <tr>
+            <th>customer_id</th>
+            <th>store_id</th>
+            <th>first_name</th>
+            <th>last_name</th>
+            <th>email</th>
+            <th>address_id</th>
+            <th>activebool</th>
+            <th>create_date</th>
+            <th>last_update</th>
+            <th>active</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>4</td>
+            <td>2</td>
+            <td>Barbara</td>
+            <td>Jones</td>
+            <td>barbara.jones@sakilacustomer.org</td>
+            <td>8</td>
+            <td>True</td>
+            <td>2006-02-14</td>
+            <td>2013-05-26 14:49:45.738000</td>
+            <td>1</td>
+        </tr>
+        <tr>
+            <td>6</td>
+            <td>2</td>
+            <td>Jennifer</td>
+            <td>Davis</td>
+            <td>jennifer.davis@sakilacustomer.org</td>
+            <td>10</td>
+            <td>True</td>
+            <td>2006-02-14</td>
+            <td>2013-05-26 14:49:45.738000</td>
+            <td>1</td>
+        </tr>
+        <tr>
+            <td>8</td>
+            <td>2</td>
+            <td>Susan</td>
+            <td>Wilson</td>
+            <td>susan.wilson@sakilacustomer.org</td>
+            <td>12</td>
+            <td>True</td>
+            <td>2006-02-14</td>
+            <td>2013-05-26 14:49:45.738000</td>
+            <td>1</td>
+        </tr>
+        <tr>
+            <td>9</td>
+            <td>2</td>
+            <td>Margaret</td>
+            <td>Moore</td>
+            <td>margaret.moore@sakilacustomer.org</td>
+            <td>13</td>
+            <td>True</td>
+            <td>2006-02-14</td>
+            <td>2013-05-26 14:49:45.738000</td>
+            <td>1</td>
+        </tr>
+        <tr>
+            <td>11</td>
+            <td>2</td>
+            <td>Lisa</td>
+            <td>Anderson</td>
+            <td>lisa.anderson@sakilacustomer.org</td>
+            <td>15</td>
+            <td>True</td>
+            <td>2006-02-14</td>
+            <td>2013-05-26 14:49:45.738000</td>
+            <td>1</td>
+        </tr>
+        <tr>
+            <td>13</td>
+            <td>2</td>
+            <td>Karen</td>
+            <td>Jackson</td>
+            <td>karen.jackson@sakilacustomer.org</td>
+            <td>17</td>
+            <td>True</td>
+            <td>2006-02-14</td>
+            <td>2013-05-26 14:49:45.738000</td>
+            <td>1</td>
+        </tr>
+        <tr>
+            <td>14</td>
+            <td>2</td>
+            <td>Betty</td>
+            <td>White</td>
+            <td>betty.white@sakilacustomer.org</td>
+            <td>18</td>
+            <td>True</td>
+            <td>2006-02-14</td>
+            <td>2013-05-26 14:49:45.738000</td>
+            <td>1</td>
+        </tr>
+        <tr>
+            <td>18</td>
+            <td>2</td>
+            <td>Carol</td>
+            <td>Garcia</td>
+            <td>carol.garcia@sakilacustomer.org</td>
+            <td>22</td>
+            <td>True</td>
+            <td>2006-02-14</td>
+            <td>2013-05-26 14:49:45.738000</td>
+            <td>1</td>
+        </tr>
+        <tr>
+            <td>20</td>
+            <td>2</td>
+            <td>Sharon</td>
+            <td>Robinson</td>
+            <td>sharon.robinson@sakilacustomer.org</td>
+            <td>24</td>
+            <td>True</td>
+            <td>2006-02-14</td>
+            <td>2013-05-26 14:49:45.738000</td>
+            <td>1</td>
+        </tr>
+        <tr>
+            <td>23</td>
+            <td>2</td>
+            <td>Sarah</td>
+            <td>Lewis</td>
+            <td>sarah.lewis@sakilacustomer.org</td>
+            <td>27</td>
+            <td>True</td>
+            <td>2006-02-14</td>
+            <td>2013-05-26 14:49:45.738000</td>
+            <td>1</td>
+        </tr>
+    </tbody>
+</table></div></div>
+</div>
+<p>This query selects all columns from the <code class="docutils literal notranslate"><span class="pre">customer</span></code> table where the <code class="docutils literal notranslate"><span class="pre">active</span></code> status is 1 and the <code class="docutils literal notranslate"><span class="pre">store_id</span></code> is 1.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">%%</span><span class="k">sql</span>
+SELECT * FROM customer
+WHERE active = 1 OR store_id = 1
+LIMIT 10;
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> * postgresql://postgres:***@localhost:5432/dvdrental
+10 rows affected.
+</pre></div>
+</div>
+<div class="output text_html"><table>
+    <thead>
+        <tr>
+            <th>customer_id</th>
+            <th>store_id</th>
+            <th>first_name</th>
+            <th>last_name</th>
+            <th>email</th>
+            <th>address_id</th>
+            <th>activebool</th>
+            <th>create_date</th>
+            <th>last_update</th>
+            <th>active</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>524</td>
+            <td>1</td>
+            <td>Jared</td>
+            <td>Ely</td>
+            <td>jared.ely@sakilacustomer.org</td>
+            <td>530</td>
+            <td>True</td>
+            <td>2006-02-14</td>
+            <td>2013-05-26 14:49:45.738000</td>
+            <td>1</td>
+        </tr>
+        <tr>
+            <td>1</td>
+            <td>1</td>
+            <td>Mary</td>
+            <td>Smith</td>
+            <td>mary.smith@sakilacustomer.org</td>
+            <td>5</td>
+            <td>True</td>
+            <td>2006-02-14</td>
+            <td>2013-05-26 14:49:45.738000</td>
+            <td>1</td>
+        </tr>
+        <tr>
+            <td>2</td>
+            <td>1</td>
+            <td>Patricia</td>
+            <td>Johnson</td>
+            <td>patricia.johnson@sakilacustomer.org</td>
+            <td>6</td>
+            <td>True</td>
+            <td>2006-02-14</td>
+            <td>2013-05-26 14:49:45.738000</td>
+            <td>1</td>
+        </tr>
+        <tr>
+            <td>3</td>
+            <td>1</td>
+            <td>Linda</td>
+            <td>Williams</td>
+            <td>linda.williams@sakilacustomer.org</td>
+            <td>7</td>
+            <td>True</td>
+            <td>2006-02-14</td>
+            <td>2013-05-26 14:49:45.738000</td>
+            <td>1</td>
+        </tr>
+        <tr>
+            <td>4</td>
+            <td>2</td>
+            <td>Barbara</td>
+            <td>Jones</td>
+            <td>barbara.jones@sakilacustomer.org</td>
+            <td>8</td>
+            <td>True</td>
+            <td>2006-02-14</td>
+            <td>2013-05-26 14:49:45.738000</td>
+            <td>1</td>
+        </tr>
+        <tr>
+            <td>5</td>
+            <td>1</td>
+            <td>Elizabeth</td>
+            <td>Brown</td>
+            <td>elizabeth.brown@sakilacustomer.org</td>
+            <td>9</td>
+            <td>True</td>
+            <td>2006-02-14</td>
+            <td>2013-05-26 14:49:45.738000</td>
+            <td>1</td>
+        </tr>
+        <tr>
+            <td>6</td>
+            <td>2</td>
+            <td>Jennifer</td>
+            <td>Davis</td>
+            <td>jennifer.davis@sakilacustomer.org</td>
+            <td>10</td>
+            <td>True</td>
+            <td>2006-02-14</td>
+            <td>2013-05-26 14:49:45.738000</td>
+            <td>1</td>
+        </tr>
+        <tr>
+            <td>7</td>
+            <td>1</td>
+            <td>Maria</td>
+            <td>Miller</td>
+            <td>maria.miller@sakilacustomer.org</td>
+            <td>11</td>
+            <td>True</td>
+            <td>2006-02-14</td>
+            <td>2013-05-26 14:49:45.738000</td>
+            <td>1</td>
+        </tr>
+        <tr>
+            <td>8</td>
+            <td>2</td>
+            <td>Susan</td>
+            <td>Wilson</td>
+            <td>susan.wilson@sakilacustomer.org</td>
+            <td>12</td>
+            <td>True</td>
+            <td>2006-02-14</td>
+            <td>2013-05-26 14:49:45.738000</td>
+            <td>1</td>
+        </tr>
+        <tr>
+            <td>9</td>
+            <td>2</td>
+            <td>Margaret</td>
+            <td>Moore</td>
+            <td>margaret.moore@sakilacustomer.org</td>
+            <td>13</td>
+            <td>True</td>
+            <td>2006-02-14</td>
+            <td>2013-05-26 14:49:45.738000</td>
+            <td>1</td>
+        </tr>
+    </tbody>
+</table></div></div>
+</div>
+<p>This query selects all columns from the <code class="docutils literal notranslate"><span class="pre">customer</span></code> table where the <code class="docutils literal notranslate"><span class="pre">active</span></code> status is 1 or the <code class="docutils literal notranslate"><span class="pre">store_id</span></code> is 1.</p>
+</section>
+<section id="example-3-using-like-for-pattern-matching">
+<h4>Example 3: Using <code class="docutils literal notranslate"><span class="pre">LIKE</span></code> for Pattern Matching<a class="headerlink" href="#example-3-using-like-for-pattern-matching" title="Link to this heading">#</a></h4>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">%%</span><span class="k">sql</span>
+SELECT * FROM customer
+WHERE first_name LIKE &#39;V%&#39;;
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> * postgresql://postgres:***@localhost:5432/dvdrental
+16 rows affected.
+</pre></div>
+</div>
+<div class="output text_html"><table>
+    <thead>
+        <tr>
+            <th>customer_id</th>
+            <th>store_id</th>
+            <th>first_name</th>
+            <th>last_name</th>
+            <th>email</th>
+            <th>address_id</th>
+            <th>activebool</th>
+            <th>create_date</th>
+            <th>last_update</th>
+            <th>active</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>35</td>
+            <td>2</td>
+            <td>Virginia</td>
+            <td>Green</td>
+            <td>virginia.green@sakilacustomer.org</td>
+            <td>39</td>
+            <td>True</td>
+            <td>2006-02-14</td>
+            <td>2013-05-26 14:49:45.738000</td>
+            <td>1</td>
+        </tr>
+        <tr>
+            <td>116</td>
+            <td>1</td>
+            <td>Victoria</td>
+            <td>Gibson</td>
+            <td>victoria.gibson@sakilacustomer.org</td>
+            <td>120</td>
+            <td>True</td>
+            <td>2006-02-14</td>
+            <td>2013-05-26 14:49:45.738000</td>
+            <td>1</td>
+        </tr>
+        <tr>
+            <td>149</td>
+            <td>1</td>
+            <td>Valerie</td>
+            <td>Black</td>
+            <td>valerie.black@sakilacustomer.org</td>
+            <td>153</td>
+            <td>True</td>
+            <td>2006-02-14</td>
+            <td>2013-05-26 14:49:45.738000</td>
+            <td>1</td>
+        </tr>
+        <tr>
+            <td>158</td>
+            <td>1</td>
+            <td>Veronica</td>
+            <td>Stone</td>
+            <td>veronica.stone@sakilacustomer.org</td>
+            <td>162</td>
+            <td>True</td>
+            <td>2006-02-14</td>
+            <td>2013-05-26 14:49:45.738000</td>
+            <td>1</td>
+        </tr>
+        <tr>
+            <td>184</td>
+            <td>1</td>
+            <td>Vivian</td>
+            <td>Ruiz</td>
+            <td>vivian.ruiz@sakilacustomer.org</td>
+            <td>188</td>
+            <td>True</td>
+            <td>2006-02-14</td>
+            <td>2013-05-26 14:49:45.738000</td>
+            <td>1</td>
+        </tr>
+        <tr>
+            <td>195</td>
+            <td>1</td>
+            <td>Vanessa</td>
+            <td>Sims</td>
+            <td>vanessa.sims@sakilacustomer.org</td>
+            <td>199</td>
+            <td>True</td>
+            <td>2006-02-14</td>
+            <td>2013-05-26 14:49:45.738000</td>
+            <td>1</td>
+        </tr>
+        <tr>
+            <td>201</td>
+            <td>1</td>
+            <td>Vicki</td>
+            <td>Fields</td>
+            <td>vicki.fields@sakilacustomer.org</td>
+            <td>205</td>
+            <td>True</td>
+            <td>2006-02-14</td>
+            <td>2013-05-26 14:49:45.738000</td>
+            <td>1</td>
+        </tr>
+        <tr>
+            <td>218</td>
+            <td>1</td>
+            <td>Vera</td>
+            <td>Mccoy</td>
+            <td>vera.mccoy@sakilacustomer.org</td>
+            <td>222</td>
+            <td>True</td>
+            <td>2006-02-14</td>
+            <td>2013-05-26 14:49:45.738000</td>
+            <td>1</td>
+        </tr>
+        <tr>
+            <td>244</td>
+            <td>2</td>
+            <td>Viola</td>
+            <td>Hanson</td>
+            <td>viola.hanson@sakilacustomer.org</td>
+            <td>248</td>
+            <td>True</td>
+            <td>2006-02-14</td>
+            <td>2013-05-26 14:49:45.738000</td>
+            <td>1</td>
+        </tr>
+        <tr>
+            <td>251</td>
+            <td>2</td>
+            <td>Vickie</td>
+            <td>Brewer</td>
+            <td>vickie.brewer@sakilacustomer.org</td>
+            <td>255</td>
+            <td>True</td>
+            <td>2006-02-14</td>
+            <td>2013-05-26 14:49:45.738000</td>
+            <td>1</td>
+        </tr>
+        <tr>
+            <td>286</td>
+            <td>1</td>
+            <td>Velma</td>
+            <td>Lucas</td>
+            <td>velma.lucas@sakilacustomer.org</td>
+            <td>291</td>
+            <td>True</td>
+            <td>2006-02-14</td>
+            <td>2013-05-26 14:49:45.738000</td>
+            <td>1</td>
+        </tr>
+        <tr>
+            <td>289</td>
+            <td>1</td>
+            <td>Violet</td>
+            <td>Rodriquez</td>
+            <td>violet.rodriquez@sakilacustomer.org</td>
+            <td>294</td>
+            <td>True</td>
+            <td>2006-02-14</td>
+            <td>2013-05-26 14:49:45.738000</td>
+            <td>1</td>
+        </tr>
+        <tr>
+            <td>382</td>
+            <td>2</td>
+            <td>Victor</td>
+            <td>Barkley</td>
+            <td>victor.barkley@sakilacustomer.org</td>
+            <td>387</td>
+            <td>True</td>
+            <td>2006-02-14</td>
+            <td>2013-05-26 14:49:45.738000</td>
+            <td>1</td>
+        </tr>
+        <tr>
+            <td>414</td>
+            <td>1</td>
+            <td>Vincent</td>
+            <td>Ralston</td>
+            <td>vincent.ralston@sakilacustomer.org</td>
+            <td>419</td>
+            <td>True</td>
+            <td>2006-02-14</td>
+            <td>2013-05-26 14:49:45.738000</td>
+            <td>1</td>
+        </tr>
+        <tr>
+            <td>483</td>
+            <td>2</td>
+            <td>Vernon</td>
+            <td>Chapa</td>
+            <td>vernon.chapa@sakilacustomer.org</td>
+            <td>488</td>
+            <td>True</td>
+            <td>2006-02-14</td>
+            <td>2013-05-26 14:49:45.738000</td>
+            <td>1</td>
+        </tr>
+        <tr>
+            <td>581</td>
+            <td>1</td>
+            <td>Virgil</td>
+            <td>Wofford</td>
+            <td>virgil.wofford@sakilacustomer.org</td>
+            <td>587</td>
+            <td>True</td>
+            <td>2006-02-14</td>
+            <td>2013-05-26 14:49:45.738000</td>
+            <td>1</td>
+        </tr>
+    </tbody>
+</table></div></div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">%%</span><span class="k">sql</span>
+SELECT * FROM customer
+WHERE first_name LIKE &#39;____i&#39;;
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> * postgresql://postgres:***@localhost:5432/dvdrental
+4 rows affected.
+</pre></div>
+</div>
+<div class="output text_html"><table>
+    <thead>
+        <tr>
+            <th>customer_id</th>
+            <th>store_id</th>
+            <th>first_name</th>
+            <th>last_name</th>
+            <th>email</th>
+            <th>address_id</th>
+            <th>activebool</th>
+            <th>create_date</th>
+            <th>last_update</th>
+            <th>active</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>201</td>
+            <td>1</td>
+            <td>Vicki</td>
+            <td>Fields</td>
+            <td>vicki.fields@sakilacustomer.org</td>
+            <td>205</td>
+            <td>True</td>
+            <td>2006-02-14</td>
+            <td>2013-05-26 14:49:45.738000</td>
+            <td>1</td>
+        </tr>
+        <tr>
+            <td>206</td>
+            <td>1</td>
+            <td>Terri</td>
+            <td>Vasquez</td>
+            <td>terri.vasquez@sakilacustomer.org</td>
+            <td>210</td>
+            <td>True</td>
+            <td>2006-02-14</td>
+            <td>2013-05-26 14:49:45.738000</td>
+            <td>1</td>
+        </tr>
+        <tr>
+            <td>241</td>
+            <td>2</td>
+            <td>Heidi</td>
+            <td>Larson</td>
+            <td>heidi.larson@sakilacustomer.org</td>
+            <td>245</td>
+            <td>True</td>
+            <td>2006-02-14</td>
+            <td>2013-05-26 14:49:45.738000</td>
+            <td>0</td>
+        </tr>
+        <tr>
+            <td>274</td>
+            <td>1</td>
+            <td>Naomi</td>
+            <td>Jennings</td>
+            <td>naomi.jennings@sakilacustomer.org</td>
+            <td>279</td>
+            <td>True</td>
+            <td>2006-02-14</td>
+            <td>2013-05-26 14:49:45.738000</td>
+            <td>1</td>
+        </tr>
+    </tbody>
+</table></div></div>
+</div>
+<p>This query selects all columns from the <code class="docutils literal notranslate"><span class="pre">customer</span></code> table where the <code class="docutils literal notranslate"><span class="pre">first_name</span></code> who is 5 character long and ends with ‘i’.</p>
+</section>
+<section id="example-4-using-between-for-range-filtering">
+<h4>Example 4: Using <code class="docutils literal notranslate"><span class="pre">BETWEEN</span></code> for Range Filtering<a class="headerlink" href="#example-4-using-between-for-range-filtering" title="Link to this heading">#</a></h4>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">%%</span><span class="k">sql</span>
+SELECT * FROM payment
+WHERE payment_date BETWEEN &#39;2007-03-02 02:30:00&#39; AND &#39;2007-03-02 03:00:00&#39;;
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> * postgresql://postgres:***@localhost:5432/dvdrental
+19 rows affected.
+</pre></div>
+</div>
+<div class="output text_html"><table>
+    <thead>
+        <tr>
+            <th>payment_id</th>
+            <th>customer_id</th>
+            <th>staff_id</th>
+            <th>rental_id</th>
+            <th>amount</th>
+            <th>payment_date</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>19842</td>
+            <td>300</td>
+            <td>1</td>
+            <td>10977</td>
+            <td>4.99</td>
+            <td>2007-03-02 02:40:43.996577</td>
+        </tr>
+        <tr>
+            <td>19887</td>
+            <td>305</td>
+            <td>1</td>
+            <td>10981</td>
+            <td>2.99</td>
+            <td>2007-03-02 02:46:19.996577</td>
+        </tr>
+        <tr>
+            <td>20056</td>
+            <td>326</td>
+            <td>2</td>
+            <td>10976</td>
+            <td>4.99</td>
+            <td>2007-03-02 02:40:14.996577</td>
+        </tr>
+        <tr>
+            <td>20240</td>
+            <td>345</td>
+            <td>2</td>
+            <td>10982</td>
+            <td>4.99</td>
+            <td>2007-03-02 02:47:37.996577</td>
+        </tr>
+        <tr>
+            <td>20267</td>
+            <td>348</td>
+            <td>2</td>
+            <td>10972</td>
+            <td>2.99</td>
+            <td>2007-03-02 02:36:51.996577</td>
+        </tr>
+        <tr>
+            <td>20383</td>
+            <td>361</td>
+            <td>2</td>
+            <td>10975</td>
+            <td>0.99</td>
+            <td>2007-03-02 02:39:51.996577</td>
+        </tr>
+        <tr>
+            <td>20577</td>
+            <td>380</td>
+            <td>1</td>
+            <td>10983</td>
+            <td>3.99</td>
+            <td>2007-03-02 02:52:49.996577</td>
+        </tr>
+        <tr>
+            <td>20610</td>
+            <td>383</td>
+            <td>1</td>
+            <td>10971</td>
+            <td>4.99</td>
+            <td>2007-03-02 02:36:43.996577</td>
+        </tr>
+        <tr>
+            <td>21248</td>
+            <td>450</td>
+            <td>1</td>
+            <td>10984</td>
+            <td>3.99</td>
+            <td>2007-03-02 02:58:28.996577</td>
+        </tr>
+        <tr>
+            <td>21619</td>
+            <td>487</td>
+            <td>1</td>
+            <td>10978</td>
+            <td>9.99</td>
+            <td>2007-03-02 02:40:53.996577</td>
+        </tr>
+        <tr>
+            <td>21652</td>
+            <td>491</td>
+            <td>2</td>
+            <td>10974</td>
+            <td>6.99</td>
+            <td>2007-03-02 02:39:18.996577</td>
+        </tr>
+        <tr>
+            <td>22161</td>
+            <td>547</td>
+            <td>1</td>
+            <td>10980</td>
+            <td>4.99</td>
+            <td>2007-03-02 02:45:58.996577</td>
+        </tr>
+        <tr>
+            <td>23861</td>
+            <td>127</td>
+            <td>1</td>
+            <td>10973</td>
+            <td>7.99</td>
+            <td>2007-03-02 02:38:08.996577</td>
+        </tr>
+        <tr>
+            <td>24111</td>
+            <td>149</td>
+            <td>2</td>
+            <td>10967</td>
+            <td>0.99</td>
+            <td>2007-03-02 02:30:42.996577</td>
+        </tr>
+        <tr>
+            <td>24222</td>
+            <td>160</td>
+            <td>2</td>
+            <td>10979</td>
+            <td>5.99</td>
+            <td>2007-03-02 02:45:03.996577</td>
+        </tr>
+        <tr>
+            <td>24465</td>
+            <td>186</td>
+            <td>1</td>
+            <td>10985</td>
+            <td>0.99</td>
+            <td>2007-03-02 02:58:45.996577</td>
+        </tr>
+        <tr>
+            <td>24838</td>
+            <td>234</td>
+            <td>2</td>
+            <td>10968</td>
+            <td>7.99</td>
+            <td>2007-03-02 02:31:39.996577</td>
+        </tr>
+        <tr>
+            <td>24936</td>
+            <td>244</td>
+            <td>2</td>
+            <td>10969</td>
+            <td>2.99</td>
+            <td>2007-03-02 02:32:58.996577</td>
+        </tr>
+        <tr>
+            <td>25086</td>
+            <td>260</td>
+            <td>2</td>
+            <td>10970</td>
+            <td>8.99</td>
+            <td>2007-03-02 02:35:12.996577</td>
+        </tr>
+    </tbody>
+</table></div></div>
+</div>
+<p>This query selects all columns from the <code class="docutils literal notranslate"><span class="pre">payment</span></code> table where the <code class="docutils literal notranslate"><span class="pre">payment_date</span></code> is between ‘2007-03-02 02:30:00’ and ‘2007-03-02 03:00:00’</p>
+</section>
+<section id="example-5-using-in-for-set-membership">
+<h4>Example 5: Using <code class="docutils literal notranslate"><span class="pre">IN</span></code> for Set Membership<a class="headerlink" href="#example-5-using-in-for-set-membership" title="Link to this heading">#</a></h4>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">%%</span><span class="k">sql</span>
+SELECT * FROM customer
+WHERE last_name IN (&#39;Smith&#39;, &#39;Johnson&#39;, &#39;Williams&#39;);
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> * postgresql://postgres:***@localhost:5432/dvdrental
+3 rows affected.
+</pre></div>
+</div>
+<div class="output text_html"><table>
+    <thead>
+        <tr>
+            <th>customer_id</th>
+            <th>store_id</th>
+            <th>first_name</th>
+            <th>last_name</th>
+            <th>email</th>
+            <th>address_id</th>
+            <th>activebool</th>
+            <th>create_date</th>
+            <th>last_update</th>
+            <th>active</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>1</td>
+            <td>1</td>
+            <td>Mary</td>
+            <td>Smith</td>
+            <td>mary.smith@sakilacustomer.org</td>
+            <td>5</td>
+            <td>True</td>
+            <td>2006-02-14</td>
+            <td>2013-05-26 14:49:45.738000</td>
+            <td>1</td>
+        </tr>
+        <tr>
+            <td>2</td>
+            <td>1</td>
+            <td>Patricia</td>
+            <td>Johnson</td>
+            <td>patricia.johnson@sakilacustomer.org</td>
+            <td>6</td>
+            <td>True</td>
+            <td>2006-02-14</td>
+            <td>2013-05-26 14:49:45.738000</td>
+            <td>1</td>
+        </tr>
+        <tr>
+            <td>3</td>
+            <td>1</td>
+            <td>Linda</td>
+            <td>Williams</td>
+            <td>linda.williams@sakilacustomer.org</td>
+            <td>7</td>
+            <td>True</td>
+            <td>2006-02-14</td>
+            <td>2013-05-26 14:49:45.738000</td>
+            <td>1</td>
+        </tr>
+    </tbody>
+</table></div></div>
+</div>
+<p>This query selects all columns from the <code class="docutils literal notranslate"><span class="pre">customer</span></code> table where the <code class="docutils literal notranslate"><span class="pre">last_name</span></code> is either ‘Smith’, ‘Johnson’, or ‘Williams’</p>
+</section>
+<section id="example-6-checking-for-null-values">
+<h4>Example 6: Checking for <code class="docutils literal notranslate"><span class="pre">NULL</span></code> Values<a class="headerlink" href="#example-6-checking-for-null-values" title="Link to this heading">#</a></h4>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">%%</span><span class="k">sql</span>
+SELECT * FROM customer
+WHERE email IS NULL;
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> * postgresql://postgres:***@localhost:5432/dvdrental
+0 rows affected.
+</pre></div>
+</div>
+<div class="output text_html"><table>
+    <thead>
+        <tr>
+            <th>customer_id</th>
+            <th>store_id</th>
+            <th>first_name</th>
+            <th>last_name</th>
+            <th>email</th>
+            <th>address_id</th>
+            <th>activebool</th>
+            <th>create_date</th>
+            <th>last_update</th>
+            <th>active</th>
+        </tr>
+    </thead>
+    <tbody>
+    </tbody>
+</table></div></div>
+</div>
+<p>This query selects all columns from the <code class="docutils literal notranslate"><span class="pre">customer</span></code> table where the <code class="docutils literal notranslate"><span class="pre">email</span></code> is <code class="docutils literal notranslate"><span class="pre">NULL</span></code>.</p>
+</section>
+</section>
+<section id="derived-columns-in-sql">
+<h3>Derived Columns in SQL<a class="headerlink" href="#derived-columns-in-sql" title="Link to this heading">#</a></h3>
+<section id="id2">
+<h4>Introduction<a class="headerlink" href="#id2" title="Link to this heading">#</a></h4>
+<p>Derived columns are columns that are not stored in the database but are created dynamically using expressions or functions in a <code class="docutils literal notranslate"><span class="pre">SELECT</span></code> statement. They are useful for performing calculations, formatting data, or combining multiple columns into one.</p>
+</section>
+<section id="id3">
+<h4>Basic Syntax<a class="headerlink" href="#id3" title="Link to this heading">#</a></h4>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">SELECT</span> <span class="n">column1</span><span class="p">,</span> <span class="n">column2</span><span class="p">,</span> <span class="p">(</span><span class="n">expression</span><span class="p">)</span> <span class="n">AS</span> <span class="n">derived_column_name</span>
+<span class="n">FROM</span> <span class="n">table_name</span><span class="p">;</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="id4">
+<h3>Examples Using <code class="docutils literal notranslate"><span class="pre">dvdrental</span></code> Database<a class="headerlink" href="#id4" title="Link to this heading">#</a></h3>
+<section id="example-1-concatenating-columns">
+<h4>Example 1: Concatenating Columns<a class="headerlink" href="#example-1-concatenating-columns" title="Link to this heading">#</a></h4>
+<p>Concatenate the <code class="docutils literal notranslate"><span class="pre">first_name</span></code> and <code class="docutils literal notranslate"><span class="pre">last_name</span></code> columns to create a full name.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">%%</span><span class="k">sql</span>
+SELECT first_name, last_name, 
+       CONCAT(first_name, &#39; &#39;,last_name) AS full_name
+FROM customer
+LIMIT 10;
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> * postgresql://postgres:***@localhost:5432/dvdrental
+10 rows affected.
+</pre></div>
+</div>
+<div class="output text_html"><table>
+    <thead>
+        <tr>
+            <th>first_name</th>
+            <th>last_name</th>
+            <th>full_name</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>Jared</td>
+            <td>Ely</td>
+            <td>Jared Ely</td>
+        </tr>
+        <tr>
+            <td>Mary</td>
+            <td>Smith</td>
+            <td>Mary Smith</td>
+        </tr>
+        <tr>
+            <td>Patricia</td>
+            <td>Johnson</td>
+            <td>Patricia Johnson</td>
+        </tr>
+        <tr>
+            <td>Linda</td>
+            <td>Williams</td>
+            <td>Linda Williams</td>
+        </tr>
+        <tr>
+            <td>Barbara</td>
+            <td>Jones</td>
+            <td>Barbara Jones</td>
+        </tr>
+        <tr>
+            <td>Elizabeth</td>
+            <td>Brown</td>
+            <td>Elizabeth Brown</td>
+        </tr>
+        <tr>
+            <td>Jennifer</td>
+            <td>Davis</td>
+            <td>Jennifer Davis</td>
+        </tr>
+        <tr>
+            <td>Maria</td>
+            <td>Miller</td>
+            <td>Maria Miller</td>
+        </tr>
+        <tr>
+            <td>Susan</td>
+            <td>Wilson</td>
+            <td>Susan Wilson</td>
+        </tr>
+        <tr>
+            <td>Margaret</td>
+            <td>Moore</td>
+            <td>Margaret Moore</td>
+        </tr>
+    </tbody>
+</table></div></div>
+</div>
+</section>
+<section id="example-2-calculating-age-from-date-of-birth">
+<h4>Example 2: Calculating Age from Date of Birth<a class="headerlink" href="#example-2-calculating-age-from-date-of-birth" title="Link to this heading">#</a></h4>
+<p>Assuming there is a <code class="docutils literal notranslate"><span class="pre">date_of_birth</span></code> column, calculate the age of customers.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">%%</span><span class="k">sql</span>
+SELECT first_name, last_name, 
+       last_update,
+       now()-last_update AS rental_duration
+FROM customer
+LIMIT 10;
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> * postgresql://postgres:***@localhost:5432/dvdrental
+10 rows affected.
+</pre></div>
+</div>
+<div class="output text_html"><table>
+    <thead>
+        <tr>
+            <th>first_name</th>
+            <th>last_name</th>
+            <th>last_update</th>
+            <th>rental_duration</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>Jared</td>
+            <td>Ely</td>
+            <td>2013-05-26 14:49:45.738000</td>
+            <td>4131 days, 2:41:43.614507</td>
+        </tr>
+        <tr>
+            <td>Mary</td>
+            <td>Smith</td>
+            <td>2013-05-26 14:49:45.738000</td>
+            <td>4131 days, 2:41:43.614507</td>
+        </tr>
+        <tr>
+            <td>Patricia</td>
+            <td>Johnson</td>
+            <td>2013-05-26 14:49:45.738000</td>
+            <td>4131 days, 2:41:43.614507</td>
+        </tr>
+        <tr>
+            <td>Linda</td>
+            <td>Williams</td>
+            <td>2013-05-26 14:49:45.738000</td>
+            <td>4131 days, 2:41:43.614507</td>
+        </tr>
+        <tr>
+            <td>Barbara</td>
+            <td>Jones</td>
+            <td>2013-05-26 14:49:45.738000</td>
+            <td>4131 days, 2:41:43.614507</td>
+        </tr>
+        <tr>
+            <td>Elizabeth</td>
+            <td>Brown</td>
+            <td>2013-05-26 14:49:45.738000</td>
+            <td>4131 days, 2:41:43.614507</td>
+        </tr>
+        <tr>
+            <td>Jennifer</td>
+            <td>Davis</td>
+            <td>2013-05-26 14:49:45.738000</td>
+            <td>4131 days, 2:41:43.614507</td>
+        </tr>
+        <tr>
+            <td>Maria</td>
+            <td>Miller</td>
+            <td>2013-05-26 14:49:45.738000</td>
+            <td>4131 days, 2:41:43.614507</td>
+        </tr>
+        <tr>
+            <td>Susan</td>
+            <td>Wilson</td>
+            <td>2013-05-26 14:49:45.738000</td>
+            <td>4131 days, 2:41:43.614507</td>
+        </tr>
+        <tr>
+            <td>Margaret</td>
+            <td>Moore</td>
+            <td>2013-05-26 14:49:45.738000</td>
+            <td>4131 days, 2:41:43.614507</td>
+        </tr>
+    </tbody>
+</table></div></div>
+</div>
+</section>
+<section id="example-3-formatting-dates">
+<h4>Example 3: Formatting Dates<a class="headerlink" href="#example-3-formatting-dates" title="Link to this heading">#</a></h4>
+<p>Format the <code class="docutils literal notranslate"><span class="pre">rental_date</span></code> column to display only the year and month.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">%%</span><span class="k">sql</span>
+SELECT rental_id, 
+       rental_date, 
+       TO_CHAR(rental_date, &#39;YYYY-MM&#39;) AS rental_year_month
+FROM rental
+LIMIT 10;
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> * postgresql://postgres:***@localhost:5432/dvdrental
+10 rows affected.
+</pre></div>
+</div>
+<div class="output text_html"><table>
+    <thead>
+        <tr>
+            <th>rental_id</th>
+            <th>rental_date</th>
+            <th>rental_year_month</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>2</td>
+            <td>2005-05-24 22:54:33</td>
+            <td>2005-05</td>
+        </tr>
+        <tr>
+            <td>3</td>
+            <td>2005-05-24 23:03:39</td>
+            <td>2005-05</td>
+        </tr>
+        <tr>
+            <td>4</td>
+            <td>2005-05-24 23:04:41</td>
+            <td>2005-05</td>
+        </tr>
+        <tr>
+            <td>5</td>
+            <td>2005-05-24 23:05:21</td>
+            <td>2005-05</td>
+        </tr>
+        <tr>
+            <td>6</td>
+            <td>2005-05-24 23:08:07</td>
+            <td>2005-05</td>
+        </tr>
+        <tr>
+            <td>7</td>
+            <td>2005-05-24 23:11:53</td>
+            <td>2005-05</td>
+        </tr>
+        <tr>
+            <td>8</td>
+            <td>2005-05-24 23:31:46</td>
+            <td>2005-05</td>
+        </tr>
+        <tr>
+            <td>9</td>
+            <td>2005-05-25 00:00:40</td>
+            <td>2005-05</td>
+        </tr>
+        <tr>
+            <td>10</td>
+            <td>2005-05-25 00:02:21</td>
+            <td>2005-05</td>
+        </tr>
+        <tr>
+            <td>11</td>
+            <td>2005-05-25 00:09:02</td>
+            <td>2005-05</td>
+        </tr>
+    </tbody>
+</table></div></div>
+</div>
+</section>
+<section id="example-4-conditional-derived-column">
+<h4>Example 4: Conditional Derived Column<a class="headerlink" href="#example-4-conditional-derived-column" title="Link to this heading">#</a></h4>
+<p>Create a derived column to categorize customers based on their active status.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">%%</span><span class="k">sql</span>
+SELECT first_name, last_name, 
+       active, 
+       CASE 
+           WHEN active = 1 THEN &#39;Active&#39;
+           ELSE &#39;Inactive&#39;
+       END AS status
+FROM customer
+LIMIT 10;
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> * postgresql://postgres:***@localhost:5432/dvdrental
+10 rows affected.
+</pre></div>
+</div>
+<div class="output text_html"><table>
+    <thead>
+        <tr>
+            <th>first_name</th>
+            <th>last_name</th>
+            <th>active</th>
+            <th>status</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>Jared</td>
+            <td>Ely</td>
+            <td>1</td>
+            <td>Active</td>
+        </tr>
+        <tr>
+            <td>Mary</td>
+            <td>Smith</td>
+            <td>1</td>
+            <td>Active</td>
+        </tr>
+        <tr>
+            <td>Patricia</td>
+            <td>Johnson</td>
+            <td>1</td>
+            <td>Active</td>
+        </tr>
+        <tr>
+            <td>Linda</td>
+            <td>Williams</td>
+            <td>1</td>
+            <td>Active</td>
+        </tr>
+        <tr>
+            <td>Barbara</td>
+            <td>Jones</td>
+            <td>1</td>
+            <td>Active</td>
+        </tr>
+        <tr>
+            <td>Elizabeth</td>
+            <td>Brown</td>
+            <td>1</td>
+            <td>Active</td>
+        </tr>
+        <tr>
+            <td>Jennifer</td>
+            <td>Davis</td>
+            <td>1</td>
+            <td>Active</td>
+        </tr>
+        <tr>
+            <td>Maria</td>
+            <td>Miller</td>
+            <td>1</td>
+            <td>Active</td>
+        </tr>
+        <tr>
+            <td>Susan</td>
+            <td>Wilson</td>
+            <td>1</td>
+            <td>Active</td>
+        </tr>
+        <tr>
+            <td>Margaret</td>
+            <td>Moore</td>
+            <td>1</td>
+            <td>Active</td>
+        </tr>
+    </tbody>
+</table></div></div>
+</div>
+</section>
+<section id="example-5-arithmetic-operations">
+<h4>Example 5: Arithmetic Operations<a class="headerlink" href="#example-5-arithmetic-operations" title="Link to this heading">#</a></h4>
+<p>Calculate the total payment amount including tax (assuming a tax rate of 10%).</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">tax_rate</span> <span class="o">=</span> <span class="mf">1.10</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">%%</span><span class="k">sql</span>
+SELECT payment_id, 
+       amount, 
+       amount * :tax_rate AS total_amount_with_tax
+FROM payment
+LIMIT 10;
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> * postgresql://postgres:***@localhost:5432/dvdrental
+10 rows affected.
+</pre></div>
+</div>
+<div class="output text_html"><table>
+    <thead>
+        <tr>
+            <th>payment_id</th>
+            <th>amount</th>
+            <th>total_amount_with_tax</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>17503</td>
+            <td>7.99</td>
+            <td>8.789</td>
+        </tr>
+        <tr>
+            <td>17504</td>
+            <td>1.99</td>
+            <td>2.189</td>
+        </tr>
+        <tr>
+            <td>17505</td>
+            <td>7.99</td>
+            <td>8.789</td>
+        </tr>
+        <tr>
+            <td>17506</td>
+            <td>2.99</td>
+            <td>3.289</td>
+        </tr>
+        <tr>
+            <td>17507</td>
+            <td>7.99</td>
+            <td>8.789</td>
+        </tr>
+        <tr>
+            <td>17508</td>
+            <td>5.99</td>
+            <td>6.589</td>
+        </tr>
+        <tr>
+            <td>17509</td>
+            <td>5.99</td>
+            <td>6.589</td>
+        </tr>
+        <tr>
+            <td>17510</td>
+            <td>5.99</td>
+            <td>6.589</td>
+        </tr>
+        <tr>
+            <td>17511</td>
+            <td>2.99</td>
+            <td>3.289</td>
+        </tr>
+        <tr>
+            <td>17512</td>
+            <td>4.99</td>
+            <td>5.489</td>
+        </tr>
+    </tbody>
+</table></div></div>
+</div>
+</section>
+</section>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./lectures"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="lecture3.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">Lecture 3: Relational models part 2</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="../installation_mac.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">Installation instruction for macOS</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#learning-objectives">Learning objectives</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#connect-to-database">Connect to database</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#data-types-in-sql">Data Types in SQL</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#introduction">Introduction</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#convert-between-different-data-types">Convert between different data types</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#numeric-data-types">Numeric Data Types</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#int">1. INT</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#float">2. FLOAT</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#decimal">3. DECIMAL</a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#character-data-types">Character Data Types</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#char">4. CHAR</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#varchar">5. VARCHAR</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#text">6. TEXT</a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#date-and-time-data-types">Date and Time Data Types</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#date">7. DATE</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#time">8. TIME</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#timestamp">9. TIMESTAMP</a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#boolean-data-type">Boolean Data Type</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#boolean">10. BOOLEAN</a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#filtering-using-where-clause-in-sql">Filtering Using <code class="docutils literal notranslate"><span class="pre">WHERE</span></code> Clause in SQL</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#id1">Introduction</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#basic-syntax">Basic Syntax</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#common-operators">Common Operators</a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#examples-using-dvdrental-database">Examples Using <code class="docutils literal notranslate"><span class="pre">dvdrental</span></code> Database</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#example-1-basic-filtering">Example 1: Basic Filtering</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#example-2-using-and-and-or-operators">Example 2: Using <code class="docutils literal notranslate"><span class="pre">AND</span></code> and <code class="docutils literal notranslate"><span class="pre">OR</span></code> Operators</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#example-3-using-like-for-pattern-matching">Example 3: Using <code class="docutils literal notranslate"><span class="pre">LIKE</span></code> for Pattern Matching</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#example-4-using-between-for-range-filtering">Example 4: Using <code class="docutils literal notranslate"><span class="pre">BETWEEN</span></code> for Range Filtering</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#example-5-using-in-for-set-membership">Example 5: Using <code class="docutils literal notranslate"><span class="pre">IN</span></code> for Set Membership</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#example-6-checking-for-null-values">Example 6: Checking for <code class="docutils literal notranslate"><span class="pre">NULL</span></code> Values</a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#derived-columns-in-sql">Derived Columns in SQL</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#id2">Introduction</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#id3">Basic Syntax</a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id4">Examples Using <code class="docutils literal notranslate"><span class="pre">dvdrental</span></code> Database</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#example-1-concatenating-columns">Example 1: Concatenating Columns</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#example-2-calculating-age-from-date-of-birth">Example 2: Calculating Age from Date of Birth</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#example-3-formatting-dates">Example 3: Formatting Dates</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#example-4-conditional-derived-column">Example 4: Conditional Derived Column</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#example-5-arithmetic-operations">Example 5: Arithmetic Operations</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By Quan Nguyen
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2023.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b"></script>
+<script src="../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>
