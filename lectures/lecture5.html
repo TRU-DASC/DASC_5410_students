@@ -345,7 +345,7 @@ document.write(`
             </div>
             <nav aria-label="Page">
                 <ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#learning-objectives">Learning objectives</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#learning-objectives">Learning Objectives</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#connect-to-database">Connect to database</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#functions-and-operators">Functions and Operators</a><ul class="nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#introduction">Introduction</a></li>
@@ -388,15 +388,29 @@ document.write(`
   <section class="tex2jax_ignore mathjax_ignore" id="lecture-4-postgresql-part-2">
 <h1>Lecture 4: PostgreSQL part 2<a class="headerlink" href="#lecture-4-postgresql-part-2" title="Link to this heading">#</a></h1>
 <section id="learning-objectives">
-<h2>Learning objectives<a class="headerlink" href="#learning-objectives" title="Link to this heading">#</a></h2>
+<h2>Learning Objectives<a class="headerlink" href="#learning-objectives" title="Link to this heading">#</a></h2>
 <p>By the end of this lecture, students should be able to apply and practice:</p>
+<ol class="arabic simple">
+<li><p><strong>Understand Aggregation Functions</strong>:</p>
 <ul class="simple">
-<li><p>Understand different data types in SQL</p></li>
-<li><p>Filtering rows based on specific conditions using WHERE</p></li>
-<li><p>Create derived columns</p></li>
-<li><p>Conditional logic with CASE</p></li>
-<li><p>Built-in functions &amp; operators in SQL</p></li>
+<li><p>Learn how to use basic SQL aggregation functions such as <code class="docutils literal notranslate"><span class="pre">COUNT()</span></code>, <code class="docutils literal notranslate"><span class="pre">SUM()</span></code>, <code class="docutils literal notranslate"><span class="pre">AVG()</span></code>, <code class="docutils literal notranslate"><span class="pre">MIN()</span></code>, and <code class="docutils literal notranslate"><span class="pre">MAX()</span></code>.</p></li>
+<li><p>Explore PostgreSQL-specific aggregation functions like <code class="docutils literal notranslate"><span class="pre">STDDEV</span></code> and <code class="docutils literal notranslate"><span class="pre">REGR_R2</span></code>.</p></li>
 </ul>
+</li>
+<li><p><strong>Grouping Data</strong>:</p>
+<ul class="simple">
+<li><p>Learn how to group data using the <code class="docutils literal notranslate"><span class="pre">GROUP</span> <span class="pre">BY</span></code> clause.</p></li>
+<li><p>Understand the importance of the order of <code class="docutils literal notranslate"><span class="pre">WHERE</span></code>, <code class="docutils literal notranslate"><span class="pre">GROUP</span> <span class="pre">BY</span></code>, and <code class="docutils literal notranslate"><span class="pre">ORDER</span> <span class="pre">BY</span></code> clauses in SQL queries.</p></li>
+<li><p>Understand the difference between <code class="docutils literal notranslate"><span class="pre">WHERE</span></code> and <code class="docutils literal notranslate"><span class="pre">HAVING</span></code> clauses.</p></li>
+</ul>
+</li>
+<li><p><strong>Real-World Examples and Exercises</strong>:</p>
+<ul class="simple">
+<li><p>Apply the learned concepts to real-world examples and exercises provided in the lecture notebook.</p></li>
+<li><p>Practice writing and executing SQL queries using the <code class="docutils literal notranslate"><span class="pre">ipython-sql</span></code> extension in Jupyter Notebook.</p></li>
+</ul>
+</li>
+</ol>
 </section>
 <section id="connect-to-database">
 <h2>Connect to database<a class="headerlink" href="#connect-to-database" title="Link to this heading">#</a></h2>
@@ -1818,7 +1832,7 @@ LIMIT 10;
   </div>
   <nav class="bd-toc-nav page-toc">
     <ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#learning-objectives">Learning objectives</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#learning-objectives">Learning Objectives</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#connect-to-database">Connect to database</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#functions-and-operators">Functions and Operators</a><ul class="nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#introduction">Introduction</a></li>
