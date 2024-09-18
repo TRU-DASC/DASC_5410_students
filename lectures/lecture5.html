@@ -1922,6 +1922,7 @@ LIMIT 10;
 SELECT customer_id, AVG(AGE(return_date,rental_date )) AS avg_rental_duration
 FROM rental
 GROUP BY customer_id
+ORDER BY avg_rental_duration DESC
 LIMIT 10;
 </pre></div>
 </div>
@@ -1940,44 +1941,44 @@ LIMIT 10;
     </thead>
     <tbody>
         <tr>
-            <td>87</td>
-            <td>4 days, 22:13:06.206897</td>
+            <td>315</td>
+            <td>6 days, 14:13:22.500000</td>
         </tr>
         <tr>
-            <td>184</td>
-            <td>4 days, 20:39:02.608696</td>
+            <td>187</td>
+            <td>6 days, 10:58:38.571428</td>
         </tr>
         <tr>
-            <td>477</td>
-            <td>5 days, 5:51:16.363636</td>
+            <td>321</td>
+            <td>6 days, 8:56:32.727273</td>
         </tr>
         <tr>
-            <td>273</td>
-            <td>5 days, 5:42:06.857142</td>
+            <td>539</td>
+            <td>6 days, 7:39:57.272727</td>
         </tr>
         <tr>
-            <td>550</td>
-            <td>4 days, 23:06:15.483871</td>
+            <td>436</td>
+            <td>6 days, 7:09:46</td>
         </tr>
         <tr>
-            <td>394</td>
-            <td>4 days, 11:39:42.857143</td>
+            <td>532</td>
+            <td>6 days, 6:59:34.838709</td>
         </tr>
         <tr>
-            <td>51</td>
-            <td>5 days, 1:17:18.181819</td>
+            <td>427</td>
+            <td>6 days, 5:27:05</td>
         </tr>
         <tr>
-            <td>272</td>
-            <td>4 days, 22:04:03</td>
+            <td>555</td>
+            <td>6 days, 2:48:35.294118</td>
         </tr>
         <tr>
-            <td>70</td>
-            <td>4 days, 9:30:50</td>
+            <td>448</td>
+            <td>6 days, 2:13:51.111111</td>
         </tr>
         <tr>
-            <td>190</td>
-            <td>5 days, 9:01:27.692307</td>
+            <td>453</td>
+            <td>6 days, 1:43:13.043478</td>
         </tr>
     </tbody>
 </table></div></div>
@@ -2142,6 +2143,85 @@ LIMIT 10;
 </ul>
 </li>
 </ol>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">%%</span><span class="k">sql</span>
+
+SELECT customer_id, staff_id, COUNT(*) AS rental_count
+FROM rental
+GROUP BY customer_id, staff_id
+ORDER BY rental_count DESC
+LIMIT 10;
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> * postgresql://postgres:***@localhost:5432/dvdrental
+10 rows affected.
+</pre></div>
+</div>
+<div class="output text_html"><table>
+    <thead>
+        <tr>
+            <th>customer_id</th>
+            <th>staff_id</th>
+            <th>rental_count</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>236</td>
+            <td>1</td>
+            <td>27</td>
+        </tr>
+        <tr>
+            <td>144</td>
+            <td>1</td>
+            <td>24</td>
+        </tr>
+        <tr>
+            <td>138</td>
+            <td>2</td>
+            <td>24</td>
+        </tr>
+        <tr>
+            <td>148</td>
+            <td>2</td>
+            <td>24</td>
+        </tr>
+        <tr>
+            <td>526</td>
+            <td>2</td>
+            <td>24</td>
+        </tr>
+        <tr>
+            <td>38</td>
+            <td>2</td>
+            <td>24</td>
+        </tr>
+        <tr>
+            <td>137</td>
+            <td>1</td>
+            <td>24</td>
+        </tr>
+        <tr>
+            <td>459</td>
+            <td>2</td>
+            <td>23</td>
+        </tr>
+        <tr>
+            <td>107</td>
+            <td>1</td>
+            <td>23</td>
+        </tr>
+        <tr>
+            <td>259</td>
+            <td>1</td>
+            <td>23</td>
+        </tr>
+    </tbody>
+</table></div></div>
+</div>
 </section>
 </section>
 </section>
