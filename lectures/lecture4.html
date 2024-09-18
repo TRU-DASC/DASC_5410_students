@@ -60,7 +60,7 @@
     <script>DOCUMENTATION_OPTIONS.pagename = 'lectures/lecture4';</script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="Installation instruction for macOS" href="../installation_mac.html" />
+    <link rel="next" title="Lecture 4: PostgreSQL part 2" href="lecture5.html" />
     <link rel="prev" title="Lecture 3: Relational models part 2" href="lecture3.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
@@ -185,6 +185,7 @@
 <li class="toctree-l1"><a class="reference internal" href="lecture2.html">Lecture 2: Relational models</a></li>
 <li class="toctree-l1"><a class="reference internal" href="lecture3.html">Lecture 3: Relational models part 2</a></li>
 <li class="toctree-l1 current active"><a class="current reference internal" href="#">Lecture 4: PostgreSQL part 1</a></li>
+<li class="toctree-l1"><a class="reference internal" href="lecture5.html">Lecture 4: PostgreSQL part 2</a></li>
 </ul>
 <p aria-level="2" class="caption" role="heading"><span class="caption-text">Installation Guide</span></p>
 <ul class="nav bd-sidenav">
@@ -425,6 +426,9 @@ document.write(`
 </section>
 <section id="connect-to-database">
 <h2>Connect to database<a class="headerlink" href="#connect-to-database" title="Link to this heading">#</a></h2>
+<blockquote>
+<div><p>Make sure you edit the <code class="docutils literal notranslate"><span class="pre">credentials.json</span></code> file with appropriate username and password as in worksheet1</p>
+</div></blockquote>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># load the ipython-sql extension</span>
@@ -1083,7 +1087,7 @@ SELECT column_name, data_type, udt_name, is_nullable, column_default
 <h4>3. DECIMAL<a class="headerlink" href="#decimal" title="Link to this heading">#</a></h4>
 <ul class="simple">
 <li><p><strong>Description</strong>: Fixed-point number. Used for exact numeric values with a specified precision and scale.</p></li>
-<li><p><strong>Example</strong>:</p></li>
+<li><p><strong>Example</strong>: DECIMAL(10,10) specifies that the number can have up to 10 digits in total, with 10 digits after the decimal point (scale)</p></li>
 </ul>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
@@ -1519,148 +1523,10 @@ LIMIT 10;
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> * postgresql://postgres:***@localhost:5432/dvdrental
-10 rows affected.
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>UsageError: Cell magic `%%sql` not found.
 </pre></div>
 </div>
-<div class="output text_html"><table>
-    <thead>
-        <tr>
-            <th>customer_id</th>
-            <th>store_id</th>
-            <th>first_name</th>
-            <th>last_name</th>
-            <th>email</th>
-            <th>address_id</th>
-            <th>activebool</th>
-            <th>create_date</th>
-            <th>last_update</th>
-            <th>active</th>
-        </tr>
-    </thead>
-    <tbody>
-        <tr>
-            <td>4</td>
-            <td>2</td>
-            <td>Barbara</td>
-            <td>Jones</td>
-            <td>barbara.jones@sakilacustomer.org</td>
-            <td>8</td>
-            <td>True</td>
-            <td>2006-02-14</td>
-            <td>2013-05-26 14:49:45.738000</td>
-            <td>1</td>
-        </tr>
-        <tr>
-            <td>6</td>
-            <td>2</td>
-            <td>Jennifer</td>
-            <td>Davis</td>
-            <td>jennifer.davis@sakilacustomer.org</td>
-            <td>10</td>
-            <td>True</td>
-            <td>2006-02-14</td>
-            <td>2013-05-26 14:49:45.738000</td>
-            <td>1</td>
-        </tr>
-        <tr>
-            <td>8</td>
-            <td>2</td>
-            <td>Susan</td>
-            <td>Wilson</td>
-            <td>susan.wilson@sakilacustomer.org</td>
-            <td>12</td>
-            <td>True</td>
-            <td>2006-02-14</td>
-            <td>2013-05-26 14:49:45.738000</td>
-            <td>1</td>
-        </tr>
-        <tr>
-            <td>9</td>
-            <td>2</td>
-            <td>Margaret</td>
-            <td>Moore</td>
-            <td>margaret.moore@sakilacustomer.org</td>
-            <td>13</td>
-            <td>True</td>
-            <td>2006-02-14</td>
-            <td>2013-05-26 14:49:45.738000</td>
-            <td>1</td>
-        </tr>
-        <tr>
-            <td>11</td>
-            <td>2</td>
-            <td>Lisa</td>
-            <td>Anderson</td>
-            <td>lisa.anderson@sakilacustomer.org</td>
-            <td>15</td>
-            <td>True</td>
-            <td>2006-02-14</td>
-            <td>2013-05-26 14:49:45.738000</td>
-            <td>1</td>
-        </tr>
-        <tr>
-            <td>13</td>
-            <td>2</td>
-            <td>Karen</td>
-            <td>Jackson</td>
-            <td>karen.jackson@sakilacustomer.org</td>
-            <td>17</td>
-            <td>True</td>
-            <td>2006-02-14</td>
-            <td>2013-05-26 14:49:45.738000</td>
-            <td>1</td>
-        </tr>
-        <tr>
-            <td>14</td>
-            <td>2</td>
-            <td>Betty</td>
-            <td>White</td>
-            <td>betty.white@sakilacustomer.org</td>
-            <td>18</td>
-            <td>True</td>
-            <td>2006-02-14</td>
-            <td>2013-05-26 14:49:45.738000</td>
-            <td>1</td>
-        </tr>
-        <tr>
-            <td>16</td>
-            <td>2</td>
-            <td>Sandra</td>
-            <td>Martin</td>
-            <td>sandra.martin@sakilacustomer.org</td>
-            <td>20</td>
-            <td>True</td>
-            <td>2006-02-14</td>
-            <td>2013-05-26 14:49:45.738000</td>
-            <td>0</td>
-        </tr>
-        <tr>
-            <td>18</td>
-            <td>2</td>
-            <td>Carol</td>
-            <td>Garcia</td>
-            <td>carol.garcia@sakilacustomer.org</td>
-            <td>22</td>
-            <td>True</td>
-            <td>2006-02-14</td>
-            <td>2013-05-26 14:49:45.738000</td>
-            <td>1</td>
-        </tr>
-        <tr>
-            <td>20</td>
-            <td>2</td>
-            <td>Sharon</td>
-            <td>Robinson</td>
-            <td>sharon.robinson@sakilacustomer.org</td>
-            <td>24</td>
-            <td>True</td>
-            <td>2006-02-14</td>
-            <td>2013-05-26 14:49:45.738000</td>
-            <td>1</td>
-        </tr>
-    </tbody>
-</table></div></div>
+</div>
 </div>
 <p>This query selects all columns from the <code class="docutils literal notranslate"><span class="pre">customer</span></code> table where the <code class="docutils literal notranslate"><span class="pre">store_id</span></code> is 2</p>
 </section>
@@ -3081,11 +2947,11 @@ LIMIT 10;
       </div>
     </a>
     <a class="right-next"
-       href="../installation_mac.html"
+       href="lecture5.html"
        title="next page">
       <div class="prev-next-info">
         <p class="prev-next-subtitle">next</p>
-        <p class="prev-next-title">Installation instruction for macOS</p>
+        <p class="prev-next-title">Lecture 4: PostgreSQL part 2</p>
       </div>
       <i class="fa-solid fa-angle-right"></i>
     </a>
