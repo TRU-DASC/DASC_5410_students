@@ -1993,38 +1993,6 @@ LIMIT 10;
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">%%</span><span class="k">sql</span>
 
-SELECT COUNT(*)
-FROM 
-    (SELECT customer_id, COUNT(rental_id) AS total_rentals
-    FROM rental
-    GROUP BY customer_id
-    HAVING COUNT(rental_id) &gt; 10)
-;
-</pre></div>
-</div>
-</div>
-<div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> * postgresql://postgres:***@localhost:5432/dvdrental
-1 rows affected.
-</pre></div>
-</div>
-<div class="output text_html"><table>
-    <thead>
-        <tr>
-            <th>count</th>
-        </tr>
-    </thead>
-    <tbody>
-        <tr>
-            <td>599</td>
-        </tr>
-    </tbody>
-</table></div></div>
-</div>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">%%</span><span class="k">sql</span>
-
 SELECT  customer_id, COUNT(*) AS rental_count 
 FROM rental
 GROUP BY customer_id
@@ -2093,7 +2061,7 @@ LIMIT 10;
 <ol class="arabic simple" start="4">
 <li><p><strong>Total Rental Duration Greater Than 50 Days</strong>:</p>
 <ul class="simple">
-<li><p><strong>Question</strong>: Which customers have rented movies for a total duration (return_date - rental_date) of more than 50 days, and what is the total duration for the first 10 such customers?</p></li>
+<li><p><strong>Question</strong>: Which customers have rented movies for a total duration (return_date - rental_date) of more than 100 days, and what is the total duration for the first 10 such customers?</p></li>
 </ul>
 </li>
 </ol>
