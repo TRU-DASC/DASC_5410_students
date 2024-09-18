@@ -372,6 +372,7 @@ document.write(`
 </li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#filtering-groups-with-having">Filtering Groups with <code class="docutils literal notranslate"><span class="pre">HAVING</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#multi-level-grouping">Multi-Level Grouping</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#sql-practice-questions">SQL Practice Questions</a></li>
 </ul>
 </li>
 </ul>
@@ -948,10 +949,10 @@ SELECT
     </thead>
     <tbody>
         <tr>
-            <td>2024-09-17</td>
-            <td>19:31:57.172830-07:00</td>
-            <td>2024-09-17 19:31:57.172830-07:00</td>
-            <td>2024-09-17 19:31:57.172830-07:00</td>
+            <td>2024-09-18</td>
+            <td>12:38:36.831023-07:00</td>
+            <td>2024-09-18 12:38:36.831023-07:00</td>
+            <td>2024-09-18 12:38:36.831023-07:00</td>
         </tr>
     </tbody>
 </table></div></div>
@@ -986,61 +987,61 @@ LIMIT 10;
             <td>2</td>
             <td>2005-05-24 22:54:33</td>
             <td>2005</td>
-            <td>7048 days, 20:37:55.454286</td>
+            <td>7049 days, 13:44:40.574073</td>
         </tr>
         <tr>
             <td>3</td>
             <td>2005-05-24 23:03:39</td>
             <td>2005</td>
-            <td>7048 days, 20:28:49.454286</td>
+            <td>7049 days, 13:35:34.574073</td>
         </tr>
         <tr>
             <td>4</td>
             <td>2005-05-24 23:04:41</td>
             <td>2005</td>
-            <td>7048 days, 20:27:47.454286</td>
+            <td>7049 days, 13:34:32.574073</td>
         </tr>
         <tr>
             <td>5</td>
             <td>2005-05-24 23:05:21</td>
             <td>2005</td>
-            <td>7048 days, 20:27:07.454286</td>
+            <td>7049 days, 13:33:52.574073</td>
         </tr>
         <tr>
             <td>6</td>
             <td>2005-05-24 23:08:07</td>
             <td>2005</td>
-            <td>7048 days, 20:24:21.454286</td>
+            <td>7049 days, 13:31:06.574073</td>
         </tr>
         <tr>
             <td>7</td>
             <td>2005-05-24 23:11:53</td>
             <td>2005</td>
-            <td>7048 days, 20:20:35.454286</td>
+            <td>7049 days, 13:27:20.574073</td>
         </tr>
         <tr>
             <td>8</td>
             <td>2005-05-24 23:31:46</td>
             <td>2005</td>
-            <td>7048 days, 20:00:42.454286</td>
+            <td>7049 days, 13:07:27.574073</td>
         </tr>
         <tr>
             <td>9</td>
             <td>2005-05-25 00:00:40</td>
             <td>2005</td>
-            <td>7048 days, 19:31:48.454286</td>
+            <td>7049 days, 12:38:33.574073</td>
         </tr>
         <tr>
             <td>10</td>
             <td>2005-05-25 00:02:21</td>
             <td>2005</td>
-            <td>7048 days, 19:30:07.454286</td>
+            <td>7049 days, 12:36:52.574073</td>
         </tr>
         <tr>
             <td>11</td>
             <td>2005-05-25 00:09:02</td>
             <td>2005</td>
-            <td>7048 days, 19:23:26.454286</td>
+            <td>7049 days, 12:30:11.574073</td>
         </tr>
     </tbody>
 </table></div></div>
@@ -1048,7 +1049,7 @@ LIMIT 10;
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">%%</span><span class="k">sql</span>
-SELECT rental_id, rental_date, rental_date + INTERVAL &#39;1 month&#39; AS rental_next_month
+SELECT rental_id, rental_date, rental_date + INTERVAL &#39;1 year&#39; AS rental_next_year
 FROM rental
 LIMIT 10;
 </pre></div>
@@ -1064,59 +1065,59 @@ LIMIT 10;
         <tr>
             <th>rental_id</th>
             <th>rental_date</th>
-            <th>rental_next_month</th>
+            <th>rental_next_year</th>
         </tr>
     </thead>
     <tbody>
         <tr>
             <td>2</td>
             <td>2005-05-24 22:54:33</td>
-            <td>2005-06-24 22:54:33</td>
+            <td>2006-05-24 22:54:33</td>
         </tr>
         <tr>
             <td>3</td>
             <td>2005-05-24 23:03:39</td>
-            <td>2005-06-24 23:03:39</td>
+            <td>2006-05-24 23:03:39</td>
         </tr>
         <tr>
             <td>4</td>
             <td>2005-05-24 23:04:41</td>
-            <td>2005-06-24 23:04:41</td>
+            <td>2006-05-24 23:04:41</td>
         </tr>
         <tr>
             <td>5</td>
             <td>2005-05-24 23:05:21</td>
-            <td>2005-06-24 23:05:21</td>
+            <td>2006-05-24 23:05:21</td>
         </tr>
         <tr>
             <td>6</td>
             <td>2005-05-24 23:08:07</td>
-            <td>2005-06-24 23:08:07</td>
+            <td>2006-05-24 23:08:07</td>
         </tr>
         <tr>
             <td>7</td>
             <td>2005-05-24 23:11:53</td>
-            <td>2005-06-24 23:11:53</td>
+            <td>2006-05-24 23:11:53</td>
         </tr>
         <tr>
             <td>8</td>
             <td>2005-05-24 23:31:46</td>
-            <td>2005-06-24 23:31:46</td>
+            <td>2006-05-24 23:31:46</td>
         </tr>
         <tr>
             <td>9</td>
             <td>2005-05-25 00:00:40</td>
-            <td>2005-06-25 00:00:40</td>
+            <td>2006-05-25 00:00:40</td>
         </tr>
         <tr>
             <td>10</td>
             <td>2005-05-25 00:02:21</td>
-            <td>2005-06-25 00:02:21</td>
+            <td>2006-05-25 00:02:21</td>
         </tr>
         <tr>
             <td>11</td>
             <td>2005-05-25 00:09:02</td>
-            <td>2005-06-25 00:09:02</td>
+            <td>2006-05-25 00:09:02</td>
         </tr>
     </tbody>
 </table></div></div>
@@ -1202,7 +1203,7 @@ SELECT
     MIN(amount) AS min_amount,
     MAX(amount) AS max_amount,
     SUM(amount) AS total_amount,
-    AVG(amount)::DECIMAL(4,2) AS avg_amount,
+    ROUND(AVG(amount),2) AS avg_amount,
     STDDEV(amount)::DECIMAL(4,3) AS amount_stddev
 FROM payment;
 </pre></div>
@@ -1234,6 +1235,72 @@ FROM payment;
             <td>61312.04</td>
             <td>4.20</td>
             <td>2.369</td>
+        </tr>
+    </tbody>
+</table></div></div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">%%</span><span class="k">sql</span>
+
+SELECT AVG(amount), customer_id
+FROM payment
+LIMIT 10;
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> * postgresql://postgres:***@localhost:5432/dvdrental
+10 rows affected.
+</pre></div>
+</div>
+<div class="output text_html"><table>
+    <thead>
+        <tr>
+            <th>avg</th>
+            <th>customer_id</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>3.8233333333333333</td>
+            <td>1</td>
+        </tr>
+        <tr>
+            <td>4.7592307692307692</td>
+            <td>2</td>
+        </tr>
+        <tr>
+            <td>5.4483333333333333</td>
+            <td>3</td>
+        </tr>
+        <tr>
+            <td>3.7172727272727273</td>
+            <td>4</td>
+        </tr>
+        <tr>
+            <td>3.8471428571428571</td>
+            <td>5</td>
+        </tr>
+        <tr>
+            <td>3.3900000000000000</td>
+            <td>6</td>
+        </tr>
+        <tr>
+            <td>4.6685714285714286</td>
+            <td>7</td>
+        </tr>
+        <tr>
+            <td>3.7291304347826087</td>
+            <td>8</td>
+        </tr>
+        <tr>
+            <td>3.9400000000000000</td>
+            <td>9</td>
+        </tr>
+        <tr>
+            <td>3.9483333333333333</td>
+            <td>10</td>
         </tr>
     </tbody>
 </table></div></div>
@@ -1631,7 +1698,7 @@ SELECT customer_id, staff_id, COUNT(*) AS payment_count
 FROM payment
 WHERE amount &gt; 5
 GROUP BY customer_id, staff_id
-ORDER BY payment_count DESC
+ORDER BY staff_id, customer_id
 LIMIT 10;
 </pre></div>
 </div>
@@ -1651,54 +1718,54 @@ LIMIT 10;
     </thead>
     <tbody>
         <tr>
-            <td>187</td>
-            <td>2</td>
-            <td>10</td>
-        </tr>
-        <tr>
-            <td>459</td>
             <td>1</td>
-            <td>10</td>
-        </tr>
-        <tr>
-            <td>137</td>
             <td>1</td>
-            <td>10</td>
+            <td>4</td>
         </tr>
         <tr>
-            <td>176</td>
+            <td>2</td>
             <td>1</td>
-            <td>9</td>
+            <td>4</td>
         </tr>
         <tr>
-            <td>144</td>
-            <td>2</td>
-            <td>9</td>
+            <td>3</td>
+            <td>1</td>
+            <td>4</td>
         </tr>
         <tr>
-            <td>211</td>
-            <td>2</td>
-            <td>9</td>
+            <td>4</td>
+            <td>1</td>
+            <td>4</td>
         </tr>
         <tr>
-            <td>522</td>
-            <td>2</td>
-            <td>9</td>
+            <td>5</td>
+            <td>1</td>
+            <td>3</td>
         </tr>
         <tr>
-            <td>209</td>
-            <td>2</td>
+            <td>6</td>
+            <td>1</td>
+            <td>4</td>
+        </tr>
+        <tr>
+            <td>7</td>
+            <td>1</td>
+            <td>5</td>
+        </tr>
+        <tr>
             <td>8</td>
+            <td>1</td>
+            <td>4</td>
         </tr>
         <tr>
-            <td>488</td>
-            <td>2</td>
-            <td>8</td>
+            <td>9</td>
+            <td>1</td>
+            <td>1</td>
         </tr>
         <tr>
-            <td>207</td>
+            <td>10</td>
+            <td>1</td>
             <td>2</td>
-            <td>8</td>
         </tr>
     </tbody>
 </table></div></div>
@@ -1764,6 +1831,349 @@ LIMIT 10;
 </li>
 </ol>
 </div>
+</section>
+<section id="sql-practice-questions">
+<h3>SQL Practice Questions<a class="headerlink" href="#sql-practice-questions" title="Link to this heading">#</a></h3>
+<ol class="arabic simple">
+<li><p><strong>Total Rentals by Each Customer</strong>:</p>
+<ul class="simple">
+<li><p><strong>Question</strong>: How many rentals has each customer made in total?</p></li>
+</ul>
+</li>
+</ol>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">%%</span><span class="k">sql</span>
+
+SELECT customer_id, COUNT(rental_id) AS rental_count
+FROM payment
+GROUP BY customer_id
+LIMIT 10;
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> * postgresql://postgres:***@localhost:5432/dvdrental
+10 rows affected.
+</pre></div>
+</div>
+<div class="output text_html"><table>
+    <thead>
+        <tr>
+            <th>customer_id</th>
+            <th>rental_count</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>1</td>
+            <td>30</td>
+        </tr>
+        <tr>
+            <td>2</td>
+            <td>26</td>
+        </tr>
+        <tr>
+            <td>3</td>
+            <td>24</td>
+        </tr>
+        <tr>
+            <td>4</td>
+            <td>22</td>
+        </tr>
+        <tr>
+            <td>5</td>
+            <td>35</td>
+        </tr>
+        <tr>
+            <td>6</td>
+            <td>25</td>
+        </tr>
+        <tr>
+            <td>7</td>
+            <td>28</td>
+        </tr>
+        <tr>
+            <td>8</td>
+            <td>23</td>
+        </tr>
+        <tr>
+            <td>9</td>
+            <td>20</td>
+        </tr>
+        <tr>
+            <td>10</td>
+            <td>24</td>
+        </tr>
+    </tbody>
+</table></div></div>
+</div>
+<ol class="arabic simple" start="2">
+<li><p><strong>Average Rental Duration per Customer</strong>:</p>
+<ul class="simple">
+<li><p><strong>Question</strong>: What is the average rental duration (i.e., the difference between return_date and rental_date) per customer, ordered from highest to lowest?</p></li>
+</ul>
+</li>
+</ol>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">%%</span><span class="k">sql</span>
+
+SELECT customer_id, AVG(AGE(return_date,rental_date )) AS avg_rental_duration
+FROM rental
+GROUP BY customer_id
+LIMIT 10;
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> * postgresql://postgres:***@localhost:5432/dvdrental
+10 rows affected.
+</pre></div>
+</div>
+<div class="output text_html"><table>
+    <thead>
+        <tr>
+            <th>customer_id</th>
+            <th>avg_rental_duration</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>87</td>
+            <td>4 days, 22:13:06.206897</td>
+        </tr>
+        <tr>
+            <td>184</td>
+            <td>4 days, 20:39:02.608696</td>
+        </tr>
+        <tr>
+            <td>477</td>
+            <td>5 days, 5:51:16.363636</td>
+        </tr>
+        <tr>
+            <td>273</td>
+            <td>5 days, 5:42:06.857142</td>
+        </tr>
+        <tr>
+            <td>550</td>
+            <td>4 days, 23:06:15.483871</td>
+        </tr>
+        <tr>
+            <td>394</td>
+            <td>4 days, 11:39:42.857143</td>
+        </tr>
+        <tr>
+            <td>51</td>
+            <td>5 days, 1:17:18.181819</td>
+        </tr>
+        <tr>
+            <td>272</td>
+            <td>4 days, 22:04:03</td>
+        </tr>
+        <tr>
+            <td>70</td>
+            <td>4 days, 9:30:50</td>
+        </tr>
+        <tr>
+            <td>190</td>
+            <td>5 days, 9:01:27.692307</td>
+        </tr>
+    </tbody>
+</table></div></div>
+</div>
+<ol class="arabic simple" start="3">
+<li><p><strong>Customers with High Rental Counts</strong>:</p>
+<ul class="simple">
+<li><p><strong>Question</strong>: How many customers have made more than 5 rentals, and what is the count of such rentals for the first 10 customers?</p></li>
+</ul>
+</li>
+</ol>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">%%</span><span class="k">sql</span>
+
+SELECT COUNT(*)
+FROM 
+    (SELECT customer_id, COUNT(rental_id) AS total_rentals
+    FROM rental
+    GROUP BY customer_id
+    HAVING COUNT(rental_id) &gt; 10)
+;
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> * postgresql://postgres:***@localhost:5432/dvdrental
+1 rows affected.
+</pre></div>
+</div>
+<div class="output text_html"><table>
+    <thead>
+        <tr>
+            <th>count</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>599</td>
+        </tr>
+    </tbody>
+</table></div></div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">%%</span><span class="k">sql</span>
+
+SELECT  customer_id, COUNT(*) AS rental_count 
+FROM rental
+GROUP BY customer_id
+HAVING COUNT(*) &gt; 5 
+ORDER BY rental_count
+LIMIT 10;
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> * postgresql://postgres:***@localhost:5432/dvdrental
+10 rows affected.
+</pre></div>
+</div>
+<div class="output text_html"><table>
+    <thead>
+        <tr>
+            <th>customer_id</th>
+            <th>rental_count</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>318</td>
+            <td>12</td>
+        </tr>
+        <tr>
+            <td>61</td>
+            <td>14</td>
+        </tr>
+        <tr>
+            <td>281</td>
+            <td>14</td>
+        </tr>
+        <tr>
+            <td>110</td>
+            <td>14</td>
+        </tr>
+        <tr>
+            <td>136</td>
+            <td>15</td>
+        </tr>
+        <tr>
+            <td>248</td>
+            <td>15</td>
+        </tr>
+        <tr>
+            <td>492</td>
+            <td>16</td>
+        </tr>
+        <tr>
+            <td>464</td>
+            <td>16</td>
+        </tr>
+        <tr>
+            <td>164</td>
+            <td>16</td>
+        </tr>
+        <tr>
+            <td>398</td>
+            <td>16</td>
+        </tr>
+    </tbody>
+</table></div></div>
+</div>
+<ol class="arabic simple" start="4">
+<li><p><strong>Total Rental Duration Greater Than 50 Days</strong>:</p>
+<ul class="simple">
+<li><p><strong>Question</strong>: Which customers have rented movies for a total duration (return_date - rental_date) of more than 50 days, and what is the total duration for the first 10 such customers?</p></li>
+</ul>
+</li>
+</ol>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">%%</span><span class="k">sql</span>
+
+SELECT customer_id, SUM(AGE(return_date, rental_date)) AS total_rental_duration
+FROM rental
+WHERE customer_id &lt; 100
+GROUP BY customer_id
+HAVING SUM(AGE(return_date, rental_date)) &gt; INTERVAL &#39;100 days&#39;
+ORDER BY total_rental_duration
+LIMIT 10;
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> * postgresql://postgres:***@localhost:5432/dvdrental
+10 rows affected.
+</pre></div>
+</div>
+<div class="output text_html"><table>
+    <thead>
+        <tr>
+            <th>customer_id</th>
+            <th>total_rental_duration</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>9</td>
+            <td>100 days, 7:59:00</td>
+        </tr>
+        <tr>
+            <td>48</td>
+            <td>100 days, 9:22:00</td>
+        </tr>
+        <tr>
+            <td>99</td>
+            <td>101 days, 11:03:00</td>
+        </tr>
+        <tr>
+            <td>79</td>
+            <td>101 days, 18:32:00</td>
+        </tr>
+        <tr>
+            <td>17</td>
+            <td>103 days, 12:50:00</td>
+        </tr>
+        <tr>
+            <td>94</td>
+            <td>106 days, 8:07:00</td>
+        </tr>
+        <tr>
+            <td>8</td>
+            <td>107 days, 15:39:00</td>
+        </tr>
+        <tr>
+            <td>67</td>
+            <td>108 days, 9:32:00</td>
+        </tr>
+        <tr>
+            <td>83</td>
+            <td>109 days, 13:45:00</td>
+        </tr>
+        <tr>
+            <td>62</td>
+            <td>110 days, 6:10:00</td>
+        </tr>
+    </tbody>
+</table></div></div>
+</div>
+<ol class="arabic simple" start="5">
+<li><p><strong>Top Customer-Staff Pairs by Rental Count</strong>:</p>
+<ul class="simple">
+<li><p><strong>Question</strong>: Which customer-staff pairs have the highest number of rentals, and what is the count of such rentals for the top 10 pairs, ordered from highest to lowest?</p></li>
+</ul>
+</li>
+</ol>
 </section>
 </section>
 </section>
@@ -1859,6 +2269,7 @@ LIMIT 10;
 </li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#filtering-groups-with-having">Filtering Groups with <code class="docutils literal notranslate"><span class="pre">HAVING</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#multi-level-grouping">Multi-Level Grouping</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#sql-practice-questions">SQL Practice Questions</a></li>
 </ul>
 </li>
 </ul>
