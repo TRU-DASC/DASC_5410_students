@@ -32,7 +32,7 @@
     <link rel="stylesheet" type="text/css" href="../_static/styles/sphinx-book-theme.css?v=a3416100" />
     <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css?v=13237357" />
     <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
-    <link rel="stylesheet" type="text/css" href="../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css?v=be8a1c11" />
     <link rel="stylesheet" type="text/css" href="../_static/sphinx-thebe.css?v=4fa983c6" />
     <link rel="stylesheet" type="text/css" href="../_static/sphinx-design.min.css?v=95c83b7e" />
   
@@ -455,25 +455,11 @@ document.write(`
 </pre></div>
 </div>
 </div>
-<div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&#39;Connected: postgres@dvdrental&#39;
-</pre></div>
-</div>
-</div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">%%</span><span class="k">sql</span>
 DROP TABLE IF EXISTS employees;
-</pre></div>
-</div>
-</div>
-<div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> * postgresql://postgres:***@localhost:5432/dvdrental
-Done.
-</pre></div>
-</div>
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[]
 </pre></div>
 </div>
 </div>
@@ -494,15 +480,6 @@ CREATE TABLE employees (
 </pre></div>
 </div>
 </div>
-<div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> * postgresql://postgres:***@localhost:5432/dvdrental
-Done.
-</pre></div>
-</div>
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[]
-</pre></div>
-</div>
-</div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
@@ -511,24 +488,6 @@ SELECT * FROM employees;
 </pre></div>
 </div>
 </div>
-<div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> * postgresql://postgres:***@localhost:5432/dvdrental
-0 rows affected.
-</pre></div>
-</div>
-<div class="output text_html"><table>
-    <thead>
-        <tr>
-            <th>id</th>
-            <th>first_name</th>
-            <th>last_name</th>
-            <th>age</th>
-            <th>department</th>
-        </tr>
-    </thead>
-    <tbody>
-    </tbody>
-</table></div></div>
 </div>
 </section>
 </section>
@@ -541,15 +500,6 @@ SELECT * FROM employees;
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">%%</span><span class="k">sql</span>
 INSERT INTO employees VALUES (1, &#39;John&#39;, &#39;Doe&#39;, 30, &#39;Engineering&#39;);
-</pre></div>
-</div>
-</div>
-<div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> * postgresql://postgres:***@localhost:5432/dvdrental
-1 rows affected.
-</pre></div>
-</div>
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[]
 </pre></div>
 </div>
 </div>
@@ -571,31 +521,6 @@ SELECT * FROM employees;
 </pre></div>
 </div>
 </div>
-<div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> * postgresql://postgres:***@localhost:5432/dvdrental
-1 rows affected.
-</pre></div>
-</div>
-<div class="output text_html"><table>
-    <thead>
-        <tr>
-            <th>id</th>
-            <th>first_name</th>
-            <th>last_name</th>
-            <th>age</th>
-            <th>department</th>
-        </tr>
-    </thead>
-    <tbody>
-        <tr>
-            <td>1</td>
-            <td>John</td>
-            <td>Doe</td>
-            <td>30</td>
-            <td>Engineering</td>
-        </tr>
-    </tbody>
-</table></div></div>
 </div>
 </section>
 <section id="insert-by-column-name">
@@ -604,16 +529,8 @@ SELECT * FROM employees;
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">%%</span><span class="k">sql</span>
-INSERT INTO employees (first_name, last_name, age, department) VALUES (&#39;Jane&#39;, &#39;Smith&#39;, 25, &#39;Marketing&#39;);
-</pre></div>
-</div>
-</div>
-<div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> * postgresql://postgres:***@localhost:5432/dvdrental
-1 rows affected.
-</pre></div>
-</div>
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[]
+INSERT INTO employees (first_name, last_name, age, department) 
+VALUES (&#39;Jane&#39;, &#39;Smith&#39;, 25, &#39;Marketing&#39;);
 </pre></div>
 </div>
 </div>
@@ -635,53 +552,13 @@ SELECT * FROM employees;
 </pre></div>
 </div>
 </div>
-<div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> * postgresql://postgres:***@localhost:5432/dvdrental
-2 rows affected.
-</pre></div>
-</div>
-<div class="output text_html"><table>
-    <thead>
-        <tr>
-            <th>id</th>
-            <th>first_name</th>
-            <th>last_name</th>
-            <th>age</th>
-            <th>department</th>
-        </tr>
-    </thead>
-    <tbody>
-        <tr>
-            <td>1</td>
-            <td>John</td>
-            <td>Doe</td>
-            <td>30</td>
-            <td>Engineering</td>
-        </tr>
-        <tr>
-            <td>2</td>
-            <td>Jane</td>
-            <td>Smith</td>
-            <td>25</td>
-            <td>Marketing</td>
-        </tr>
-    </tbody>
-</table></div></div>
 </div>
 <p>Let’s also try to insert a row with only first_name and last_name. The rest of the columns will be filled by default</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">%%</span><span class="k">sql</span>
-INSERT INTO employees (first_name, last_name) VALUES (&#39;Quan&#39;, &#39;Nguyen&#39;);
-</pre></div>
-</div>
-</div>
-<div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> * postgresql://postgres:***@localhost:5432/dvdrental
-1 rows affected.
-</pre></div>
-</div>
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[]
+INSERT INTO employees (first_name, last_name) 
+VALUES (&#39;Quan&#39;, &#39;Nguyen&#39;);
 </pre></div>
 </div>
 </div>
@@ -693,45 +570,6 @@ SELECT * FROM employees;
 </pre></div>
 </div>
 </div>
-<div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> * postgresql://postgres:***@localhost:5432/dvdrental
-3 rows affected.
-</pre></div>
-</div>
-<div class="output text_html"><table>
-    <thead>
-        <tr>
-            <th>id</th>
-            <th>first_name</th>
-            <th>last_name</th>
-            <th>age</th>
-            <th>department</th>
-        </tr>
-    </thead>
-    <tbody>
-        <tr>
-            <td>1</td>
-            <td>John</td>
-            <td>Doe</td>
-            <td>30</td>
-            <td>Engineering</td>
-        </tr>
-        <tr>
-            <td>2</td>
-            <td>Jane</td>
-            <td>Smith</td>
-            <td>25</td>
-            <td>Marketing</td>
-        </tr>
-        <tr>
-            <td>3</td>
-            <td>Quan</td>
-            <td>Nguyen</td>
-            <td>None</td>
-            <td>None</td>
-        </tr>
-    </tbody>
-</table></div></div>
 </div>
 </section>
 <section id="insert-multiple-rows-at-once">
@@ -745,15 +583,6 @@ VALUES
     (&#39;Alice&#39;, &#39;Johnson&#39;, 28, &#39;Sales&#39;),
     (&#39;Bob&#39;, &#39;Brown&#39;, 35, &#39;HR&#39;),
     (&#39;Charlie&#39;, &#39;Davis&#39;, 40, &#39;Finance&#39;);
-</pre></div>
-</div>
-</div>
-<div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> * postgresql://postgres:***@localhost:5432/dvdrental
-3 rows affected.
-</pre></div>
-</div>
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[]
 </pre></div>
 </div>
 </div>
@@ -775,66 +604,6 @@ SELECT * FROM employees;
 </pre></div>
 </div>
 </div>
-<div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> * postgresql://postgres:***@localhost:5432/dvdrental
-6 rows affected.
-</pre></div>
-</div>
-<div class="output text_html"><table>
-    <thead>
-        <tr>
-            <th>id</th>
-            <th>first_name</th>
-            <th>last_name</th>
-            <th>age</th>
-            <th>department</th>
-        </tr>
-    </thead>
-    <tbody>
-        <tr>
-            <td>1</td>
-            <td>John</td>
-            <td>Doe</td>
-            <td>30</td>
-            <td>Engineering</td>
-        </tr>
-        <tr>
-            <td>2</td>
-            <td>Jane</td>
-            <td>Smith</td>
-            <td>25</td>
-            <td>Marketing</td>
-        </tr>
-        <tr>
-            <td>3</td>
-            <td>Quan</td>
-            <td>Nguyen</td>
-            <td>None</td>
-            <td>None</td>
-        </tr>
-        <tr>
-            <td>4</td>
-            <td>Alice</td>
-            <td>Johnson</td>
-            <td>28</td>
-            <td>Sales</td>
-        </tr>
-        <tr>
-            <td>5</td>
-            <td>Bob</td>
-            <td>Brown</td>
-            <td>35</td>
-            <td>HR</td>
-        </tr>
-        <tr>
-            <td>6</td>
-            <td>Charlie</td>
-            <td>Davis</td>
-            <td>40</td>
-            <td>Finance</td>
-        </tr>
-    </tbody>
-</table></div></div>
 </div>
 </section>
 <section id="insert-from-another-table">
@@ -855,21 +624,6 @@ CREATE TABLE another_table (
 </pre></div>
 </div>
 </div>
-<div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> * postgresql://postgres:***@localhost:5432/dvdrental
-(psycopg2.errors.DuplicateTable) relation &quot;another_table&quot; already exists
-
-[SQL: CREATE TABLE another_table (
-    id SERIAL PRIMARY KEY,
-    first_name VARCHAR(50),
-    last_name VARCHAR(50),
-    age INT,
-    department VARCHAR(50)
-);]
-(Background on this error at: https://sqlalche.me/e/14/f405)
-</pre></div>
-</div>
-</div>
 </div>
 </section>
 <section id="insert-sample-data-into-another-table">
@@ -885,15 +639,6 @@ VALUES
 </pre></div>
 </div>
 </div>
-<div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> * postgresql://postgres:***@localhost:5432/dvdrental
-3 rows affected.
-</pre></div>
-</div>
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[]
-</pre></div>
-</div>
-</div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
@@ -902,45 +647,6 @@ SELECT * FROM another_table;
 </pre></div>
 </div>
 </div>
-<div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> * postgresql://postgres:***@localhost:5432/dvdrental
-3 rows affected.
-</pre></div>
-</div>
-<div class="output text_html"><table>
-    <thead>
-        <tr>
-            <th>id</th>
-            <th>first_name</th>
-            <th>last_name</th>
-            <th>age</th>
-            <th>department</th>
-        </tr>
-    </thead>
-    <tbody>
-        <tr>
-            <td>7</td>
-            <td>Emily</td>
-            <td>Clark</td>
-            <td>29</td>
-            <td>Engineering</td>
-        </tr>
-        <tr>
-            <td>8</td>
-            <td>Michael</td>
-            <td>Scott</td>
-            <td>45</td>
-            <td>Engineering</td>
-        </tr>
-        <tr>
-            <td>9</td>
-            <td>Pam</td>
-            <td>Beesly</td>
-            <td>30</td>
-            <td>Sales</td>
-        </tr>
-    </tbody>
-</table></div></div>
 </div>
 </section>
 <section id="insert-from-another-table-to-employees">
@@ -952,15 +658,6 @@ INSERT INTO employees (first_name, last_name, age, department)
 SELECT first_name, last_name, age, department
 FROM another_table
 WHERE department = &#39;Engineering&#39;;
-</pre></div>
-</div>
-</div>
-<div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> * postgresql://postgres:***@localhost:5432/dvdrental
-2 rows affected.
-</pre></div>
-</div>
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[]
 </pre></div>
 </div>
 </div>
@@ -982,80 +679,6 @@ SELECT * FROM employees;
 </pre></div>
 </div>
 </div>
-<div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> * postgresql://postgres:***@localhost:5432/dvdrental
-8 rows affected.
-</pre></div>
-</div>
-<div class="output text_html"><table>
-    <thead>
-        <tr>
-            <th>id</th>
-            <th>first_name</th>
-            <th>last_name</th>
-            <th>age</th>
-            <th>department</th>
-        </tr>
-    </thead>
-    <tbody>
-        <tr>
-            <td>1</td>
-            <td>John</td>
-            <td>Doe</td>
-            <td>30</td>
-            <td>Engineering</td>
-        </tr>
-        <tr>
-            <td>2</td>
-            <td>Jane</td>
-            <td>Smith</td>
-            <td>25</td>
-            <td>Marketing</td>
-        </tr>
-        <tr>
-            <td>3</td>
-            <td>Quan</td>
-            <td>Nguyen</td>
-            <td>None</td>
-            <td>None</td>
-        </tr>
-        <tr>
-            <td>4</td>
-            <td>Alice</td>
-            <td>Johnson</td>
-            <td>28</td>
-            <td>Sales</td>
-        </tr>
-        <tr>
-            <td>5</td>
-            <td>Bob</td>
-            <td>Brown</td>
-            <td>35</td>
-            <td>HR</td>
-        </tr>
-        <tr>
-            <td>6</td>
-            <td>Charlie</td>
-            <td>Davis</td>
-            <td>40</td>
-            <td>Finance</td>
-        </tr>
-        <tr>
-            <td>7</td>
-            <td>Emily</td>
-            <td>Clark</td>
-            <td>29</td>
-            <td>Engineering</td>
-        </tr>
-        <tr>
-            <td>8</td>
-            <td>Michael</td>
-            <td>Scott</td>
-            <td>45</td>
-            <td>Engineering</td>
-        </tr>
-    </tbody>
-</table></div></div>
 </div>
 </section>
 </section>
@@ -1069,15 +692,6 @@ SELECT * FROM employees;
 UPDATE employees
 SET age = 31
 WHERE first_name = &#39;John&#39; AND last_name = &#39;Doe&#39;;
-</pre></div>
-</div>
-</div>
-<div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> * postgresql://postgres:***@localhost:5432/dvdrental
-1 rows affected.
-</pre></div>
-</div>
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[]
 </pre></div>
 </div>
 </div>
@@ -1099,80 +713,6 @@ SELECT * FROM employees;
 </pre></div>
 </div>
 </div>
-<div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> * postgresql://postgres:***@localhost:5432/dvdrental
-8 rows affected.
-</pre></div>
-</div>
-<div class="output text_html"><table>
-    <thead>
-        <tr>
-            <th>id</th>
-            <th>first_name</th>
-            <th>last_name</th>
-            <th>age</th>
-            <th>department</th>
-        </tr>
-    </thead>
-    <tbody>
-        <tr>
-            <td>2</td>
-            <td>Jane</td>
-            <td>Smith</td>
-            <td>25</td>
-            <td>Marketing</td>
-        </tr>
-        <tr>
-            <td>3</td>
-            <td>Quan</td>
-            <td>Nguyen</td>
-            <td>None</td>
-            <td>None</td>
-        </tr>
-        <tr>
-            <td>4</td>
-            <td>Alice</td>
-            <td>Johnson</td>
-            <td>28</td>
-            <td>Sales</td>
-        </tr>
-        <tr>
-            <td>5</td>
-            <td>Bob</td>
-            <td>Brown</td>
-            <td>35</td>
-            <td>HR</td>
-        </tr>
-        <tr>
-            <td>6</td>
-            <td>Charlie</td>
-            <td>Davis</td>
-            <td>40</td>
-            <td>Finance</td>
-        </tr>
-        <tr>
-            <td>7</td>
-            <td>Emily</td>
-            <td>Clark</td>
-            <td>29</td>
-            <td>Engineering</td>
-        </tr>
-        <tr>
-            <td>8</td>
-            <td>Michael</td>
-            <td>Scott</td>
-            <td>45</td>
-            <td>Engineering</td>
-        </tr>
-        <tr>
-            <td>1</td>
-            <td>John</td>
-            <td>Doe</td>
-            <td>31</td>
-            <td>Engineering</td>
-        </tr>
-    </tbody>
-</table></div></div>
 </div>
 <div class="admonition warning">
 <p class="admonition-title">Warning</p>
@@ -1215,15 +755,6 @@ WHERE department = &#39;HR&#39;;
 </pre></div>
 </div>
 </div>
-<div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> * postgresql://postgres:***@localhost:5432/dvdrental
-1 rows affected.
-</pre></div>
-</div>
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[]
-</pre></div>
-</div>
-</div>
 </div>
 <ul class="simple">
 <li><p><strong>Explanation</strong>:</p>
@@ -1242,73 +773,6 @@ SELECT * FROM employees;
 </pre></div>
 </div>
 </div>
-<div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> * postgresql://postgres:***@localhost:5432/dvdrental
-7 rows affected.
-</pre></div>
-</div>
-<div class="output text_html"><table>
-    <thead>
-        <tr>
-            <th>id</th>
-            <th>first_name</th>
-            <th>last_name</th>
-            <th>age</th>
-            <th>department</th>
-        </tr>
-    </thead>
-    <tbody>
-        <tr>
-            <td>2</td>
-            <td>Jane</td>
-            <td>Smith</td>
-            <td>25</td>
-            <td>Marketing</td>
-        </tr>
-        <tr>
-            <td>3</td>
-            <td>Quan</td>
-            <td>Nguyen</td>
-            <td>None</td>
-            <td>None</td>
-        </tr>
-        <tr>
-            <td>4</td>
-            <td>Alice</td>
-            <td>Johnson</td>
-            <td>28</td>
-            <td>Sales</td>
-        </tr>
-        <tr>
-            <td>6</td>
-            <td>Charlie</td>
-            <td>Davis</td>
-            <td>40</td>
-            <td>Finance</td>
-        </tr>
-        <tr>
-            <td>7</td>
-            <td>Emily</td>
-            <td>Clark</td>
-            <td>29</td>
-            <td>Engineering</td>
-        </tr>
-        <tr>
-            <td>8</td>
-            <td>Michael</td>
-            <td>Scott</td>
-            <td>45</td>
-            <td>Engineering</td>
-        </tr>
-        <tr>
-            <td>1</td>
-            <td>John</td>
-            <td>Doe</td>
-            <td>31</td>
-            <td>Engineering</td>
-        </tr>
-    </tbody>
-</table></div></div>
 </div>
 </section>
 <section id="truncating-a-table">
@@ -1318,15 +782,6 @@ SELECT * FROM employees;
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">%%</span><span class="k">sql</span>
 TRUNCATE TABLE another_table;
-</pre></div>
-</div>
-</div>
-<div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> * postgresql://postgres:***@localhost:5432/dvdrental
-Done.
-</pre></div>
-</div>
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[]
 </pre></div>
 </div>
 </div>
@@ -1348,24 +803,6 @@ SELECT * FROM another_table;
 </pre></div>
 </div>
 </div>
-<div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> * postgresql://postgres:***@localhost:5432/dvdrental
-0 rows affected.
-</pre></div>
-</div>
-<div class="output text_html"><table>
-    <thead>
-        <tr>
-            <th>id</th>
-            <th>first_name</th>
-            <th>last_name</th>
-            <th>age</th>
-            <th>department</th>
-        </tr>
-    </thead>
-    <tbody>
-    </tbody>
-</table></div></div>
 </div>
 </section>
 <section id="returning-data-from-insert-update-delete">
@@ -1380,31 +817,6 @@ RETURNING *;
 </pre></div>
 </div>
 </div>
-<div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> * postgresql://postgres:***@localhost:5432/dvdrental
-1 rows affected.
-</pre></div>
-</div>
-<div class="output text_html"><table>
-    <thead>
-        <tr>
-            <th>id</th>
-            <th>first_name</th>
-            <th>last_name</th>
-            <th>age</th>
-            <th>department</th>
-        </tr>
-    </thead>
-    <tbody>
-        <tr>
-            <td>9</td>
-            <td>David</td>
-            <td>Miller</td>
-            <td>32</td>
-            <td>IT</td>
-        </tr>
-    </tbody>
-</table></div></div>
 </div>
 <p>To see the changes:</p>
 <div class="cell docutils container">
@@ -1414,80 +826,6 @@ SELECT * FROM employees;
 </pre></div>
 </div>
 </div>
-<div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> * postgresql://postgres:***@localhost:5432/dvdrental
-8 rows affected.
-</pre></div>
-</div>
-<div class="output text_html"><table>
-    <thead>
-        <tr>
-            <th>id</th>
-            <th>first_name</th>
-            <th>last_name</th>
-            <th>age</th>
-            <th>department</th>
-        </tr>
-    </thead>
-    <tbody>
-        <tr>
-            <td>2</td>
-            <td>Jane</td>
-            <td>Smith</td>
-            <td>25</td>
-            <td>Marketing</td>
-        </tr>
-        <tr>
-            <td>3</td>
-            <td>Quan</td>
-            <td>Nguyen</td>
-            <td>None</td>
-            <td>None</td>
-        </tr>
-        <tr>
-            <td>4</td>
-            <td>Alice</td>
-            <td>Johnson</td>
-            <td>28</td>
-            <td>Sales</td>
-        </tr>
-        <tr>
-            <td>6</td>
-            <td>Charlie</td>
-            <td>Davis</td>
-            <td>40</td>
-            <td>Finance</td>
-        </tr>
-        <tr>
-            <td>7</td>
-            <td>Emily</td>
-            <td>Clark</td>
-            <td>29</td>
-            <td>Engineering</td>
-        </tr>
-        <tr>
-            <td>8</td>
-            <td>Michael</td>
-            <td>Scott</td>
-            <td>45</td>
-            <td>Engineering</td>
-        </tr>
-        <tr>
-            <td>1</td>
-            <td>John</td>
-            <td>Doe</td>
-            <td>31</td>
-            <td>Engineering</td>
-        </tr>
-        <tr>
-            <td>9</td>
-            <td>David</td>
-            <td>Miller</td>
-            <td>32</td>
-            <td>IT</td>
-        </tr>
-    </tbody>
-</table></div></div>
 </div>
 <ul class="simple">
 <li><p><strong>Explanation</strong>:</p>
@@ -1507,31 +845,6 @@ RETURNING *;
 </pre></div>
 </div>
 </div>
-<div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> * postgresql://postgres:***@localhost:5432/dvdrental
-1 rows affected.
-</pre></div>
-</div>
-<div class="output text_html"><table>
-    <thead>
-        <tr>
-            <th>id</th>
-            <th>first_name</th>
-            <th>last_name</th>
-            <th>age</th>
-            <th>department</th>
-        </tr>
-    </thead>
-    <tbody>
-        <tr>
-            <td>9</td>
-            <td>David</td>
-            <td>Miller</td>
-            <td>33</td>
-            <td>IT</td>
-        </tr>
-    </tbody>
-</table></div></div>
 </div>
 <p>To see the changes:</p>
 <div class="cell docutils container">
@@ -1541,80 +854,6 @@ SELECT * FROM employees;
 </pre></div>
 </div>
 </div>
-<div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> * postgresql://postgres:***@localhost:5432/dvdrental
-8 rows affected.
-</pre></div>
-</div>
-<div class="output text_html"><table>
-    <thead>
-        <tr>
-            <th>id</th>
-            <th>first_name</th>
-            <th>last_name</th>
-            <th>age</th>
-            <th>department</th>
-        </tr>
-    </thead>
-    <tbody>
-        <tr>
-            <td>2</td>
-            <td>Jane</td>
-            <td>Smith</td>
-            <td>25</td>
-            <td>Marketing</td>
-        </tr>
-        <tr>
-            <td>3</td>
-            <td>Quan</td>
-            <td>Nguyen</td>
-            <td>None</td>
-            <td>None</td>
-        </tr>
-        <tr>
-            <td>4</td>
-            <td>Alice</td>
-            <td>Johnson</td>
-            <td>28</td>
-            <td>Sales</td>
-        </tr>
-        <tr>
-            <td>6</td>
-            <td>Charlie</td>
-            <td>Davis</td>
-            <td>40</td>
-            <td>Finance</td>
-        </tr>
-        <tr>
-            <td>7</td>
-            <td>Emily</td>
-            <td>Clark</td>
-            <td>29</td>
-            <td>Engineering</td>
-        </tr>
-        <tr>
-            <td>8</td>
-            <td>Michael</td>
-            <td>Scott</td>
-            <td>45</td>
-            <td>Engineering</td>
-        </tr>
-        <tr>
-            <td>1</td>
-            <td>John</td>
-            <td>Doe</td>
-            <td>31</td>
-            <td>Engineering</td>
-        </tr>
-        <tr>
-            <td>9</td>
-            <td>David</td>
-            <td>Miller</td>
-            <td>33</td>
-            <td>IT</td>
-        </tr>
-    </tbody>
-</table></div></div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
@@ -1625,31 +864,6 @@ RETURNING *;
 </pre></div>
 </div>
 </div>
-<div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> * postgresql://postgres:***@localhost:5432/dvdrental
-1 rows affected.
-</pre></div>
-</div>
-<div class="output text_html"><table>
-    <thead>
-        <tr>
-            <th>id</th>
-            <th>first_name</th>
-            <th>last_name</th>
-            <th>age</th>
-            <th>department</th>
-        </tr>
-    </thead>
-    <tbody>
-        <tr>
-            <td>9</td>
-            <td>David</td>
-            <td>Miller</td>
-            <td>33</td>
-            <td>IT</td>
-        </tr>
-    </tbody>
-</table></div></div>
 </div>
 <p>To see the changes:</p>
 <div class="cell docutils container">
@@ -1659,73 +873,6 @@ SELECT * FROM employees;
 </pre></div>
 </div>
 </div>
-<div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> * postgresql://postgres:***@localhost:5432/dvdrental
-7 rows affected.
-</pre></div>
-</div>
-<div class="output text_html"><table>
-    <thead>
-        <tr>
-            <th>id</th>
-            <th>first_name</th>
-            <th>last_name</th>
-            <th>age</th>
-            <th>department</th>
-        </tr>
-    </thead>
-    <tbody>
-        <tr>
-            <td>2</td>
-            <td>Jane</td>
-            <td>Smith</td>
-            <td>25</td>
-            <td>Marketing</td>
-        </tr>
-        <tr>
-            <td>3</td>
-            <td>Quan</td>
-            <td>Nguyen</td>
-            <td>None</td>
-            <td>None</td>
-        </tr>
-        <tr>
-            <td>4</td>
-            <td>Alice</td>
-            <td>Johnson</td>
-            <td>28</td>
-            <td>Sales</td>
-        </tr>
-        <tr>
-            <td>6</td>
-            <td>Charlie</td>
-            <td>Davis</td>
-            <td>40</td>
-            <td>Finance</td>
-        </tr>
-        <tr>
-            <td>7</td>
-            <td>Emily</td>
-            <td>Clark</td>
-            <td>29</td>
-            <td>Engineering</td>
-        </tr>
-        <tr>
-            <td>8</td>
-            <td>Michael</td>
-            <td>Scott</td>
-            <td>45</td>
-            <td>Engineering</td>
-        </tr>
-        <tr>
-            <td>1</td>
-            <td>John</td>
-            <td>Doe</td>
-            <td>31</td>
-            <td>Engineering</td>
-        </tr>
-    </tbody>
-</table></div></div>
 </div>
 </section>
 </section>
