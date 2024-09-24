@@ -56,8 +56,8 @@ You are responsible for the following deliverables, which will determine your co
 | Assignment            | Note                                       | Weight | Date            |
 |-----------------------|--------------------------------------------|--------|-----------------|
 | Weekly worksheet x 10 | Open-book. Release on Mondays              | 20%    | Deadline on Moodle |
-| Midterm 1             | Closed-book, Moodle timed-quiz, 45 minutes | 25%    | Thu, Oct 3    |
-| Midterm 2             | Closed-book, Moodle timed-quiz, 45 minutes | 25%    | Thu, Nov 7    |
+| Midterm 1             | Closed-book, Moodle timed-quiz, 45 minutes | 25%    | Wed, Oct 8    |
+| Midterm 2             | Closed-book, Moodle timed-quiz, 45 minutes | 25%    | Wed, Nov 6    |
 | Exam                  | Closed-book, Moodle timed-quiz, 90 minutes | 30%    | TBD             |
 
 
