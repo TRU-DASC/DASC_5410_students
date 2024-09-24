@@ -1,0 +1,1879 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Lecture 6: PostgreSQL part 2 &#8212; DASC 5410 - Data and Database Management for Data Science</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../_static/styles/bootstrap.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+
+  
+  <link href="../_static/vendor/fontawesome/6.5.2/css/all.min.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=fa44fd50" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/sphinx-book-theme.css?v=a3416100" />
+    <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css?v=13237357" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css?v=be8a1c11" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-thebe.css?v=4fa983c6" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-design.min.css?v=95c83b7e" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
+  <script src="../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+    <script src="../_static/documentation_options.js?v=9eb32ce0"></script>
+    <script src="../_static/doctools.js?v=9a2dae69"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../_static/copybutton.js?v=f281be69"></script>
+    <script src="../_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="../_static/togglebutton.js?v=4a39c7ea"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="../_static/design-tabs.js?v=f930bc37"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script async="async" src="../_static/sphinx-thebe.js?v=c100c467"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'lectures/lecture6';</script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Installation instruction for macOS" href="../installation_mac.html" />
+    <link rel="prev" title="Lecture 5: PostgreSQL part 2" href="lecture5.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-primary-sidebar-checkbox"/>
+  <label class="overlay overlay-primary" for="pst-primary-sidebar-checkbox"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-secondary-sidebar-checkbox"/>
+  <label class="overlay overlay-secondary" for="pst-secondary-sidebar-checkbox"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search this book..."
+         aria-label="Search this book..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../syllabus.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="../_static/TRU_Logo.png" class="logo__image only-light" alt="DASC 5410 - Data and Database Management for Data Science - Home"/>
+    <script>document.write(`<img src="../_static/TRU_Logo.png" class="logo__image only-dark" alt="DASC 5410 - Data and Database Management for Data Science - Home"/>`);</script>
+  
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+ <script>
+ document.write(`
+   <button class="btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="../syllabus.html">
+                    DASC 5410 - Data and Database Management for Data Science
+                </a>
+            </li>
+        </ul>
+        <p aria-level="2" class="caption" role="heading"><span class="caption-text">Lectures Notes</span></p>
+<ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="lecture1.html">Lecture 1: Data types and data structures</a></li>
+<li class="toctree-l1"><a class="reference internal" href="lecture2.html">Lecture 2: Relational models</a></li>
+<li class="toctree-l1"><a class="reference internal" href="lecture3.html">Lecture 3: Relational models part 2</a></li>
+<li class="toctree-l1"><a class="reference internal" href="lecture4.html">Lecture 4: PostgreSQL part 1</a></li>
+<li class="toctree-l1"><a class="reference internal" href="lecture5.html">Lecture 5: PostgreSQL part 2</a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">Lecture 6: PostgreSQL part 2</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Installation Guide</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../installation_mac.html">Installation instruction for macOS</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../installation_windows.html">Installation instruction for Windows</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Github tutorial</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="tutorial_github.html">Version control with GitHub</a></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</button></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="../_sources/lectures/lecture6.ipynb" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.ipynb</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
+  </button>
+`);
+</script>
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm pst-navbar-icon search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+  </button>
+`);
+</script>
+<button class="sidebar-toggle secondary-toggle btn btn-sm" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</button>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>Lecture 6: PostgreSQL part 2</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#introduction">Introduction</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#learning-objectives">Learning Objectives</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#connect-to-database">Connect to database</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#sample-table">Sample Table</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#inserting-rows">Inserting Rows</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#insert-by-column-position">Insert by Column Position</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#insert-by-column-name">Insert by Column Name</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#insert-multiple-rows-at-once">Insert Multiple Rows at Once</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#insert-from-another-table">Insert from Another Table</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#creating-another-table">Creating <code class="docutils literal notranslate"><span class="pre">another_table</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#insert-sample-data-into-another-table">Insert Sample Data into <code class="docutils literal notranslate"><span class="pre">another_table</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#insert-from-another-table-to-employees">Insert from <code class="docutils literal notranslate"><span class="pre">another_table</span></code> to <code class="docutils literal notranslate"><span class="pre">employees</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#modifying-rows">Modifying Rows</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#deleting-rows">Deleting Rows</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#truncating-a-table">Truncating a Table</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#returning-data-from-insert-update-delete">Returning Data from Insert, Update, Delete</a></li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="lecture-6-postgresql-part-2">
+<h1>Lecture 6: PostgreSQL part 2<a class="headerlink" href="#lecture-6-postgresql-part-2" title="Link to this heading">#</a></h1>
+<section id="introduction">
+<h2>Introduction<a class="headerlink" href="#introduction" title="Link to this heading">#</a></h2>
+<p>SQL (Structured Query Language) is a powerful language used for managing and manipulating relational databases. It consists of five main components:</p>
+<ol class="arabic simple">
+<li><p><strong>DDL (Data Definition Language)</strong>:</p>
+<ul class="simple">
+<li><p>Used for defining and modifying database structures.</p></li>
+<li><p>Examples: <code class="docutils literal notranslate"><span class="pre">CREATE</span></code>, <code class="docutils literal notranslate"><span class="pre">ALTER</span></code>, <code class="docutils literal notranslate"><span class="pre">DROP</span></code>.</p></li>
+</ul>
+</li>
+<li><p><strong>DQL (Data Query Language)</strong>:</p>
+<ul class="simple">
+<li><p>Used for querying data from the database.</p></li>
+<li><p>Example: <code class="docutils literal notranslate"><span class="pre">SELECT</span></code>.</p></li>
+</ul>
+</li>
+<li><p><strong>DML (Data Manipulation Language)</strong>:</p>
+<ul class="simple">
+<li><p>Used for manipulating data within the database.</p></li>
+<li><p>Examples: <code class="docutils literal notranslate"><span class="pre">INSERT</span></code>, <code class="docutils literal notranslate"><span class="pre">UPDATE</span></code>, <code class="docutils literal notranslate"><span class="pre">DELETE</span></code>.</p></li>
+</ul>
+</li>
+<li><p><strong>DCL (Data Control Language)</strong>:</p>
+<ul class="simple">
+<li><p>Used for controlling access to data within the database.</p></li>
+<li><p>Examples: <code class="docutils literal notranslate"><span class="pre">GRANT</span></code>, <code class="docutils literal notranslate"><span class="pre">REVOKE</span></code>.</p></li>
+</ul>
+</li>
+<li><p><strong>TCL (Transaction Control Language)</strong>:</p>
+<ul class="simple">
+<li><p>Used for managing transactions within the database.</p></li>
+<li><p>Examples: <code class="docutils literal notranslate"><span class="pre">COMMIT</span></code>, <code class="docutils literal notranslate"><span class="pre">ROLLBACK</span></code>.</p></li>
+</ul>
+</li>
+</ol>
+<p>Today, we will focus on <strong>DML (Data Manipulation Language)</strong>, specifically on how to insert, modify, and delete rows in SQL.</p>
+</section>
+<section id="learning-objectives">
+<h2>Learning Objectives<a class="headerlink" href="#learning-objectives" title="Link to this heading">#</a></h2>
+<ul class="simple">
+<li><p>Understand how to insert rows into a table using various methods, including by column position, column name, multiple rows at once, and from another table.</p></li>
+<li><p>Learn how to safely modify existing rows using the <code class="docutils literal notranslate"><span class="pre">UPDATE</span></code> statement, including best practices to avoid accidental modifications.</p></li>
+<li><p>Gain knowledge on how to delete rows using the <code class="docutils literal notranslate"><span class="pre">DELETE</span></code> statement, truncate a table using the <code class="docutils literal notranslate"><span class="pre">TRUNCATE</span></code> statement, and return data from <code class="docutils literal notranslate"><span class="pre">INSERT</span></code>, <code class="docutils literal notranslate"><span class="pre">UPDATE</span></code>, and <code class="docutils literal notranslate"><span class="pre">DELETE</span></code> operations using the <code class="docutils literal notranslate"><span class="pre">RETURNING</span></code> clause.</p></li>
+</ul>
+</section>
+<section id="connect-to-database">
+<h2>Connect to database<a class="headerlink" href="#connect-to-database" title="Link to this heading">#</a></h2>
+<blockquote>
+<div><p>Make sure you edit the <code class="docutils literal notranslate"><span class="pre">credentials.json</span></code> file with appropriate username and password as in worksheet1</p>
+</div></blockquote>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># load the ipython-sql extension</span>
+<span class="o">%</span><span class="k">load_ext</span> sql
+
+<span class="kn">import</span> <span class="nn">json</span>
+<span class="kn">import</span> <span class="nn">urllib.parse</span>
+
+<span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s1">&#39;data/credentials.json&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+    <span class="n">login</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">f</span><span class="p">)</span>
+    
+<span class="n">username</span> <span class="o">=</span> <span class="n">login</span><span class="p">[</span><span class="s1">&#39;user&#39;</span><span class="p">]</span>
+<span class="n">password</span> <span class="o">=</span> <span class="n">urllib</span><span class="o">.</span><span class="n">parse</span><span class="o">.</span><span class="n">quote</span><span class="p">(</span><span class="n">login</span><span class="p">[</span><span class="s1">&#39;password&#39;</span><span class="p">])</span>
+<span class="n">host</span> <span class="o">=</span> <span class="n">login</span><span class="p">[</span><span class="s1">&#39;host&#39;</span><span class="p">]</span>
+<span class="n">port</span> <span class="o">=</span> <span class="n">login</span><span class="p">[</span><span class="s1">&#39;port&#39;</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>Let’s connect to your dvdrental database</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">%</span><span class="k">sql</span> postgresql://{username}:{password}@{host}:{port}/dvdrental
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&#39;Connected: postgres@dvdrental&#39;
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">%%</span><span class="k">sql</span>
+DROP TABLE IF EXISTS employees;
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> * postgresql://postgres:***@localhost:5432/dvdrental
+Done.
+</pre></div>
+</div>
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[]
+</pre></div>
+</div>
+</div>
+</div>
+<section id="sample-table">
+<h3>Sample Table<a class="headerlink" href="#sample-table" title="Link to this heading">#</a></h3>
+<p>Let’s create a sample table named <code class="docutils literal notranslate"><span class="pre">employees</span></code>:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">%%</span><span class="k">sql</span>
+CREATE TABLE employees (
+    id SERIAL PRIMARY KEY,
+    first_name VARCHAR(50),
+    last_name VARCHAR(50),
+    age INT,
+    department VARCHAR(50)
+);
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> * postgresql://postgres:***@localhost:5432/dvdrental
+Done.
+</pre></div>
+</div>
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[]
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">%%</span><span class="k">sql</span>
+SELECT * FROM employees;
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> * postgresql://postgres:***@localhost:5432/dvdrental
+0 rows affected.
+</pre></div>
+</div>
+<div class="output text_html"><table>
+    <thead>
+        <tr>
+            <th>id</th>
+            <th>first_name</th>
+            <th>last_name</th>
+            <th>age</th>
+            <th>department</th>
+        </tr>
+    </thead>
+    <tbody>
+    </tbody>
+</table></div></div>
+</div>
+</section>
+</section>
+<section id="inserting-rows">
+<h2>Inserting Rows<a class="headerlink" href="#inserting-rows" title="Link to this heading">#</a></h2>
+<section id="insert-by-column-position">
+<h3>Insert by Column Position<a class="headerlink" href="#insert-by-column-position" title="Link to this heading">#</a></h3>
+<p>To insert a row by specifying values in the order of columns:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">%%</span><span class="k">sql</span>
+INSERT INTO employees VALUES (1, &#39;John&#39;, &#39;Doe&#39;, 30, &#39;Engineering&#39;);
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> * postgresql://postgres:***@localhost:5432/dvdrental
+1 rows affected.
+</pre></div>
+</div>
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[]
+</pre></div>
+</div>
+</div>
+</div>
+<ul class="simple">
+<li><p><strong>Explanation</strong>:</p>
+<ul>
+<li><p>The values are assigned to columns from left to right.</p></li>
+<li><p>The order of values should be the same as the order of columns in the table.</p></li>
+<li><p>It’s not mandatory to provide a value for every column in the table, unless they are explicitly set as non-nullable.</p></li>
+</ul>
+</li>
+</ul>
+<p>To see the changes:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">%%</span><span class="k">sql</span>
+SELECT * FROM employees;
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> * postgresql://postgres:***@localhost:5432/dvdrental
+1 rows affected.
+</pre></div>
+</div>
+<div class="output text_html"><table>
+    <thead>
+        <tr>
+            <th>id</th>
+            <th>first_name</th>
+            <th>last_name</th>
+            <th>age</th>
+            <th>department</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>1</td>
+            <td>John</td>
+            <td>Doe</td>
+            <td>30</td>
+            <td>Engineering</td>
+        </tr>
+    </tbody>
+</table></div></div>
+</div>
+</section>
+<section id="insert-by-column-name">
+<h3>Insert by Column Name<a class="headerlink" href="#insert-by-column-name" title="Link to this heading">#</a></h3>
+<p>To insert a row by specifying column names and corresponding values:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">%%</span><span class="k">sql</span>
+INSERT INTO employees (first_name, last_name, age, department) VALUES (&#39;Jane&#39;, &#39;Smith&#39;, 25, &#39;Marketing&#39;);
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> * postgresql://postgres:***@localhost:5432/dvdrental
+1 rows affected.
+</pre></div>
+</div>
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[]
+</pre></div>
+</div>
+</div>
+</div>
+<ul class="simple">
+<li><p><strong>Explanation</strong>:</p>
+<ul>
+<li><p>This method allows you to specify only the columns you want to insert values into.</p></li>
+<li><p>The order of values should match the order of the specified column names.</p></li>
+<li><p>This is useful when you don’t want to insert values for all columns, especially if some columns have default values or are nullable.</p></li>
+</ul>
+</li>
+</ul>
+<p>To see the changes:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">%%</span><span class="k">sql</span>
+SELECT * FROM employees;
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> * postgresql://postgres:***@localhost:5432/dvdrental
+2 rows affected.
+</pre></div>
+</div>
+<div class="output text_html"><table>
+    <thead>
+        <tr>
+            <th>id</th>
+            <th>first_name</th>
+            <th>last_name</th>
+            <th>age</th>
+            <th>department</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>1</td>
+            <td>John</td>
+            <td>Doe</td>
+            <td>30</td>
+            <td>Engineering</td>
+        </tr>
+        <tr>
+            <td>2</td>
+            <td>Jane</td>
+            <td>Smith</td>
+            <td>25</td>
+            <td>Marketing</td>
+        </tr>
+    </tbody>
+</table></div></div>
+</div>
+<p>Let’s also try to insert a row with only first_name and last_name. The rest of the columns will be filled by default</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">%%</span><span class="k">sql</span>
+INSERT INTO employees (first_name, last_name) VALUES (&#39;Quan&#39;, &#39;Nguyen&#39;);
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> * postgresql://postgres:***@localhost:5432/dvdrental
+1 rows affected.
+</pre></div>
+</div>
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[]
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">%%</span><span class="k">sql</span>
+SELECT * FROM employees;
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> * postgresql://postgres:***@localhost:5432/dvdrental
+3 rows affected.
+</pre></div>
+</div>
+<div class="output text_html"><table>
+    <thead>
+        <tr>
+            <th>id</th>
+            <th>first_name</th>
+            <th>last_name</th>
+            <th>age</th>
+            <th>department</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>1</td>
+            <td>John</td>
+            <td>Doe</td>
+            <td>30</td>
+            <td>Engineering</td>
+        </tr>
+        <tr>
+            <td>2</td>
+            <td>Jane</td>
+            <td>Smith</td>
+            <td>25</td>
+            <td>Marketing</td>
+        </tr>
+        <tr>
+            <td>3</td>
+            <td>Quan</td>
+            <td>Nguyen</td>
+            <td>None</td>
+            <td>None</td>
+        </tr>
+    </tbody>
+</table></div></div>
+</div>
+</section>
+<section id="insert-multiple-rows-at-once">
+<h3>Insert Multiple Rows at Once<a class="headerlink" href="#insert-multiple-rows-at-once" title="Link to this heading">#</a></h3>
+<p>To insert multiple rows in a single statement:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">%%</span><span class="k">sql</span>
+INSERT INTO employees (first_name, last_name, age, department)
+VALUES 
+    (&#39;Alice&#39;, &#39;Johnson&#39;, 28, &#39;Sales&#39;),
+    (&#39;Bob&#39;, &#39;Brown&#39;, 35, &#39;HR&#39;),
+    (&#39;Charlie&#39;, &#39;Davis&#39;, 40, &#39;Finance&#39;);
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> * postgresql://postgres:***@localhost:5432/dvdrental
+3 rows affected.
+</pre></div>
+</div>
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[]
+</pre></div>
+</div>
+</div>
+</div>
+<ul class="simple">
+<li><p><strong>Explanation</strong>:</p>
+<ul>
+<li><p>This method allows you to insert multiple rows in a single <code class="docutils literal notranslate"><span class="pre">INSERT</span></code> statement.</p></li>
+<li><p>Each set of values should match the order of the specified column names.</p></li>
+<li><p>This is more efficient than inserting rows one by one.</p></li>
+</ul>
+</li>
+</ul>
+<p>To see the changes:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">%%</span><span class="k">sql</span>
+SELECT * FROM employees;
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> * postgresql://postgres:***@localhost:5432/dvdrental
+6 rows affected.
+</pre></div>
+</div>
+<div class="output text_html"><table>
+    <thead>
+        <tr>
+            <th>id</th>
+            <th>first_name</th>
+            <th>last_name</th>
+            <th>age</th>
+            <th>department</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>1</td>
+            <td>John</td>
+            <td>Doe</td>
+            <td>30</td>
+            <td>Engineering</td>
+        </tr>
+        <tr>
+            <td>2</td>
+            <td>Jane</td>
+            <td>Smith</td>
+            <td>25</td>
+            <td>Marketing</td>
+        </tr>
+        <tr>
+            <td>3</td>
+            <td>Quan</td>
+            <td>Nguyen</td>
+            <td>None</td>
+            <td>None</td>
+        </tr>
+        <tr>
+            <td>4</td>
+            <td>Alice</td>
+            <td>Johnson</td>
+            <td>28</td>
+            <td>Sales</td>
+        </tr>
+        <tr>
+            <td>5</td>
+            <td>Bob</td>
+            <td>Brown</td>
+            <td>35</td>
+            <td>HR</td>
+        </tr>
+        <tr>
+            <td>6</td>
+            <td>Charlie</td>
+            <td>Davis</td>
+            <td>40</td>
+            <td>Finance</td>
+        </tr>
+    </tbody>
+</table></div></div>
+</div>
+</section>
+<section id="insert-from-another-table">
+<h3>Insert from Another Table<a class="headerlink" href="#insert-from-another-table" title="Link to this heading">#</a></h3>
+<p>To insert rows from another table:</p>
+<section id="creating-another-table">
+<h4>Creating <code class="docutils literal notranslate"><span class="pre">another_table</span></code><a class="headerlink" href="#creating-another-table" title="Link to this heading">#</a></h4>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">%%</span><span class="k">sql</span>
+CREATE TABLE another_table (
+    id SERIAL PRIMARY KEY,
+    first_name VARCHAR(50),
+    last_name VARCHAR(50),
+    age INT,
+    department VARCHAR(50)
+);
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> * postgresql://postgres:***@localhost:5432/dvdrental
+(psycopg2.errors.DuplicateTable) relation &quot;another_table&quot; already exists
+
+[SQL: CREATE TABLE another_table (
+    id SERIAL PRIMARY KEY,
+    first_name VARCHAR(50),
+    last_name VARCHAR(50),
+    age INT,
+    department VARCHAR(50)
+);]
+(Background on this error at: https://sqlalche.me/e/14/f405)
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="insert-sample-data-into-another-table">
+<h4>Insert Sample Data into <code class="docutils literal notranslate"><span class="pre">another_table</span></code><a class="headerlink" href="#insert-sample-data-into-another-table" title="Link to this heading">#</a></h4>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">%%</span><span class="k">sql</span>
+INSERT INTO another_table (first_name, last_name, age, department)
+VALUES 
+    (&#39;Emily&#39;, &#39;Clark&#39;, 29, &#39;Engineering&#39;),
+    (&#39;Michael&#39;, &#39;Scott&#39;, 45, &#39;Engineering&#39;),
+    (&#39;Pam&#39;, &#39;Beesly&#39;, 30, &#39;Sales&#39;);
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> * postgresql://postgres:***@localhost:5432/dvdrental
+3 rows affected.
+</pre></div>
+</div>
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[]
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">%%</span><span class="k">sql</span>
+SELECT * FROM another_table;
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> * postgresql://postgres:***@localhost:5432/dvdrental
+3 rows affected.
+</pre></div>
+</div>
+<div class="output text_html"><table>
+    <thead>
+        <tr>
+            <th>id</th>
+            <th>first_name</th>
+            <th>last_name</th>
+            <th>age</th>
+            <th>department</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>7</td>
+            <td>Emily</td>
+            <td>Clark</td>
+            <td>29</td>
+            <td>Engineering</td>
+        </tr>
+        <tr>
+            <td>8</td>
+            <td>Michael</td>
+            <td>Scott</td>
+            <td>45</td>
+            <td>Engineering</td>
+        </tr>
+        <tr>
+            <td>9</td>
+            <td>Pam</td>
+            <td>Beesly</td>
+            <td>30</td>
+            <td>Sales</td>
+        </tr>
+    </tbody>
+</table></div></div>
+</div>
+</section>
+<section id="insert-from-another-table-to-employees">
+<h4>Insert from <code class="docutils literal notranslate"><span class="pre">another_table</span></code> to <code class="docutils literal notranslate"><span class="pre">employees</span></code><a class="headerlink" href="#insert-from-another-table-to-employees" title="Link to this heading">#</a></h4>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">%%</span><span class="k">sql</span>
+INSERT INTO employees (first_name, last_name, age, department)
+SELECT first_name, last_name, age, department
+FROM another_table
+WHERE department = &#39;Engineering&#39;;
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> * postgresql://postgres:***@localhost:5432/dvdrental
+2 rows affected.
+</pre></div>
+</div>
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[]
+</pre></div>
+</div>
+</div>
+</div>
+<ul class="simple">
+<li><p><strong>Explanation</strong>:</p>
+<ul>
+<li><p>This method allows you to insert rows into a table by selecting data from another table.</p></li>
+<li><p>The <code class="docutils literal notranslate"><span class="pre">SELECT</span></code> statement should return the same number of columns and compatible data types as the <code class="docutils literal notranslate"><span class="pre">INSERT</span></code> statement.</p></li>
+<li><p>This is useful for copying data from one table to another based on certain conditions.</p></li>
+</ul>
+</li>
+</ul>
+<p>To see the changes:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">%%</span><span class="k">sql</span>
+SELECT * FROM employees;
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> * postgresql://postgres:***@localhost:5432/dvdrental
+8 rows affected.
+</pre></div>
+</div>
+<div class="output text_html"><table>
+    <thead>
+        <tr>
+            <th>id</th>
+            <th>first_name</th>
+            <th>last_name</th>
+            <th>age</th>
+            <th>department</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>1</td>
+            <td>John</td>
+            <td>Doe</td>
+            <td>30</td>
+            <td>Engineering</td>
+        </tr>
+        <tr>
+            <td>2</td>
+            <td>Jane</td>
+            <td>Smith</td>
+            <td>25</td>
+            <td>Marketing</td>
+        </tr>
+        <tr>
+            <td>3</td>
+            <td>Quan</td>
+            <td>Nguyen</td>
+            <td>None</td>
+            <td>None</td>
+        </tr>
+        <tr>
+            <td>4</td>
+            <td>Alice</td>
+            <td>Johnson</td>
+            <td>28</td>
+            <td>Sales</td>
+        </tr>
+        <tr>
+            <td>5</td>
+            <td>Bob</td>
+            <td>Brown</td>
+            <td>35</td>
+            <td>HR</td>
+        </tr>
+        <tr>
+            <td>6</td>
+            <td>Charlie</td>
+            <td>Davis</td>
+            <td>40</td>
+            <td>Finance</td>
+        </tr>
+        <tr>
+            <td>7</td>
+            <td>Emily</td>
+            <td>Clark</td>
+            <td>29</td>
+            <td>Engineering</td>
+        </tr>
+        <tr>
+            <td>8</td>
+            <td>Michael</td>
+            <td>Scott</td>
+            <td>45</td>
+            <td>Engineering</td>
+        </tr>
+    </tbody>
+</table></div></div>
+</div>
+</section>
+</section>
+</section>
+<section id="modifying-rows">
+<h2>Modifying Rows<a class="headerlink" href="#modifying-rows" title="Link to this heading">#</a></h2>
+<p>To update existing rows in a table:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">%%</span><span class="k">sql</span>
+UPDATE employees
+SET age = 31
+WHERE first_name = &#39;John&#39; AND last_name = &#39;Doe&#39;;
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> * postgresql://postgres:***@localhost:5432/dvdrental
+1 rows affected.
+</pre></div>
+</div>
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[]
+</pre></div>
+</div>
+</div>
+</div>
+<ul class="simple">
+<li><p><strong>Explanation</strong>:</p>
+<ul>
+<li><p>The <code class="docutils literal notranslate"><span class="pre">UPDATE</span></code> statement modifies existing rows in the table.</p></li>
+<li><p>The <code class="docutils literal notranslate"><span class="pre">SET</span></code> clause specifies the columns to be updated and their new values.</p></li>
+<li><p>The <code class="docutils literal notranslate"><span class="pre">WHERE</span></code> clause specifies which rows should be updated. Without a <code class="docutils literal notranslate"><span class="pre">WHERE</span></code> clause, all rows in the table will be updated.</p></li>
+</ul>
+</li>
+</ul>
+<p>To see the changes:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">%%</span><span class="k">sql</span>
+SELECT * FROM employees;
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> * postgresql://postgres:***@localhost:5432/dvdrental
+8 rows affected.
+</pre></div>
+</div>
+<div class="output text_html"><table>
+    <thead>
+        <tr>
+            <th>id</th>
+            <th>first_name</th>
+            <th>last_name</th>
+            <th>age</th>
+            <th>department</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>2</td>
+            <td>Jane</td>
+            <td>Smith</td>
+            <td>25</td>
+            <td>Marketing</td>
+        </tr>
+        <tr>
+            <td>3</td>
+            <td>Quan</td>
+            <td>Nguyen</td>
+            <td>None</td>
+            <td>None</td>
+        </tr>
+        <tr>
+            <td>4</td>
+            <td>Alice</td>
+            <td>Johnson</td>
+            <td>28</td>
+            <td>Sales</td>
+        </tr>
+        <tr>
+            <td>5</td>
+            <td>Bob</td>
+            <td>Brown</td>
+            <td>35</td>
+            <td>HR</td>
+        </tr>
+        <tr>
+            <td>6</td>
+            <td>Charlie</td>
+            <td>Davis</td>
+            <td>40</td>
+            <td>Finance</td>
+        </tr>
+        <tr>
+            <td>7</td>
+            <td>Emily</td>
+            <td>Clark</td>
+            <td>29</td>
+            <td>Engineering</td>
+        </tr>
+        <tr>
+            <td>8</td>
+            <td>Michael</td>
+            <td>Scott</td>
+            <td>45</td>
+            <td>Engineering</td>
+        </tr>
+        <tr>
+            <td>1</td>
+            <td>John</td>
+            <td>Doe</td>
+            <td>31</td>
+            <td>Engineering</td>
+        </tr>
+    </tbody>
+</table></div></div>
+</div>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<h3 class="rubric" id="why-update-can-be-dangerous">Why <code class="docutils literal notranslate"><span class="pre">UPDATE</span></code> Can Be Dangerous</h3>
+<p>The <code class="docutils literal notranslate"><span class="pre">UPDATE</span></code> statement is used to modify existing rows in a table. However, it can be dangerous because:</p>
+<ul class="simple">
+<li><p><strong>Accidental Modifications</strong>: If the WHERE clause is incorrect or missing, you might accidentally update all rows in the table.</p></li>
+<li><p><strong>Unintended Changes</strong>: A wrong search condition can lead to unintended modifications, affecting more rows than intended.</p></li>
+</ul>
+<p>Best Practices for Using UPDATE</p>
+<ul class="simple">
+<li><p>Use a <code class="docutils literal notranslate"><span class="pre">SELECT</span></code> Statement First:</p></li>
+<li><p>Before running an <code class="docutils literal notranslate"><span class="pre">UPDATE</span></code> statement, use a <code class="docutils literal notranslate"><span class="pre">SELECT</span></code> statement with the same <code class="docutils literal notranslate"><span class="pre">WHERE</span></code> clause to ensure that the rows returned are the ones you intend to update.</p></li>
+</ul>
+<div class="highlight-sql notranslate"><div class="highlight"><pre><span></span><span class="c1">-- Example: Check the rows to be updated</span>
+<span class="k">SELECT</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="k">FROM</span><span class="w"> </span><span class="n">employees</span><span class="w"> </span><span class="k">WHERE</span><span class="w"> </span><span class="n">department</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">&#39;HR&#39;</span><span class="p">;</span>
+
+<span class="o">**</span><span class="k">Create</span><span class="w"> </span><span class="n">a</span><span class="w"> </span><span class="k">Temporary</span><span class="w"> </span><span class="k">Table</span><span class="o">**</span><span class="p">:</span>
+
+<span class="n">Another</span><span class="w"> </span><span class="k">method</span><span class="w"> </span><span class="k">is</span><span class="w"> </span><span class="k">to</span><span class="w"> </span><span class="k">create</span><span class="w"> </span><span class="n">a</span><span class="w"> </span><span class="k">temporary</span><span class="w"> </span><span class="k">table</span><span class="w"> </span><span class="k">to</span><span class="w"> </span><span class="n">test</span><span class="w"> </span><span class="n">your</span><span class="w"> </span><span class="o">`</span><span class="k">UPDATE</span><span class="o">`</span><span class="w"> </span><span class="k">statement</span><span class="p">.</span><span class="w"> </span><span class="n">This</span><span class="w"> </span><span class="n">allows</span><span class="w"> </span><span class="n">you</span><span class="w"> </span><span class="k">to</span><span class="w"> </span><span class="n">verify</span><span class="w"> </span><span class="n">the</span><span class="w"> </span><span class="n">changes</span><span class="w"> </span><span class="k">without</span><span class="w"> </span><span class="n">affecting</span><span class="w"> </span><span class="n">the</span><span class="w"> </span><span class="n">actual</span><span class="w"> </span><span class="k">data</span><span class="p">.</span>
+
+<span class="o">```</span><span class="k">sql</span>
+<span class="c1">-- Example: Create a temporary table</span>
+<span class="k">CREATE</span><span class="w"> </span><span class="n">TEMP</span><span class="w"> </span><span class="k">TABLE</span><span class="w"> </span><span class="n">temp_employees</span><span class="w"> </span><span class="k">AS</span>
+<span class="k">SELECT</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="k">FROM</span><span class="w"> </span><span class="n">employees</span><span class="p">;</span>
+
+<span class="c1">-- Test the UPDATE statement on the temporary table</span>
+<span class="k">UPDATE</span><span class="w"> </span><span class="n">temp_employees</span>
+<span class="k">SET</span><span class="w"> </span><span class="n">age</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">age</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span>
+<span class="k">WHERE</span><span class="w"> </span><span class="n">department</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">&#39;HR&#39;</span><span class="p">;</span>
+
+<span class="c1">-- Verify the changes</span>
+<span class="k">SELECT</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="k">FROM</span><span class="w"> </span><span class="n">temp_employees</span><span class="w"> </span><span class="k">WHERE</span><span class="w"> </span><span class="n">department</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">&#39;HR&#39;</span><span class="p">;</span>
+</pre></div>
+</div>
+</div>
+</section>
+<section id="deleting-rows">
+<h2>Deleting Rows<a class="headerlink" href="#deleting-rows" title="Link to this heading">#</a></h2>
+<p>To delete rows from a table:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">%%</span><span class="k">sql</span>
+DELETE FROM employees
+WHERE department = &#39;HR&#39;;
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> * postgresql://postgres:***@localhost:5432/dvdrental
+1 rows affected.
+</pre></div>
+</div>
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[]
+</pre></div>
+</div>
+</div>
+</div>
+<ul class="simple">
+<li><p><strong>Explanation</strong>:</p>
+<ul>
+<li><p>The <code class="docutils literal notranslate"><span class="pre">DELETE</span></code> statement removes rows from the table.</p></li>
+<li><p>The <code class="docutils literal notranslate"><span class="pre">WHERE</span></code> clause specifies which rows should be deleted. Without a <code class="docutils literal notranslate"><span class="pre">WHERE</span></code> clause, all rows in the table will be deleted.</p></li>
+<li><p>Use the <code class="docutils literal notranslate"><span class="pre">DELETE</span></code> statement with caution, especially without a <code class="docutils literal notranslate"><span class="pre">WHERE</span></code> clause, to avoid accidentally removing all data from the table.</p></li>
+</ul>
+</li>
+</ul>
+<p>To see the changes:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">%%</span><span class="k">sql</span>
+SELECT * FROM employees;
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> * postgresql://postgres:***@localhost:5432/dvdrental
+7 rows affected.
+</pre></div>
+</div>
+<div class="output text_html"><table>
+    <thead>
+        <tr>
+            <th>id</th>
+            <th>first_name</th>
+            <th>last_name</th>
+            <th>age</th>
+            <th>department</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>2</td>
+            <td>Jane</td>
+            <td>Smith</td>
+            <td>25</td>
+            <td>Marketing</td>
+        </tr>
+        <tr>
+            <td>3</td>
+            <td>Quan</td>
+            <td>Nguyen</td>
+            <td>None</td>
+            <td>None</td>
+        </tr>
+        <tr>
+            <td>4</td>
+            <td>Alice</td>
+            <td>Johnson</td>
+            <td>28</td>
+            <td>Sales</td>
+        </tr>
+        <tr>
+            <td>6</td>
+            <td>Charlie</td>
+            <td>Davis</td>
+            <td>40</td>
+            <td>Finance</td>
+        </tr>
+        <tr>
+            <td>7</td>
+            <td>Emily</td>
+            <td>Clark</td>
+            <td>29</td>
+            <td>Engineering</td>
+        </tr>
+        <tr>
+            <td>8</td>
+            <td>Michael</td>
+            <td>Scott</td>
+            <td>45</td>
+            <td>Engineering</td>
+        </tr>
+        <tr>
+            <td>1</td>
+            <td>John</td>
+            <td>Doe</td>
+            <td>31</td>
+            <td>Engineering</td>
+        </tr>
+    </tbody>
+</table></div></div>
+</div>
+</section>
+<section id="truncating-a-table">
+<h2>Truncating a Table<a class="headerlink" href="#truncating-a-table" title="Link to this heading">#</a></h2>
+<p>To remove all rows from a table quickly:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">%%</span><span class="k">sql</span>
+TRUNCATE TABLE another_table;
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> * postgresql://postgres:***@localhost:5432/dvdrental
+Done.
+</pre></div>
+</div>
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[]
+</pre></div>
+</div>
+</div>
+</div>
+<ul class="simple">
+<li><p><strong>Explanation</strong>:</p>
+<ul>
+<li><p>The <code class="docutils literal notranslate"><span class="pre">TRUNCATE</span></code> statement removes all rows from a table, similar to the <code class="docutils literal notranslate"><span class="pre">DELETE</span></code> statement without a <code class="docutils literal notranslate"><span class="pre">WHERE</span></code> clause.</p></li>
+<li><p>It is faster than <code class="docutils literal notranslate"><span class="pre">DELETE</span></code> because it does not generate individual row delete operations.</p></li>
+<li><p>It resets any auto-increment counters on the table.</p></li>
+</ul>
+</li>
+</ul>
+<p>To see the changes:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">%%</span><span class="k">sql</span>
+SELECT * FROM another_table;
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> * postgresql://postgres:***@localhost:5432/dvdrental
+0 rows affected.
+</pre></div>
+</div>
+<div class="output text_html"><table>
+    <thead>
+        <tr>
+            <th>id</th>
+            <th>first_name</th>
+            <th>last_name</th>
+            <th>age</th>
+            <th>department</th>
+        </tr>
+    </thead>
+    <tbody>
+    </tbody>
+</table></div></div>
+</div>
+</section>
+<section id="returning-data-from-insert-update-delete">
+<h2>Returning Data from Insert, Update, Delete<a class="headerlink" href="#returning-data-from-insert-update-delete" title="Link to this heading">#</a></h2>
+<p>The table modifying commands <code class="docutils literal notranslate"><span class="pre">INSERT</span></code>, <code class="docutils literal notranslate"><span class="pre">UPDATE</span></code>, and <code class="docutils literal notranslate"><span class="pre">DELETE</span></code> all accept a <code class="docutils literal notranslate"><span class="pre">RETURNING</span></code> clause which returns the rows that have been modified by these commands. The returning clause can be helpful in reliably identifying the rows that have been modified, without having to run a separate <code class="docutils literal notranslate"><span class="pre">SELECT</span></code> statement after table modification.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">%%</span><span class="k">sql</span>
+INSERT INTO employees (first_name, last_name, age, department)
+VALUES (&#39;David&#39;, &#39;Miller&#39;, 32, &#39;IT&#39;)
+RETURNING *;
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> * postgresql://postgres:***@localhost:5432/dvdrental
+1 rows affected.
+</pre></div>
+</div>
+<div class="output text_html"><table>
+    <thead>
+        <tr>
+            <th>id</th>
+            <th>first_name</th>
+            <th>last_name</th>
+            <th>age</th>
+            <th>department</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>9</td>
+            <td>David</td>
+            <td>Miller</td>
+            <td>32</td>
+            <td>IT</td>
+        </tr>
+    </tbody>
+</table></div></div>
+</div>
+<p>To see the changes:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">%%</span><span class="k">sql</span>
+SELECT * FROM employees;
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> * postgresql://postgres:***@localhost:5432/dvdrental
+8 rows affected.
+</pre></div>
+</div>
+<div class="output text_html"><table>
+    <thead>
+        <tr>
+            <th>id</th>
+            <th>first_name</th>
+            <th>last_name</th>
+            <th>age</th>
+            <th>department</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>2</td>
+            <td>Jane</td>
+            <td>Smith</td>
+            <td>25</td>
+            <td>Marketing</td>
+        </tr>
+        <tr>
+            <td>3</td>
+            <td>Quan</td>
+            <td>Nguyen</td>
+            <td>None</td>
+            <td>None</td>
+        </tr>
+        <tr>
+            <td>4</td>
+            <td>Alice</td>
+            <td>Johnson</td>
+            <td>28</td>
+            <td>Sales</td>
+        </tr>
+        <tr>
+            <td>6</td>
+            <td>Charlie</td>
+            <td>Davis</td>
+            <td>40</td>
+            <td>Finance</td>
+        </tr>
+        <tr>
+            <td>7</td>
+            <td>Emily</td>
+            <td>Clark</td>
+            <td>29</td>
+            <td>Engineering</td>
+        </tr>
+        <tr>
+            <td>8</td>
+            <td>Michael</td>
+            <td>Scott</td>
+            <td>45</td>
+            <td>Engineering</td>
+        </tr>
+        <tr>
+            <td>1</td>
+            <td>John</td>
+            <td>Doe</td>
+            <td>31</td>
+            <td>Engineering</td>
+        </tr>
+        <tr>
+            <td>9</td>
+            <td>David</td>
+            <td>Miller</td>
+            <td>32</td>
+            <td>IT</td>
+        </tr>
+    </tbody>
+</table></div></div>
+</div>
+<ul class="simple">
+<li><p><strong>Explanation</strong>:</p>
+<ul>
+<li><p>The <code class="docutils literal notranslate"><span class="pre">RETURNING</span></code> clause allows you to return values from the rows that were modified by the <code class="docutils literal notranslate"><span class="pre">INSERT</span></code>, <code class="docutils literal notranslate"><span class="pre">UPDATE</span></code>, or <code class="docutils literal notranslate"><span class="pre">DELETE</span></code> statement.</p></li>
+<li><p>This is useful for retrieving the values of auto-increment columns or other computed values.</p></li>
+</ul>
+</li>
+</ul>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">%%</span><span class="k">sql</span>
+UPDATE employees
+SET age = 33
+WHERE first_name = &#39;David&#39; AND last_name = &#39;Miller&#39;
+RETURNING *;
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> * postgresql://postgres:***@localhost:5432/dvdrental
+1 rows affected.
+</pre></div>
+</div>
+<div class="output text_html"><table>
+    <thead>
+        <tr>
+            <th>id</th>
+            <th>first_name</th>
+            <th>last_name</th>
+            <th>age</th>
+            <th>department</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>9</td>
+            <td>David</td>
+            <td>Miller</td>
+            <td>33</td>
+            <td>IT</td>
+        </tr>
+    </tbody>
+</table></div></div>
+</div>
+<p>To see the changes:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">%%</span><span class="k">sql</span>
+SELECT * FROM employees;
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> * postgresql://postgres:***@localhost:5432/dvdrental
+8 rows affected.
+</pre></div>
+</div>
+<div class="output text_html"><table>
+    <thead>
+        <tr>
+            <th>id</th>
+            <th>first_name</th>
+            <th>last_name</th>
+            <th>age</th>
+            <th>department</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>2</td>
+            <td>Jane</td>
+            <td>Smith</td>
+            <td>25</td>
+            <td>Marketing</td>
+        </tr>
+        <tr>
+            <td>3</td>
+            <td>Quan</td>
+            <td>Nguyen</td>
+            <td>None</td>
+            <td>None</td>
+        </tr>
+        <tr>
+            <td>4</td>
+            <td>Alice</td>
+            <td>Johnson</td>
+            <td>28</td>
+            <td>Sales</td>
+        </tr>
+        <tr>
+            <td>6</td>
+            <td>Charlie</td>
+            <td>Davis</td>
+            <td>40</td>
+            <td>Finance</td>
+        </tr>
+        <tr>
+            <td>7</td>
+            <td>Emily</td>
+            <td>Clark</td>
+            <td>29</td>
+            <td>Engineering</td>
+        </tr>
+        <tr>
+            <td>8</td>
+            <td>Michael</td>
+            <td>Scott</td>
+            <td>45</td>
+            <td>Engineering</td>
+        </tr>
+        <tr>
+            <td>1</td>
+            <td>John</td>
+            <td>Doe</td>
+            <td>31</td>
+            <td>Engineering</td>
+        </tr>
+        <tr>
+            <td>9</td>
+            <td>David</td>
+            <td>Miller</td>
+            <td>33</td>
+            <td>IT</td>
+        </tr>
+    </tbody>
+</table></div></div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">%%</span><span class="k">sql</span>
+DELETE FROM employees
+WHERE first_name = &#39;David&#39; AND last_name = &#39;Miller&#39;
+RETURNING *;
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> * postgresql://postgres:***@localhost:5432/dvdrental
+1 rows affected.
+</pre></div>
+</div>
+<div class="output text_html"><table>
+    <thead>
+        <tr>
+            <th>id</th>
+            <th>first_name</th>
+            <th>last_name</th>
+            <th>age</th>
+            <th>department</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>9</td>
+            <td>David</td>
+            <td>Miller</td>
+            <td>33</td>
+            <td>IT</td>
+        </tr>
+    </tbody>
+</table></div></div>
+</div>
+<p>To see the changes:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">%%</span><span class="k">sql</span>
+SELECT * FROM employees;
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> * postgresql://postgres:***@localhost:5432/dvdrental
+7 rows affected.
+</pre></div>
+</div>
+<div class="output text_html"><table>
+    <thead>
+        <tr>
+            <th>id</th>
+            <th>first_name</th>
+            <th>last_name</th>
+            <th>age</th>
+            <th>department</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>2</td>
+            <td>Jane</td>
+            <td>Smith</td>
+            <td>25</td>
+            <td>Marketing</td>
+        </tr>
+        <tr>
+            <td>3</td>
+            <td>Quan</td>
+            <td>Nguyen</td>
+            <td>None</td>
+            <td>None</td>
+        </tr>
+        <tr>
+            <td>4</td>
+            <td>Alice</td>
+            <td>Johnson</td>
+            <td>28</td>
+            <td>Sales</td>
+        </tr>
+        <tr>
+            <td>6</td>
+            <td>Charlie</td>
+            <td>Davis</td>
+            <td>40</td>
+            <td>Finance</td>
+        </tr>
+        <tr>
+            <td>7</td>
+            <td>Emily</td>
+            <td>Clark</td>
+            <td>29</td>
+            <td>Engineering</td>
+        </tr>
+        <tr>
+            <td>8</td>
+            <td>Michael</td>
+            <td>Scott</td>
+            <td>45</td>
+            <td>Engineering</td>
+        </tr>
+        <tr>
+            <td>1</td>
+            <td>John</td>
+            <td>Doe</td>
+            <td>31</td>
+            <td>Engineering</td>
+        </tr>
+    </tbody>
+</table></div></div>
+</div>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./lectures"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="lecture5.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">Lecture 5: PostgreSQL part 2</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="../installation_mac.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">Installation instruction for macOS</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#introduction">Introduction</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#learning-objectives">Learning Objectives</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#connect-to-database">Connect to database</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#sample-table">Sample Table</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#inserting-rows">Inserting Rows</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#insert-by-column-position">Insert by Column Position</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#insert-by-column-name">Insert by Column Name</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#insert-multiple-rows-at-once">Insert Multiple Rows at Once</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#insert-from-another-table">Insert from Another Table</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#creating-another-table">Creating <code class="docutils literal notranslate"><span class="pre">another_table</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#insert-sample-data-into-another-table">Insert Sample Data into <code class="docutils literal notranslate"><span class="pre">another_table</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#insert-from-another-table-to-employees">Insert from <code class="docutils literal notranslate"><span class="pre">another_table</span></code> to <code class="docutils literal notranslate"><span class="pre">employees</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#modifying-rows">Modifying Rows</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#deleting-rows">Deleting Rows</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#truncating-a-table">Truncating a Table</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#returning-data-from-insert-update-delete">Returning Data from Insert, Update, Delete</a></li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By Quan Nguyen
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2023.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b"></script>
+<script src="../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>
