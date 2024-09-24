@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>Lecture 6: PostgreSQL part 2 &#8212; DASC 5410 - Data and Database Management for Data Science</title>
+    <title>Lecture 6: PostgreSQL part 3 &#8212; DASC 5410 - Data and Database Management for Data Science</title>
   
   
   
@@ -186,7 +186,7 @@
 <li class="toctree-l1"><a class="reference internal" href="lecture3.html">Lecture 3: Relational models part 2</a></li>
 <li class="toctree-l1"><a class="reference internal" href="lecture4.html">Lecture 4: PostgreSQL part 1</a></li>
 <li class="toctree-l1"><a class="reference internal" href="lecture5.html">Lecture 5: PostgreSQL part 2</a></li>
-<li class="toctree-l1 current active"><a class="current reference internal" href="#">Lecture 6: PostgreSQL part 2</a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">Lecture 6: PostgreSQL part 3</a></li>
 </ul>
 <p aria-level="2" class="caption" role="heading"><span class="caption-text">Installation Guide</span></p>
 <ul class="nav bd-sidenav">
@@ -334,7 +334,7 @@ document.write(`
               
 
 <div id="jb-print-docs-body" class="onlyprint">
-    <h1>Lecture 6: PostgreSQL part 2</h1>
+    <h1>Lecture 6: PostgreSQL part 3</h1>
     <!-- Table of contents -->
     <div id="print-main-content">
         <div id="jb-print-toc">
@@ -377,8 +377,8 @@ document.write(`
 <div id="searchbox"></div>
                 <article class="bd-article">
                   
-  <section class="tex2jax_ignore mathjax_ignore" id="lecture-6-postgresql-part-2">
-<h1>Lecture 6: PostgreSQL part 2<a class="headerlink" href="#lecture-6-postgresql-part-2" title="Link to this heading">#</a></h1>
+  <section class="tex2jax_ignore mathjax_ignore" id="lecture-6-postgresql-part-3">
+<h1>Lecture 6: PostgreSQL part 3<a class="headerlink" href="#lecture-6-postgresql-part-3" title="Link to this heading">#</a></h1>
 <section id="introduction">
 <h2>Introduction<a class="headerlink" href="#introduction" title="Link to this heading">#</a></h2>
 <p>SQL (Structured Query Language) is a powerful language used for managing and manipulating relational databases. It consists of five main components:</p>
@@ -1187,15 +1187,9 @@ SELECT * FROM employees;
 <li><p>Use a <code class="docutils literal notranslate"><span class="pre">SELECT</span></code> Statement First:</p></li>
 <li><p>Before running an <code class="docutils literal notranslate"><span class="pre">UPDATE</span></code> statement, use a <code class="docutils literal notranslate"><span class="pre">SELECT</span></code> statement with the same <code class="docutils literal notranslate"><span class="pre">WHERE</span></code> clause to ensure that the rows returned are the ones you intend to update.</p></li>
 </ul>
-<div class="highlight-sql notranslate"><div class="highlight"><pre><span></span><span class="c1">-- Example: Check the rows to be updated</span>
-<span class="k">SELECT</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="k">FROM</span><span class="w"> </span><span class="n">employees</span><span class="w"> </span><span class="k">WHERE</span><span class="w"> </span><span class="n">department</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">&#39;HR&#39;</span><span class="p">;</span>
-
-<span class="o">**</span><span class="k">Create</span><span class="w"> </span><span class="n">a</span><span class="w"> </span><span class="k">Temporary</span><span class="w"> </span><span class="k">Table</span><span class="o">**</span><span class="p">:</span>
-
-<span class="n">Another</span><span class="w"> </span><span class="k">method</span><span class="w"> </span><span class="k">is</span><span class="w"> </span><span class="k">to</span><span class="w"> </span><span class="k">create</span><span class="w"> </span><span class="n">a</span><span class="w"> </span><span class="k">temporary</span><span class="w"> </span><span class="k">table</span><span class="w"> </span><span class="k">to</span><span class="w"> </span><span class="n">test</span><span class="w"> </span><span class="n">your</span><span class="w"> </span><span class="o">`</span><span class="k">UPDATE</span><span class="o">`</span><span class="w"> </span><span class="k">statement</span><span class="p">.</span><span class="w"> </span><span class="n">This</span><span class="w"> </span><span class="n">allows</span><span class="w"> </span><span class="n">you</span><span class="w"> </span><span class="k">to</span><span class="w"> </span><span class="n">verify</span><span class="w"> </span><span class="n">the</span><span class="w"> </span><span class="n">changes</span><span class="w"> </span><span class="k">without</span><span class="w"> </span><span class="n">affecting</span><span class="w"> </span><span class="n">the</span><span class="w"> </span><span class="n">actual</span><span class="w"> </span><span class="k">data</span><span class="p">.</span>
-
-<span class="o">```</span><span class="k">sql</span>
-<span class="c1">-- Example: Create a temporary table</span>
+<p><strong>Create a Temporary Table</strong>:</p>
+<p>Another method is to create a temporary table to test your <code class="docutils literal notranslate"><span class="pre">UPDATE</span></code> statement. This allows you to verify the changes without affecting the actual data.</p>
+<div class="highlight-sql notranslate"><div class="highlight"><pre><span></span><span class="c1">-- Example: Create a temporary table</span>
 <span class="k">CREATE</span><span class="w"> </span><span class="n">TEMP</span><span class="w"> </span><span class="k">TABLE</span><span class="w"> </span><span class="n">temp_employees</span><span class="w"> </span><span class="k">AS</span>
 <span class="k">SELECT</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="k">FROM</span><span class="w"> </span><span class="n">employees</span><span class="p">;</span>
 
