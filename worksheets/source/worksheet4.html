@@ -1,0 +1,1279 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Worksheet 4: PostgreSQL data manipulation &#8212; DASC 5410 - Data and Database Management for Data Science</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../../_static/styles/theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../../_static/styles/bootstrap.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../../_static/styles/pydata-sphinx-theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+
+  
+  <link href="../../_static/vendor/fontawesome/6.5.2/css/all.min.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=fa44fd50" />
+    <link rel="stylesheet" type="text/css" href="../../_static/styles/sphinx-book-theme.css?v=a3416100" />
+    <link rel="stylesheet" type="text/css" href="../../_static/togglebutton.css?v=13237357" />
+    <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css?v=be8a1c11" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sphinx-thebe.css?v=4fa983c6" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sphinx-design.min.css?v=95c83b7e" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" />
+<link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
+  <script src="../../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+    <script src="../../_static/documentation_options.js?v=9eb32ce0"></script>
+    <script src="../../_static/doctools.js?v=9a2dae69"></script>
+    <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../../_static/copybutton.js?v=f281be69"></script>
+    <script src="../../_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="../../_static/togglebutton.js?v=4a39c7ea"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="../../_static/design-tabs.js?v=f930bc37"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script async="async" src="../../_static/sphinx-thebe.js?v=c100c467"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'worksheets/source/worksheet4';</script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-primary-sidebar-checkbox"/>
+  <label class="overlay overlay-primary" for="pst-primary-sidebar-checkbox"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-secondary-sidebar-checkbox"/>
+  <label class="overlay overlay-secondary" for="pst-secondary-sidebar-checkbox"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search this book..."
+         aria-label="Search this book..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+        
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../../syllabus.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="../../_static/TRU_Logo.png" class="logo__image only-light" alt="DASC 5410 - Data and Database Management for Data Science - Home"/>
+    <script>document.write(`<img src="../../_static/TRU_Logo.png" class="logo__image only-dark" alt="DASC 5410 - Data and Database Management for Data Science - Home"/>`);</script>
+  
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+ <script>
+ document.write(`
+   <button class="btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="../../syllabus.html">
+                    DASC 5410 - Data and Database Management for Data Science
+                </a>
+            </li>
+        </ul>
+        <p aria-level="2" class="caption" role="heading"><span class="caption-text">Lectures Notes</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../../lectures/lecture1.html">Lecture 1: Data types and data structures</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../lectures/lecture2.html">Lecture 2: Relational models</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../lectures/lecture3.html">Lecture 3: Relational models part 2</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../lectures/lecture4.html">Lecture 4: PostgreSQL part 1</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../lectures/lecture5.html">Lecture 5: PostgreSQL part 2</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../lectures/lecture6.html">Lecture 6: PostgreSQL part 3</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../lectures/lecture7.html">Lecture 7: PostgreSQL part 4</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Installation Guide</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../../installation_mac.html">Installation instruction for macOS</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../installation_windows.html">Installation instruction for Windows</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Github tutorial</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../../lectures/tutorial_github.html">Version control with GitHub</a></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</button></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="../../_sources/worksheets/source/worksheet4.ipynb" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.ipynb</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
+  </button>
+`);
+</script>
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm pst-navbar-icon search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+  </button>
+`);
+</script>
+<button class="sidebar-toggle secondary-toggle btn btn-sm" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</button>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>Worksheet 4: PostgreSQL data manipulation</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-1-create-table-with-constraints">Exercise 1: Create Table with Constraints</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#task">Task</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#instructions">Instructions</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#solution">Solution</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#testing-the-constraints">Testing the Constraints</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-2-add-foreign-key-constraint-with-cascade">Exercise 2: Add Foreign Key Constraint with Cascade</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id1">Task</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id2">Instructions</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id3">Solution</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#testing-the-referential-integrity">Testing the Referential Integrity</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-3-insert-records-into-the-students-table">Exercise 3: Insert Records into the Students Table</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id4">Task</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id5">Instructions</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#expected-output">Expected output</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-4-aggregate-functions-count-avg-min-max">Exercise 4: Aggregate Functions - COUNT, AVG, MIN, MAX</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id6">Task</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id7">Solution</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-5-aggregate-functions-group-by-where-having-and-order-by">Exercise 5: Aggregate Functions - GROUP BY, WHERE, HAVING, and ORDER BY</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id8">Task</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#submission-instructions">Submission instructions</a></li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="worksheet-4-postgresql-data-manipulation">
+<h1>Worksheet 4: PostgreSQL data manipulation<a class="headerlink" href="#worksheet-4-postgresql-data-manipulation" title="Link to this heading">#</a></h1>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<span class="o">%</span><span class="k">load_ext</span> sql
+<span class="o">%</span><span class="k">config</span> SqlMagic.displaylimit = 20
+<span class="o">%</span><span class="k">config</span> SqlMagic.autolimit = 30
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># load the credentials from the credentials.json file</span>
+<span class="kn">import</span> <span class="nn">json</span>
+<span class="kn">import</span> <span class="nn">urllib.parse</span>
+
+<span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s1">&#39;data/credentials.json&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+    <span class="n">login</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">f</span><span class="p">)</span>
+    
+<span class="n">username</span> <span class="o">=</span> <span class="n">login</span><span class="p">[</span><span class="s1">&#39;user&#39;</span><span class="p">]</span>
+<span class="n">password</span> <span class="o">=</span> <span class="n">urllib</span><span class="o">.</span><span class="n">parse</span><span class="o">.</span><span class="n">quote</span><span class="p">(</span><span class="n">login</span><span class="p">[</span><span class="s1">&#39;password&#39;</span><span class="p">])</span>
+<span class="n">host</span> <span class="o">=</span> <span class="n">login</span><span class="p">[</span><span class="s1">&#39;host&#39;</span><span class="p">]</span>
+<span class="n">port</span> <span class="o">=</span> <span class="n">login</span><span class="p">[</span><span class="s1">&#39;port&#39;</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">%</span><span class="k">sql</span> postgresql://{username}:{password}@{host}:{port}/dvdrental
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&#39;Connected: postgres@dvdrental&#39;
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">%%</span><span class="k">sql</span>
+DROP TABLE IF EXISTS employees;
+DROP TABLE IF EXISTS departments;
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> * postgresql://postgres:***@localhost:5432/dvdrental
+Done.
+Done.
+</pre></div>
+</div>
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[]
+</pre></div>
+</div>
+</div>
+</div>
+<section id="exercise-1-create-table-with-constraints">
+<h2>Exercise 1: Create Table with Constraints<a class="headerlink" href="#exercise-1-create-table-with-constraints" title="Link to this heading">#</a></h2>
+<section id="task">
+<h3>Task<a class="headerlink" href="#task" title="Link to this heading">#</a></h3>
+<p>Create a table named <code class="docutils literal notranslate"><span class="pre">students</span></code> with the following columns and constraints:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">id</span></code>: An auto-incrementing primary key.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">first_name</span></code>: A non-nullable string with a maximum length of 50 characters.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">last_name</span></code>: A non-nullable string with a maximum length of 50 characters.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">email</span></code>: A unique string with a maximum length of 100 characters.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">age</span></code>: An integer that must be greater than or equal to 18.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">department</span></code>: A string with a maximum length of 50 characters, defaulting to ‘General’.</p></li>
+</ul>
+</section>
+<section id="instructions">
+<h3>Instructions<a class="headerlink" href="#instructions" title="Link to this heading">#</a></h3>
+<ol class="arabic simple">
+<li><p>Write the SQL code to create the <code class="docutils literal notranslate"><span class="pre">students</span></code> table with the specified constraints.</p></li>
+<li><p>Write code to test each constraint:</p>
+<ul class="simple">
+<li><p>Test the <code class="docutils literal notranslate"><span class="pre">NOT</span> <span class="pre">NULL</span></code> constraint on <code class="docutils literal notranslate"><span class="pre">first_name</span></code> and <code class="docutils literal notranslate"><span class="pre">last_name</span></code>.</p></li>
+<li><p>Test the <code class="docutils literal notranslate"><span class="pre">UNIQUE</span></code> constraint on <code class="docutils literal notranslate"><span class="pre">email</span></code>.</p></li>
+<li><p>Test the <code class="docutils literal notranslate"><span class="pre">CHECK</span></code> constraint on <code class="docutils literal notranslate"><span class="pre">age</span></code>.</p></li>
+<li><p>Test the <code class="docutils literal notranslate"><span class="pre">DEFAULT</span></code> constraint on <code class="docutils literal notranslate"><span class="pre">department</span></code>.</p></li>
+</ul>
+</li>
+</ol>
+</section>
+<section id="solution">
+<h3>Solution<a class="headerlink" href="#solution" title="Link to this heading">#</a></h3>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># BEGIN SOLUTION</span>
+<span class="o">%%</span><span class="k">sql</span>
+CREATE TABLE students (
+    id SERIAL PRIMARY KEY,
+    first_name VARCHAR(50) NOT NULL,
+    last_name VARCHAR(50) NOT NULL,
+    email VARCHAR(100) UNIQUE,
+    age INT CHECK (age &gt;= 18),
+    department VARCHAR(50) DEFAULT &#39;General&#39;
+);
+# END SOLUTION
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> * postgresql://postgres:***@localhost:5432/dvdrental
+Done.
+</pre></div>
+</div>
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[]
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="testing-the-constraints">
+<h3>Testing the Constraints<a class="headerlink" href="#testing-the-constraints" title="Link to this heading">#</a></h3>
+<ol class="arabic">
+<li><p><strong>Test the <code class="docutils literal notranslate"><span class="pre">NOT</span> <span class="pre">NULL</span></code> Constraint</strong>:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Attempt to insert a row with a NULL first_name</span>
+<span class="o">%%</span><span class="n">sql</span>
+<span class="n">INSERT</span> <span class="n">INTO</span> <span class="n">students</span> <span class="p">(</span><span class="n">first_name</span><span class="p">,</span> <span class="n">last_name</span><span class="p">,</span> <span class="n">email</span><span class="p">,</span> <span class="n">age</span><span class="p">)</span> <span class="n">VALUES</span>
+    <span class="p">(</span><span class="n">NULL</span><span class="p">,</span> <span class="s1">&#39;Doe&#39;</span><span class="p">,</span> <span class="s1">&#39;john.doe@example.com&#39;</span><span class="p">,</span> <span class="mi">20</span><span class="p">);</span>
+
+<span class="c1"># Attempt to insert a row with a NULL last_name</span>
+<span class="o">%%</span><span class="n">sql</span>
+<span class="n">INSERT</span> <span class="n">INTO</span> <span class="n">students</span> <span class="p">(</span><span class="n">first_name</span><span class="p">,</span> <span class="n">last_name</span><span class="p">,</span> <span class="n">email</span><span class="p">,</span> <span class="n">age</span><span class="p">)</span> <span class="n">VALUES</span>
+    <span class="p">(</span><span class="s1">&#39;John&#39;</span><span class="p">,</span> <span class="n">NULL</span><span class="p">,</span> <span class="s1">&#39;john.doe@example.com&#39;</span><span class="p">,</span> <span class="mi">20</span><span class="p">);</span>
+</pre></div>
+</div>
+</li>
+<li><p><strong>Test the <code class="docutils literal notranslate"><span class="pre">UNIQUE</span></code> Constraint</strong>:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Insert a row with a unique email</span>
+<span class="o">%%</span><span class="n">sql</span>
+<span class="n">INSERT</span> <span class="n">INTO</span> <span class="n">students</span> <span class="p">(</span><span class="n">first_name</span><span class="p">,</span> <span class="n">last_name</span><span class="p">,</span> <span class="n">email</span><span class="p">,</span> <span class="n">age</span><span class="p">)</span> <span class="n">VALUES</span>
+    <span class="p">(</span><span class="s1">&#39;John&#39;</span><span class="p">,</span> <span class="s1">&#39;Doe&#39;</span><span class="p">,</span> <span class="s1">&#39;john.doe@example.com&#39;</span><span class="p">,</span> <span class="mi">20</span><span class="p">);</span>
+
+<span class="c1"># Attempt to insert another row with the same email</span>
+<span class="o">%%</span><span class="n">sql</span>
+<span class="n">INSERT</span> <span class="n">INTO</span> <span class="n">students</span> <span class="p">(</span><span class="n">first_name</span><span class="p">,</span> <span class="n">last_name</span><span class="p">,</span> <span class="n">email</span><span class="p">,</span> <span class="n">age</span><span class="p">)</span> <span class="n">VALUES</span>
+    <span class="p">(</span><span class="s1">&#39;Jane&#39;</span><span class="p">,</span> <span class="s1">&#39;Smith&#39;</span><span class="p">,</span> <span class="s1">&#39;john.doe@example.com&#39;</span><span class="p">,</span> <span class="mi">22</span><span class="p">);</span>
+</pre></div>
+</div>
+</li>
+<li><p><strong>Test the <code class="docutils literal notranslate"><span class="pre">CHECK</span></code> Constraint</strong>:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Attempt to insert a row with an age less than 18</span>
+<span class="o">%%</span><span class="n">sql</span>
+<span class="n">INSERT</span> <span class="n">INTO</span> <span class="n">students</span> <span class="p">(</span><span class="n">first_name</span><span class="p">,</span> <span class="n">last_name</span><span class="p">,</span> <span class="n">email</span><span class="p">,</span> <span class="n">age</span><span class="p">)</span> <span class="n">VALUES</span>
+    <span class="p">(</span><span class="s1">&#39;John&#39;</span><span class="p">,</span> <span class="s1">&#39;Doe&#39;</span><span class="p">,</span> <span class="s1">&#39;john.doe@example.com&#39;</span><span class="p">,</span> <span class="mi">17</span><span class="p">);</span>
+</pre></div>
+</div>
+</li>
+<li><p><strong>Test the <code class="docutils literal notranslate"><span class="pre">DEFAULT</span></code> Constraint</strong>:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Insert a row without specifying the department column</span>
+<span class="o">%%</span><span class="n">sql</span>
+<span class="n">INSERT</span> <span class="n">INTO</span> <span class="n">students</span> <span class="p">(</span><span class="n">first_name</span><span class="p">,</span> <span class="n">last_name</span><span class="p">,</span> <span class="n">email</span><span class="p">,</span> <span class="n">age</span><span class="p">)</span> <span class="n">VALUES</span>
+    <span class="p">(</span><span class="s1">&#39;John&#39;</span><span class="p">,</span> <span class="s1">&#39;Doe&#39;</span><span class="p">,</span> <span class="s1">&#39;john.doe@example.com&#39;</span><span class="p">,</span> <span class="mi">20</span><span class="p">);</span>
+
+<span class="c1"># Query the table to verify the default value</span>
+<span class="o">%%</span><span class="n">sql</span>
+<span class="n">SELECT</span> <span class="o">*</span> <span class="n">FROM</span> <span class="n">students</span><span class="p">;</span>
+</pre></div>
+</div>
+</li>
+</ol>
+<p>By following these steps, you can verify that the constraints on the <code class="docutils literal notranslate"><span class="pre">students</span></code> table are enforced correctly.</p>
+</section>
+</section>
+<section id="exercise-2-add-foreign-key-constraint-with-cascade">
+<h2>Exercise 2: Add Foreign Key Constraint with Cascade<a class="headerlink" href="#exercise-2-add-foreign-key-constraint-with-cascade" title="Link to this heading">#</a></h2>
+<section id="id1">
+<h3>Task<a class="headerlink" href="#id1" title="Link to this heading">#</a></h3>
+<p>Extend the previous exercise by creating a new table named <code class="docutils literal notranslate"><span class="pre">courses</span></code> and adding a foreign key constraint to the <code class="docutils literal notranslate"><span class="pre">students</span></code> table. The <code class="docutils literal notranslate"><span class="pre">courses</span></code> table should have the following columns:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">id</span></code>: An auto-incrementing primary key.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">name</span></code>: A non-nullable string with a maximum length of 100 characters.</p></li>
+</ul>
+<p>Modify the <code class="docutils literal notranslate"><span class="pre">students</span></code> table to include a foreign key column <code class="docutils literal notranslate"><span class="pre">course_id</span></code> that references the <code class="docutils literal notranslate"><span class="pre">id</span></code> column in the <code class="docutils literal notranslate"><span class="pre">courses</span></code> table. Use the <code class="docutils literal notranslate"><span class="pre">ON</span> <span class="pre">DELETE</span> <span class="pre">CASCADE</span></code> and <code class="docutils literal notranslate"><span class="pre">ON</span> <span class="pre">UPDATE</span> <span class="pre">CASCADE</span></code> options for the foreign key constraint.</p>
+</section>
+<section id="id2">
+<h3>Instructions<a class="headerlink" href="#id2" title="Link to this heading">#</a></h3>
+<ol class="arabic simple">
+<li><p>Write the SQL code to create the <code class="docutils literal notranslate"><span class="pre">courses</span></code> table.</p></li>
+<li><p>Modify the <code class="docutils literal notranslate"><span class="pre">students</span></code> table to include the <code class="docutils literal notranslate"><span class="pre">course_id</span></code> column with the foreign key constraint.</p></li>
+<li><p>Write code to test the referential integrity:</p>
+<ul class="simple">
+<li><p>Test the <code class="docutils literal notranslate"><span class="pre">ON</span> <span class="pre">DELETE</span> <span class="pre">CASCADE</span></code> constraint.</p></li>
+<li><p>Test the <code class="docutils literal notranslate"><span class="pre">ON</span> <span class="pre">UPDATE</span> <span class="pre">CASCADE</span></code> constraint.</p></li>
+</ul>
+</li>
+</ol>
+</section>
+<section id="id3">
+<h3>Solution<a class="headerlink" href="#id3" title="Link to this heading">#</a></h3>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># BEGIN SOLUTION</span>
+<span class="o">%%</span><span class="k">sql</span>
+
+CREATE TABLE courses (
+    id SERIAL PRIMARY KEY,
+    name VARCHAR(100) NOT NULL
+);
+# END SOLUTION
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> * postgresql://postgres:***@localhost:5432/dvdrental
+Done.
+</pre></div>
+</div>
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[]
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># BEGIN SOLUTION</span>
+<span class="o">%%</span><span class="k">sql</span>
+ALTER TABLE students
+ADD COLUMN course_id INT,
+ADD CONSTRAINT fk_course
+FOREIGN KEY (course_id) REFERENCES courses (id)
+ON DELETE CASCADE
+ON UPDATE CASCADE;
+# END SOLUTION
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> * postgresql://postgres:***@localhost:5432/dvdrental
+Done.
+</pre></div>
+</div>
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[]
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="testing-the-referential-integrity">
+<h3>Testing the Referential Integrity<a class="headerlink" href="#testing-the-referential-integrity" title="Link to this heading">#</a></h3>
+<ol class="arabic">
+<li><p><strong>Test the <code class="docutils literal notranslate"><span class="pre">ON</span> <span class="pre">DELETE</span> <span class="pre">CASCADE</span></code> Constraint</strong>:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Insert sample data into courses table</span>
+<span class="o">%%</span><span class="n">sql</span>
+<span class="n">INSERT</span> <span class="n">INTO</span> <span class="n">courses</span> <span class="p">(</span><span class="n">name</span><span class="p">)</span> <span class="n">VALUES</span>
+    <span class="p">(</span><span class="s1">&#39;Mathematics&#39;</span><span class="p">),</span>
+    <span class="p">(</span><span class="s1">&#39;Physics&#39;</span><span class="p">);</span>
+
+<span class="c1"># Insert sample data into students table</span>
+<span class="o">%%</span><span class="n">sql</span>
+<span class="n">INSERT</span> <span class="n">INTO</span> <span class="n">students</span> <span class="p">(</span><span class="n">first_name</span><span class="p">,</span> <span class="n">last_name</span><span class="p">,</span> <span class="n">email</span><span class="p">,</span> <span class="n">age</span><span class="p">,</span> <span class="n">course_id</span><span class="p">)</span> <span class="n">VALUES</span>
+    <span class="p">(</span><span class="s1">&#39;John&#39;</span><span class="p">,</span> <span class="s1">&#39;Doe&#39;</span><span class="p">,</span> <span class="s1">&#39;john.doe@example.com&#39;</span><span class="p">,</span> <span class="mi">20</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span>
+    <span class="p">(</span><span class="s1">&#39;Jane&#39;</span><span class="p">,</span> <span class="s1">&#39;Smith&#39;</span><span class="p">,</span> <span class="s1">&#39;jane.smith@example.com&#39;</span><span class="p">,</span> <span class="mi">22</span><span class="p">,</span> <span class="mi">2</span><span class="p">);</span>
+
+<span class="c1"># Delete a course</span>
+<span class="o">%%</span><span class="n">sql</span>
+<span class="n">DELETE</span> <span class="n">FROM</span> <span class="n">courses</span> <span class="n">WHERE</span> <span class="nb">id</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span>
+
+<span class="c1"># Query the students table to verify the ON DELETE CASCADE constraint</span>
+<span class="o">%%</span><span class="n">sql</span>
+<span class="n">SELECT</span> <span class="o">*</span> <span class="n">FROM</span> <span class="n">students</span><span class="p">;</span>
+</pre></div>
+</div>
+</li>
+<li><p><strong>Test the <code class="docutils literal notranslate"><span class="pre">ON</span> <span class="pre">UPDATE</span> <span class="pre">CASCADE</span></code> Constraint</strong>:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Update the id of a course</span>
+<span class="o">%%</span><span class="n">sql</span>
+<span class="n">UPDATE</span> <span class="n">courses</span> <span class="n">SET</span> <span class="nb">id</span> <span class="o">=</span> <span class="mi">3</span> <span class="n">WHERE</span> <span class="nb">id</span> <span class="o">=</span> <span class="mi">2</span><span class="p">;</span>
+
+<span class="c1"># Query the students table to verify the ON UPDATE CASCADE constraint</span>
+<span class="o">%%</span><span class="n">sql</span>
+<span class="n">SELECT</span> <span class="o">*</span> <span class="n">FROM</span> <span class="n">students</span><span class="p">;</span>
+</pre></div>
+</div>
+</li>
+</ol>
+<p>By following these steps, you can verify that the referential integrity constraints on the <code class="docutils literal notranslate"><span class="pre">students</span></code> table are enforced correctly.</p>
+</section>
+</section>
+<section id="exercise-3-insert-records-into-the-students-table">
+<h2>Exercise 3: Insert Records into the Students Table<a class="headerlink" href="#exercise-3-insert-records-into-the-students-table" title="Link to this heading">#</a></h2>
+<section id="id4">
+<h3>Task<a class="headerlink" href="#id4" title="Link to this heading">#</a></h3>
+<p>Extend the previous exercises by inserting 10 records into the <code class="docutils literal notranslate"><span class="pre">students</span></code> table. Ensure that the <code class="docutils literal notranslate"><span class="pre">course_id</span></code> values correspond to valid entries in the <code class="docutils literal notranslate"><span class="pre">courses</span></code> table.</p>
+</section>
+<section id="id5">
+<h3>Instructions<a class="headerlink" href="#id5" title="Link to this heading">#</a></h3>
+<ol class="arabic simple">
+<li><p>Write the SQL code to insert 10 records into the <code class="docutils literal notranslate"><span class="pre">students</span></code> table.</p></li>
+<li><p>Ensure that the <code class="docutils literal notranslate"><span class="pre">course_id</span></code> values correspond to valid entries in the <code class="docutils literal notranslate"><span class="pre">courses</span></code> table.</p></li>
+<li><p>Write code to query the <code class="docutils literal notranslate"><span class="pre">students</span></code> table and verify the inserted records.</p></li>
+</ol>
+</section>
+<section id="expected-output">
+<h3>Expected output<a class="headerlink" href="#expected-output" title="Link to this heading">#</a></h3>
+<p><code class="docutils literal notranslate"><span class="pre">courses</span></code> table</p>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head text-right"><p>id</p></th>
+<th class="head text-right"><p>name</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td class="text-right"><p>1</p></td>
+<td class="text-right"><p>Mathematics</p></td>
+</tr>
+<tr class="row-odd"><td class="text-right"><p>2</p></td>
+<td class="text-right"><p>Physics</p></td>
+</tr>
+<tr class="row-even"><td class="text-right"><p>3</p></td>
+<td class="text-right"><p>Chemistry</p></td>
+</tr>
+<tr class="row-odd"><td class="text-right"><p>4</p></td>
+<td class="text-right"><p>Biology</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p><code class="docutils literal notranslate"><span class="pre">students</span></code> table</p>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head text-right"><p>id</p></th>
+<th class="head text-right"><p>first_name</p></th>
+<th class="head text-right"><p>last_name</p></th>
+<th class="head text-right"><p>email</p></th>
+<th class="head text-right"><p>age</p></th>
+<th class="head text-right"><p>department</p></th>
+<th class="head text-right"><p>course_id</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td class="text-right"><p>1</p></td>
+<td class="text-right"><p>John</p></td>
+<td class="text-right"><p>Doe</p></td>
+<td class="text-right"><p>john.doe&#64;example.com</p></td>
+<td class="text-right"><p>20</p></td>
+<td class="text-right"><p>General</p></td>
+<td class="text-right"><p>1</p></td>
+</tr>
+<tr class="row-odd"><td class="text-right"><p>2</p></td>
+<td class="text-right"><p>Jane</p></td>
+<td class="text-right"><p>Smith</p></td>
+<td class="text-right"><p>jane.smith&#64;example.com</p></td>
+<td class="text-right"><p>22</p></td>
+<td class="text-right"><p>General</p></td>
+<td class="text-right"><p>2</p></td>
+</tr>
+<tr class="row-even"><td class="text-right"><p>3</p></td>
+<td class="text-right"><p>Alice</p></td>
+<td class="text-right"><p>Johnson</p></td>
+<td class="text-right"><p>alice.johnson&#64;example.com</p></td>
+<td class="text-right"><p>19</p></td>
+<td class="text-right"><p>General</p></td>
+<td class="text-right"><p>3</p></td>
+</tr>
+<tr class="row-odd"><td class="text-right"><p>4</p></td>
+<td class="text-right"><p>Bob</p></td>
+<td class="text-right"><p>Brown</p></td>
+<td class="text-right"><p>bob.brown&#64;example.com</p></td>
+<td class="text-right"><p>21</p></td>
+<td class="text-right"><p>General</p></td>
+<td class="text-right"><p>4</p></td>
+</tr>
+<tr class="row-even"><td class="text-right"><p>5</p></td>
+<td class="text-right"><p>Charlie</p></td>
+<td class="text-right"><p>Davis</p></td>
+<td class="text-right"><p>charlie.davis&#64;example.com</p></td>
+<td class="text-right"><p>23</p></td>
+<td class="text-right"><p>General</p></td>
+<td class="text-right"><p>1</p></td>
+</tr>
+<tr class="row-odd"><td class="text-right"><p>6</p></td>
+<td class="text-right"><p>Diana</p></td>
+<td class="text-right"><p>Evans</p></td>
+<td class="text-right"><p>diana.evans&#64;example.com</p></td>
+<td class="text-right"><p>20</p></td>
+<td class="text-right"><p>General</p></td>
+<td class="text-right"><p>2</p></td>
+</tr>
+<tr class="row-even"><td class="text-right"><p>7</p></td>
+<td class="text-right"><p>Eve</p></td>
+<td class="text-right"><p>Foster</p></td>
+<td class="text-right"><p>eve.foster&#64;example.com</p></td>
+<td class="text-right"><p>22</p></td>
+<td class="text-right"><p>General</p></td>
+<td class="text-right"><p>3</p></td>
+</tr>
+<tr class="row-odd"><td class="text-right"><p>8</p></td>
+<td class="text-right"><p>Frank</p></td>
+<td class="text-right"><p>Green</p></td>
+<td class="text-right"><p>frank.green&#64;example.com</p></td>
+<td class="text-right"><p>19</p></td>
+<td class="text-right"><p>General</p></td>
+<td class="text-right"><p>4</p></td>
+</tr>
+<tr class="row-even"><td class="text-right"><p>9</p></td>
+<td class="text-right"><p>Grace</p></td>
+<td class="text-right"><p>Harris</p></td>
+<td class="text-right"><p>grace.harris&#64;example.com</p></td>
+<td class="text-right"><p>21</p></td>
+<td class="text-right"><p>General</p></td>
+<td class="text-right"><p>1</p></td>
+</tr>
+<tr class="row-odd"><td class="text-right"><p>10</p></td>
+<td class="text-right"><p>Hank</p></td>
+<td class="text-right"><p>Ivy</p></td>
+<td class="text-right"><p>hank.ivy&#64;example.com</p></td>
+<td class="text-right"><p>23</p></td>
+<td class="text-right"><p>General</p></td>
+<td class="text-right"><p>2</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># BEGIN SOLUTION</span>
+<span class="o">%%</span><span class="k">sql</span>
+-- Insert sample data into courses table
+INSERT INTO courses (name) VALUES
+    (&#39;Mathematics&#39;),
+    (&#39;Physics&#39;),
+    (&#39;Chemistry&#39;),
+    (&#39;Biology&#39;);
+
+-- Insert 10 records into students table
+INSERT INTO students (first_name, last_name, email, age, course_id) VALUES
+    (&#39;John&#39;, &#39;Doe&#39;, &#39;john.doe@example.com&#39;, 20, 1),
+    (&#39;Jane&#39;, &#39;Smith&#39;, &#39;jane.smith@example.com&#39;, 22, 2),
+    (&#39;Alice&#39;, &#39;Johnson&#39;, &#39;alice.johnson@example.com&#39;, 19, 3),
+    (&#39;Bob&#39;, &#39;Brown&#39;, &#39;bob.brown@example.com&#39;, 21, 4),
+    (&#39;Charlie&#39;, &#39;Davis&#39;, &#39;charlie.davis@example.com&#39;, 23, 1),
+    (&#39;Diana&#39;, &#39;Evans&#39;, &#39;diana.evans@example.com&#39;, 20, 2),
+    (&#39;Eve&#39;, &#39;Foster&#39;, &#39;eve.foster@example.com&#39;, 22, 3),
+    (&#39;Frank&#39;, &#39;Green&#39;, &#39;frank.green@example.com&#39;, 19, 4),
+    (&#39;Grace&#39;, &#39;Harris&#39;, &#39;grace.harris@example.com&#39;, 21, 1),
+    (&#39;Hank&#39;, &#39;Ivy&#39;, &#39;hank.ivy@example.com&#39;, 23, 2);
+# END SOLUTION
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> * postgresql://postgres:***@localhost:5432/dvdrental
+4 rows affected.
+10 rows affected.
+</pre></div>
+</div>
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[]
+</pre></div>
+</div>
+</div>
+</div>
+<p>Check your output</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">%%</span><span class="k">sql</span>
+SELECT * FROM students;
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> * postgresql://postgres:***@localhost:5432/dvdrental
+10 rows affected.
+</pre></div>
+</div>
+<div class="output text_html"><table>
+    <thead>
+        <tr>
+            <th>id</th>
+            <th>first_name</th>
+            <th>last_name</th>
+            <th>email</th>
+            <th>age</th>
+            <th>department</th>
+            <th>course_id</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>1</td>
+            <td>John</td>
+            <td>Doe</td>
+            <td>john.doe@example.com</td>
+            <td>20</td>
+            <td>General</td>
+            <td>1</td>
+        </tr>
+        <tr>
+            <td>2</td>
+            <td>Jane</td>
+            <td>Smith</td>
+            <td>jane.smith@example.com</td>
+            <td>22</td>
+            <td>General</td>
+            <td>2</td>
+        </tr>
+        <tr>
+            <td>3</td>
+            <td>Alice</td>
+            <td>Johnson</td>
+            <td>alice.johnson@example.com</td>
+            <td>19</td>
+            <td>General</td>
+            <td>3</td>
+        </tr>
+        <tr>
+            <td>4</td>
+            <td>Bob</td>
+            <td>Brown</td>
+            <td>bob.brown@example.com</td>
+            <td>21</td>
+            <td>General</td>
+            <td>4</td>
+        </tr>
+        <tr>
+            <td>5</td>
+            <td>Charlie</td>
+            <td>Davis</td>
+            <td>charlie.davis@example.com</td>
+            <td>23</td>
+            <td>General</td>
+            <td>1</td>
+        </tr>
+        <tr>
+            <td>6</td>
+            <td>Diana</td>
+            <td>Evans</td>
+            <td>diana.evans@example.com</td>
+            <td>20</td>
+            <td>General</td>
+            <td>2</td>
+        </tr>
+        <tr>
+            <td>7</td>
+            <td>Eve</td>
+            <td>Foster</td>
+            <td>eve.foster@example.com</td>
+            <td>22</td>
+            <td>General</td>
+            <td>3</td>
+        </tr>
+        <tr>
+            <td>8</td>
+            <td>Frank</td>
+            <td>Green</td>
+            <td>frank.green@example.com</td>
+            <td>19</td>
+            <td>General</td>
+            <td>4</td>
+        </tr>
+        <tr>
+            <td>9</td>
+            <td>Grace</td>
+            <td>Harris</td>
+            <td>grace.harris@example.com</td>
+            <td>21</td>
+            <td>General</td>
+            <td>1</td>
+        </tr>
+        <tr>
+            <td>10</td>
+            <td>Hank</td>
+            <td>Ivy</td>
+            <td>hank.ivy@example.com</td>
+            <td>23</td>
+            <td>General</td>
+            <td>2</td>
+        </tr>
+    </tbody>
+</table></div></div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">%%</span><span class="k">sql</span>
+SELECT * FROM courses;
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> * postgresql://postgres:***@localhost:5432/dvdrental
+4 rows affected.
+</pre></div>
+</div>
+<div class="output text_html"><table>
+    <thead>
+        <tr>
+            <th>id</th>
+            <th>name</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>1</td>
+            <td>Mathematics</td>
+        </tr>
+        <tr>
+            <td>2</td>
+            <td>Physics</td>
+        </tr>
+        <tr>
+            <td>3</td>
+            <td>Chemistry</td>
+        </tr>
+        <tr>
+            <td>4</td>
+            <td>Biology</td>
+        </tr>
+    </tbody>
+</table></div></div>
+</div>
+</section>
+</section>
+<section id="exercise-4-aggregate-functions-count-avg-min-max">
+<h2>Exercise 4: Aggregate Functions - COUNT, AVG, MIN, MAX<a class="headerlink" href="#exercise-4-aggregate-functions-count-avg-min-max" title="Link to this heading">#</a></h2>
+<section id="id6">
+<h3>Task<a class="headerlink" href="#id6" title="Link to this heading">#</a></h3>
+<p>Write SQL queries to perform the following aggregate functions on the <code class="docutils literal notranslate"><span class="pre">students</span></code> table:</p>
+<ol class="arabic simple">
+<li><p>Count the total number of students.</p></li>
+<li><p>Calculate the average age of students.</p></li>
+<li><p>Find the minimum age of students.</p></li>
+<li><p>Find the maximum age of students.</p></li>
+</ol>
+</section>
+<section id="id7">
+<h3>Solution<a class="headerlink" href="#id7" title="Link to this heading">#</a></h3>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># BEGIN SOLUTION</span>
+<span class="o">%%</span><span class="k">sql</span>
+SELECT 
+    COUNT(*) AS total_students,
+    AVG(age) AS average_age,
+    MIN(age) AS minimum_age,
+    MAX(age) AS maximum_age
+FROM students;
+# END SOLUTION
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> * postgresql://postgres:***@localhost:5432/dvdrental
+1 rows affected.
+</pre></div>
+</div>
+<div class="output text_html"><table>
+    <thead>
+        <tr>
+            <th>total_students</th>
+            <th>average_age</th>
+            <th>minimum_age</th>
+            <th>maximum_age</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>10</td>
+            <td>21.0000000000000000</td>
+            <td>19</td>
+            <td>23</td>
+        </tr>
+    </tbody>
+</table></div></div>
+</div>
+</section>
+</section>
+<section id="exercise-5-aggregate-functions-group-by-where-having-and-order-by">
+<h2>Exercise 5: Aggregate Functions - GROUP BY, WHERE, HAVING, and ORDER BY<a class="headerlink" href="#exercise-5-aggregate-functions-group-by-where-having-and-order-by" title="Link to this heading">#</a></h2>
+<section id="id8">
+<h3>Task<a class="headerlink" href="#id8" title="Link to this heading">#</a></h3>
+<p>Write SQL queries to perform the following operations on the <code class="docutils literal notranslate"><span class="pre">students</span></code> table:</p>
+<ol class="arabic simple">
+<li><p>Group students by <code class="docutils literal notranslate"><span class="pre">course_id</span></code> and count the number of students in each course.</p></li>
+<li><p>Group students by <code class="docutils literal notranslate"><span class="pre">course_id</span></code> and calculate the average age of students in each course.</p></li>
+<li><p>Group students by <code class="docutils literal notranslate"><span class="pre">course_id</span></code> and find the minimum age of students in each course.</p></li>
+<li><p>Group students by <code class="docutils literal notranslate"><span class="pre">course_id</span></code> and find the maximum age of students in each course.</p></li>
+<li><p>Use the <code class="docutils literal notranslate"><span class="pre">HAVING</span></code> clause to filter groups where the average age of students is greater than 21.</p></li>
+<li><p>Use the <code class="docutils literal notranslate"><span class="pre">WHERE</span></code> clause to filter students who are older than 20 before performing the aggregation.</p></li>
+<li><p>Use the <code class="docutils literal notranslate"><span class="pre">ORDER</span> <span class="pre">BY</span></code> clause to sort the results by the number of students in each course in descending order.</p></li>
+</ol>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># BEGIN SOLUTION</span>
+<span class="o">%%</span><span class="k">sql</span>
+SELECT 
+    course_id, 
+    COUNT(*) AS student_count,
+    AVG(age) AS average_age,
+    MIN(age) AS minimum_age,
+    MAX(age) AS maximum_age
+FROM students
+WHERE age &gt; 20
+GROUP BY course_id
+HAVING AVG(age) &gt; 21
+ORDER BY student_count DESC;
+# END SOLUTION
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> * postgresql://postgres:***@localhost:5432/dvdrental
+3 rows affected.
+</pre></div>
+</div>
+<div class="output text_html"><table>
+    <thead>
+        <tr>
+            <th>course_id</th>
+            <th>student_count</th>
+            <th>average_age</th>
+            <th>minimum_age</th>
+            <th>maximum_age</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>1</td>
+            <td>2</td>
+            <td>22.0000000000000000</td>
+            <td>21</td>
+            <td>23</td>
+        </tr>
+        <tr>
+            <td>2</td>
+            <td>2</td>
+            <td>22.5000000000000000</td>
+            <td>22</td>
+            <td>23</td>
+        </tr>
+        <tr>
+            <td>3</td>
+            <td>1</td>
+            <td>22.0000000000000000</td>
+            <td>22</td>
+            <td>22</td>
+        </tr>
+    </tbody>
+</table></div></div>
+</div>
+</section>
+</section>
+<section id="submission-instructions">
+<h2>Submission instructions<a class="headerlink" href="#submission-instructions" title="Link to this heading">#</a></h2>
+<p>{rubric: mechanics = 5}</p>
+<ul class="simple">
+<li><p>Make sure the notebook can run from top to bottom without any error. Restart the kernel and run all cells.</p></li>
+<li><p>Commit and push your notebook to the github repo</p></li>
+<li><p>Double check your notebook is rendered properly on Github and you can see all the outputs clearly</p></li>
+<li><p>Submit URL of your Github repo to Moodle under worksheet 3</p></li>
+</ul>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./worksheets/source"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-1-create-table-with-constraints">Exercise 1: Create Table with Constraints</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#task">Task</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#instructions">Instructions</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#solution">Solution</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#testing-the-constraints">Testing the Constraints</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-2-add-foreign-key-constraint-with-cascade">Exercise 2: Add Foreign Key Constraint with Cascade</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id1">Task</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id2">Instructions</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id3">Solution</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#testing-the-referential-integrity">Testing the Referential Integrity</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-3-insert-records-into-the-students-table">Exercise 3: Insert Records into the Students Table</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id4">Task</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id5">Instructions</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#expected-output">Expected output</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-4-aggregate-functions-count-avg-min-max">Exercise 4: Aggregate Functions - COUNT, AVG, MIN, MAX</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id6">Task</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id7">Solution</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-5-aggregate-functions-group-by-where-having-and-order-by">Exercise 5: Aggregate Functions - GROUP BY, WHERE, HAVING, and ORDER BY</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id8">Task</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#submission-instructions">Submission instructions</a></li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By Quan Nguyen
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2023.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b"></script>
+<script src="../../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>
