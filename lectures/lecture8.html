@@ -370,8 +370,10 @@ document.write(`
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#example-bank-transfer">Example: Bank Transfer</a></li>
 </ul>
 </li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#the-do-end-block">The <code class="docutils literal notranslate"><span class="pre">DO</span> <span class="pre">$$</span> <span class="pre">...</span> <span class="pre">END</span> <span class="pre">$$</span></code> Block</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#explanation-of-each-part">Explanation of Each Part</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#using-variables-in-transactions">Using variables in transactions</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#example-depositing-money-to-an-account">Example: Depositing money to an account</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#example-bank-transfer-transaction">Example: Bank transfer transaction</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#example-transaction-with-rollback">Example: Transaction with <code class="docutils literal notranslate"><span class="pre">ROLLBACK</span></code></a></li>
 </ul>
 </li>
 </ul>
@@ -616,7 +618,7 @@ This example demonstrates a violation of the all-or-nothing principle of atomici
 </ol>
 <section id="example-bank-transfer">
 <h4>Example: Bank Transfer<a class="headerlink" href="#example-bank-transfer" title="Link to this heading">#</a></h4>
-<p>Before transaction</p>
+<p><strong>Before transaction</strong></p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">%%</span><span class="k">sql</span>
@@ -649,7 +651,7 @@ SELECT * FROM accounts;
     </tbody>
 </table></div></div>
 </div>
-<p>Now a transaction</p>
+<p><strong>Transaction</strong></p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">%%</span><span class="k">sql</span>
@@ -669,9 +671,6 @@ WHERE account_id = &#39;B&#39;;
 
 -- Commit the transaction
 COMMIT;
-
--- Display the updated balances
-SELECT * FROM accounts;
 </pre></div>
 </div>
 </div>
@@ -703,13 +702,46 @@ Done.
     </tbody>
 </table></div></div>
 </div>
+<p><strong>After transaction</strong></p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">%%</span><span class="k">sql</span>
+-- Display the updated balances
+SELECT * FROM accounts;
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> * postgresql://postgres:***@localhost:5432/dvdrental
+2 rows affected.
+</pre></div>
+</div>
+<div class="output text_html"><table>
+    <thead>
+        <tr>
+            <th>account_id</th>
+            <th>balance</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>A</td>
+            <td>900.00</td>
+        </tr>
+        <tr>
+            <td>B</td>
+            <td>700.00</td>
+        </tr>
+    </tbody>
+</table></div></div>
+</div>
+</section>
+</section>
+<section id="using-variables-in-transactions">
+<h3>Using variables in transactions<a class="headerlink" href="#using-variables-in-transactions" title="Link to this heading">#</a></h3>
 <p>What if we want to incorporate a variable name <code class="docutils literal notranslate"><span class="pre">transaction_amount</span></code> so we don’t have to hard-code the transaction amount in multipline lines?</p>
 <p>The <code class="docutils literal notranslate"><span class="pre">DO</span> <span class="pre">$$</span> <span class="pre">...</span> <span class="pre">END</span> <span class="pre">$$</span></code> block in PostgreSQL is a versatile tool for executing procedural code within a SQL script. It allows for complex operations, variable declarations, control structures, and exception handling, making it ideal for tasks that require more than simple SQL statements.</p>
-</section>
-</section>
-<section id="the-do-end-block">
-<h3>The <code class="docutils literal notranslate"><span class="pre">DO</span> <span class="pre">$$</span> <span class="pre">...</span> <span class="pre">END</span> <span class="pre">$$</span></code> Block<a class="headerlink" href="#the-do-end-block" title="Link to this heading">#</a></h3>
-<p>The <code class="docutils literal notranslate"><span class="pre">DO</span> <span class="pre">$$</span> <span class="pre">...</span> <span class="pre">END</span> <span class="pre">$$</span></code> block in PostgreSQL is used to execute a block of procedural code. Here is a typical structure:</p>
+<p>Here is a typical structure:</p>
 <div class="highlight-sql notranslate"><div class="highlight"><pre><span></span><span class="k">DO</span><span class="w"> </span><span class="err">$$</span>
 <span class="k">DECLARE</span>
 <span class="w">    </span><span class="c1">-- Variable declarations</span>
@@ -721,9 +753,7 @@ Done.
 <span class="k">END</span><span class="w"> </span><span class="err">$$</span><span class="p">;</span>
 </pre></div>
 </div>
-</section>
-<section id="explanation-of-each-part">
-<h3>Explanation of Each Part<a class="headerlink" href="#explanation-of-each-part" title="Link to this heading">#</a></h3>
+<p><strong>Explanation of Each Part</strong></p>
 <ol class="arabic simple">
 <li><p><code class="docutils literal notranslate"><span class="pre">DO</span> <span class="pre">$$</span> <span class="pre">...</span> <span class="pre">END</span> <span class="pre">$$</span></code>:</p>
 <ul class="simple">
@@ -749,8 +779,10 @@ Done.
 </ul>
 </li>
 </ol>
-<p>A simple example of depositing money to an account</p>
-<p>Before transaction</p>
+</section>
+<section id="example-depositing-money-to-an-account">
+<h3>Example: Depositing money to an account<a class="headerlink" href="#example-depositing-money-to-an-account" title="Link to this heading">#</a></h3>
+<p><strong>Before transaction</strong></p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">%%</span><span class="k">sql</span>
@@ -783,6 +815,7 @@ SELECT * FROM accounts;
     </tbody>
 </table></div></div>
 </div>
+<p><strong>Transaction</strong></p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">%%</span><span class="k">sql</span>
@@ -812,6 +845,7 @@ Done.
 </div>
 </div>
 </div>
+<p><strong>After transaction</strong></p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">%%</span><span class="k">sql</span>
@@ -843,8 +877,11 @@ SELECT * FROM accounts;
     </tbody>
 </table></div></div>
 </div>
+</section>
+<section id="example-bank-transfer-transaction">
+<h3>Example: Bank transfer transaction<a class="headerlink" href="#example-bank-transfer-transaction" title="Link to this heading">#</a></h3>
 <p>Now, let’s try to re-write the transaction using the <code class="docutils literal notranslate"><span class="pre">DO</span> <span class="pre">$$</span> <span class="pre">...</span> <span class="pre">END</span> <span class="pre">$$</span></code> block</p>
-<p>Before transaction</p>
+<p><strong>Before transaction</strong></p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">%%</span><span class="k">sql</span>
@@ -955,8 +992,11 @@ SELECT * FROM accounts;
     </tbody>
 </table></div></div>
 </div>
+</section>
+<section id="example-transaction-with-rollback">
+<h3>Example: Transaction with <code class="docutils literal notranslate"><span class="pre">ROLLBACK</span></code><a class="headerlink" href="#example-transaction-with-rollback" title="Link to this heading">#</a></h3>
 <p>Let’s try another example with <code class="docutils literal notranslate"><span class="pre">ROLLBACK</span></code>. In this example, we will try to send an amount that exceeds our balance. The idea here is that if the transaction failed, it should undo all the changes made during the transaction.</p>
-<p>Before transaction</p>
+<p><strong>Before transaction</strong></p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">%%</span><span class="k">sql</span>
@@ -989,6 +1029,7 @@ SELECT * FROM accounts;
     </tbody>
 </table></div></div>
 </div>
+<p><strong>Transaction</strong></p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">%%</span><span class="k">sql</span>
@@ -1036,6 +1077,7 @@ Done.
 </div>
 </div>
 </div>
+<p><strong>After transaction</strong></p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">%%</span><span class="k">sql</span> 
@@ -1159,8 +1201,10 @@ SELECT * FROM accounts;
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#example-bank-transfer">Example: Bank Transfer</a></li>
 </ul>
 </li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#the-do-end-block">The <code class="docutils literal notranslate"><span class="pre">DO</span> <span class="pre">$$</span> <span class="pre">...</span> <span class="pre">END</span> <span class="pre">$$</span></code> Block</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#explanation-of-each-part">Explanation of Each Part</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#using-variables-in-transactions">Using variables in transactions</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#example-depositing-money-to-an-account">Example: Depositing money to an account</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#example-bank-transfer-transaction">Example: Bank transfer transaction</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#example-transaction-with-rollback">Example: Transaction with <code class="docutils literal notranslate"><span class="pre">ROLLBACK</span></code></a></li>
 </ul>
 </li>
 </ul>
