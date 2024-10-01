@@ -578,165 +578,123 @@ Done.
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">%%</span><span class="k">sql</span>
-INSERT INTO employees (id)
-VALUES (1), (1);
+SELECT * FROM employees;
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> * postgresql://postgres:***@localhost:5432/dvdrental
+0 rows affected.
 </pre></div>
 </div>
-<div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span><span class="gt">---------------------------------------------------------------------------</span>
-<span class="ne">UniqueViolation</span><span class="g g-Whitespace">                           </span>Traceback (most recent call last)
-<span class="nn">File /opt/miniconda3/envs/dasc_5410/lib/python3.11/site-packages/sqlalchemy/engine/base.py:1900,</span> in <span class="ni">Connection._execute_context</span><span class="nt">(self, dialect, constructor, statement, parameters, execution_options, *args, **kw)</span>
-<span class="g g-Whitespace">   </span><span class="mi">1899</span>     <span class="k">if</span> <span class="ow">not</span> <span class="n">evt_handled</span><span class="p">:</span>
-<span class="ne">-&gt; </span><span class="mi">1900</span>         <span class="bp">self</span><span class="o">.</span><span class="n">dialect</span><span class="o">.</span><span class="n">do_execute</span><span class="p">(</span>
-<span class="g g-Whitespace">   </span><span class="mi">1901</span>             <span class="n">cursor</span><span class="p">,</span> <span class="n">statement</span><span class="p">,</span> <span class="n">parameters</span><span class="p">,</span> <span class="n">context</span>
-<span class="g g-Whitespace">   </span><span class="mi">1902</span>         <span class="p">)</span>
-<span class="g g-Whitespace">   </span><span class="mi">1904</span> <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_has_events</span> <span class="ow">or</span> <span class="bp">self</span><span class="o">.</span><span class="n">engine</span><span class="o">.</span><span class="n">_has_events</span><span class="p">:</span>
-
-<span class="nn">File /opt/miniconda3/envs/dasc_5410/lib/python3.11/site-packages/sqlalchemy/engine/default.py:736,</span> in <span class="ni">DefaultDialect.do_execute</span><span class="nt">(self, cursor, statement, parameters, context)</span>
-<span class="g g-Whitespace">    </span><span class="mi">735</span> <span class="k">def</span> <span class="nf">do_execute</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">cursor</span><span class="p">,</span> <span class="n">statement</span><span class="p">,</span> <span class="n">parameters</span><span class="p">,</span> <span class="n">context</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
-<span class="ne">--&gt; </span><span class="mi">736</span>     <span class="n">cursor</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="n">statement</span><span class="p">,</span> <span class="n">parameters</span><span class="p">)</span>
-
-<span class="ne">UniqueViolation</span>: duplicate key value violates unique constraint &quot;employees_pkey&quot;
-<span class="ne">DETAIL</span>:  Key (id)=(1) already exists.
-
-
-<span class="n">The</span> <span class="n">above</span> <span class="n">exception</span> <span class="n">was</span> <span class="n">the</span> <span class="n">direct</span> <span class="n">cause</span> <span class="n">of</span> <span class="n">the</span> <span class="n">following</span> <span class="n">exception</span><span class="p">:</span>
-
-<span class="ne">IntegrityError</span><span class="g g-Whitespace">                            </span>Traceback (most recent call last)
-<span class="n">Cell</span> <span class="n">In</span><span class="p">[</span><span class="mi">120</span><span class="p">],</span> <span class="n">line</span> <span class="mi">1</span>
-<span class="ne">----&gt; </span><span class="mi">1</span> <span class="n">get_ipython</span><span class="p">()</span><span class="o">.</span><span class="n">run_cell_magic</span><span class="p">(</span><span class="s1">&#39;sql&#39;</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="s1">&#39;INSERT INTO employees (id)</span><span class="se">\n</span><span class="s1">VALUES (1), (1);</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)</span>
-
-<span class="nn">File /opt/miniconda3/envs/dasc_5410/lib/python3.11/site-packages/IPython/core/interactiveshell.py:2541,</span> in <span class="ni">InteractiveShell.run_cell_magic</span><span class="nt">(self, magic_name, line, cell)</span>
-<span class="g g-Whitespace">   </span><span class="mi">2539</span> <span class="k">with</span> <span class="bp">self</span><span class="o">.</span><span class="n">builtin_trap</span><span class="p">:</span>
-<span class="g g-Whitespace">   </span><span class="mi">2540</span>     <span class="n">args</span> <span class="o">=</span> <span class="p">(</span><span class="n">magic_arg_s</span><span class="p">,</span> <span class="n">cell</span><span class="p">)</span>
-<span class="ne">-&gt; </span><span class="mi">2541</span>     <span class="n">result</span> <span class="o">=</span> <span class="n">fn</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
-<span class="g g-Whitespace">   </span><span class="mi">2543</span> <span class="c1"># The code below prevents the output from being displayed</span>
-<span class="g g-Whitespace">   </span><span class="mi">2544</span> <span class="c1"># when using magics with decorator @output_can_be_silenced</span>
-<span class="g g-Whitespace">   </span><span class="mi">2545</span> <span class="c1"># when the last Python token in the expression is a &#39;;&#39;.</span>
-<span class="g g-Whitespace">   </span><span class="mi">2546</span> <span class="k">if</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">fn</span><span class="p">,</span> <span class="n">magic</span><span class="o">.</span><span class="n">MAGIC_OUTPUT_CAN_BE_SILENCED</span><span class="p">,</span> <span class="kc">False</span><span class="p">):</span>
-
-<span class="nn">File /opt/miniconda3/envs/dasc_5410/lib/python3.11/site-packages/sql/magic.py:95,</span> in <span class="ni">SqlMagic.execute</span><span class="nt">(self, line, cell, local_ns)</span>
-<span class="g g-Whitespace">     </span><span class="mi">92</span>     <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_persist_dataframe</span><span class="p">(</span><span class="n">parsed</span><span class="p">[</span><span class="s1">&#39;sql&#39;</span><span class="p">],</span> <span class="n">conn</span><span class="p">,</span> <span class="n">user_ns</span><span class="p">)</span>
-<span class="g g-Whitespace">     </span><span class="mi">94</span> <span class="k">try</span><span class="p">:</span>
-<span class="ne">---&gt; </span><span class="mi">95</span>     <span class="n">result</span> <span class="o">=</span> <span class="n">sql</span><span class="o">.</span><span class="n">run</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">conn</span><span class="p">,</span> <span class="n">parsed</span><span class="p">[</span><span class="s1">&#39;sql&#39;</span><span class="p">],</span> <span class="bp">self</span><span class="p">,</span> <span class="n">user_ns</span><span class="p">)</span>
-<span class="g g-Whitespace">     </span><span class="mi">97</span>     <span class="k">if</span> <span class="n">result</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">result</span><span class="p">,</span> <span class="nb">str</span><span class="p">)</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">column_local_vars</span><span class="p">:</span>
-<span class="g g-Whitespace">     </span><span class="mi">98</span>         <span class="c1">#Instead of returning values, set variables directly in the</span>
-<span class="g g-Whitespace">     </span><span class="mi">99</span>         <span class="c1">#users namespace. Variable names given by column names</span>
-<span class="g g-Whitespace">    </span><span class="mi">101</span>         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">autopandas</span><span class="p">:</span>
-
-<span class="nn">File /opt/miniconda3/envs/dasc_5410/lib/python3.11/site-packages/sql/run.py:340,</span> in <span class="ni">run</span><span class="nt">(conn, sql, config, user_namespace)</span>
-<span class="g g-Whitespace">    </span><span class="mi">338</span> <span class="k">else</span><span class="p">:</span>
-<span class="g g-Whitespace">    </span><span class="mi">339</span>     <span class="n">txt</span> <span class="o">=</span> <span class="n">sqlalchemy</span><span class="o">.</span><span class="n">sql</span><span class="o">.</span><span class="n">text</span><span class="p">(</span><span class="n">statement</span><span class="p">)</span>
-<span class="ne">--&gt; </span><span class="mi">340</span>     <span class="n">result</span> <span class="o">=</span> <span class="n">conn</span><span class="o">.</span><span class="n">session</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="n">txt</span><span class="p">,</span> <span class="n">user_namespace</span><span class="p">)</span>
-<span class="g g-Whitespace">    </span><span class="mi">341</span> <span class="n">_commit</span><span class="p">(</span><span class="n">conn</span><span class="o">=</span><span class="n">conn</span><span class="p">,</span> <span class="n">config</span><span class="o">=</span><span class="n">config</span><span class="p">)</span>
-<span class="g g-Whitespace">    </span><span class="mi">342</span> <span class="k">if</span> <span class="n">result</span> <span class="ow">and</span> <span class="n">config</span><span class="o">.</span><span class="n">feedback</span><span class="p">:</span>
-
-<span class="nn">File /opt/miniconda3/envs/dasc_5410/lib/python3.11/site-packages/sqlalchemy/engine/base.py:1380,</span> in <span class="ni">Connection.execute</span><span class="nt">(self, statement, *multiparams, **params)</span>
-<span class="g g-Whitespace">   </span><span class="mi">1376</span>     <span class="n">util</span><span class="o">.</span><span class="n">raise_</span><span class="p">(</span>
-<span class="g g-Whitespace">   </span><span class="mi">1377</span>         <span class="n">exc</span><span class="o">.</span><span class="n">ObjectNotExecutableError</span><span class="p">(</span><span class="n">statement</span><span class="p">),</span> <span class="n">replace_context</span><span class="o">=</span><span class="n">err</span>
-<span class="g g-Whitespace">   </span><span class="mi">1378</span>     <span class="p">)</span>
-<span class="g g-Whitespace">   </span><span class="mi">1379</span> <span class="k">else</span><span class="p">:</span>
-<span class="ne">-&gt; </span><span class="mi">1380</span>     <span class="k">return</span> <span class="n">meth</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">multiparams</span><span class="p">,</span> <span class="n">params</span><span class="p">,</span> <span class="n">_EMPTY_EXECUTION_OPTS</span><span class="p">)</span>
-
-<span class="nn">File /opt/miniconda3/envs/dasc_5410/lib/python3.11/site-packages/sqlalchemy/sql/elements.py:334,</span> in <span class="ni">ClauseElement._execute_on_connection</span><span class="nt">(self, connection, multiparams, params, execution_options, _force)</span>
-<span class="g g-Whitespace">    </span><span class="mi">330</span> <span class="k">def</span> <span class="nf">_execute_on_connection</span><span class="p">(</span>
-<span class="g g-Whitespace">    </span><span class="mi">331</span>     <span class="bp">self</span><span class="p">,</span> <span class="n">connection</span><span class="p">,</span> <span class="n">multiparams</span><span class="p">,</span> <span class="n">params</span><span class="p">,</span> <span class="n">execution_options</span><span class="p">,</span> <span class="n">_force</span><span class="o">=</span><span class="kc">False</span>
-<span class="g g-Whitespace">    </span><span class="mi">332</span> <span class="p">):</span>
-<span class="g g-Whitespace">    </span><span class="mi">333</span>     <span class="k">if</span> <span class="n">_force</span> <span class="ow">or</span> <span class="bp">self</span><span class="o">.</span><span class="n">supports_execution</span><span class="p">:</span>
-<span class="ne">--&gt; </span><span class="mi">334</span>         <span class="k">return</span> <span class="n">connection</span><span class="o">.</span><span class="n">_execute_clauseelement</span><span class="p">(</span>
-<span class="g g-Whitespace">    </span><span class="mi">335</span>             <span class="bp">self</span><span class="p">,</span> <span class="n">multiparams</span><span class="p">,</span> <span class="n">params</span><span class="p">,</span> <span class="n">execution_options</span>
-<span class="g g-Whitespace">    </span><span class="mi">336</span>         <span class="p">)</span>
-<span class="g g-Whitespace">    </span><span class="mi">337</span>     <span class="k">else</span><span class="p">:</span>
-<span class="g g-Whitespace">    </span><span class="mi">338</span>         <span class="k">raise</span> <span class="n">exc</span><span class="o">.</span><span class="n">ObjectNotExecutableError</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
-
-<span class="nn">File /opt/miniconda3/envs/dasc_5410/lib/python3.11/site-packages/sqlalchemy/engine/base.py:1572,</span> in <span class="ni">Connection._execute_clauseelement</span><span class="nt">(self, elem, multiparams, params, execution_options)</span>
-<span class="g g-Whitespace">   </span><span class="mi">1560</span> <span class="n">compiled_cache</span> <span class="o">=</span> <span class="n">execution_options</span><span class="o">.</span><span class="n">get</span><span class="p">(</span>
-<span class="g g-Whitespace">   </span><span class="mi">1561</span>     <span class="s2">&quot;compiled_cache&quot;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">engine</span><span class="o">.</span><span class="n">_compiled_cache</span>
-<span class="g g-Whitespace">   </span><span class="mi">1562</span> <span class="p">)</span>
-<span class="g g-Whitespace">   </span><span class="mi">1564</span> <span class="n">compiled_sql</span><span class="p">,</span> <span class="n">extracted_params</span><span class="p">,</span> <span class="n">cache_hit</span> <span class="o">=</span> <span class="n">elem</span><span class="o">.</span><span class="n">_compile_w_cache</span><span class="p">(</span>
-<span class="g g-Whitespace">   </span><span class="mi">1565</span>     <span class="n">dialect</span><span class="o">=</span><span class="n">dialect</span><span class="p">,</span>
-<span class="g g-Whitespace">   </span><span class="mi">1566</span>     <span class="n">compiled_cache</span><span class="o">=</span><span class="n">compiled_cache</span><span class="p">,</span>
-   <span class="p">(</span><span class="o">...</span><span class="p">)</span>
-<span class="g g-Whitespace">   </span><span class="mi">1570</span>     <span class="n">linting</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">dialect</span><span class="o">.</span><span class="n">compiler_linting</span> <span class="o">|</span> <span class="n">compiler</span><span class="o">.</span><span class="n">WARN_LINTING</span><span class="p">,</span>
-<span class="g g-Whitespace">   </span><span class="mi">1571</span> <span class="p">)</span>
-<span class="ne">-&gt; </span><span class="mi">1572</span> <span class="n">ret</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_execute_context</span><span class="p">(</span>
-<span class="g g-Whitespace">   </span><span class="mi">1573</span>     <span class="n">dialect</span><span class="p">,</span>
-<span class="g g-Whitespace">   </span><span class="mi">1574</span>     <span class="n">dialect</span><span class="o">.</span><span class="n">execution_ctx_cls</span><span class="o">.</span><span class="n">_init_compiled</span><span class="p">,</span>
-<span class="g g-Whitespace">   </span><span class="mi">1575</span>     <span class="n">compiled_sql</span><span class="p">,</span>
-<span class="g g-Whitespace">   </span><span class="mi">1576</span>     <span class="n">distilled_params</span><span class="p">,</span>
-<span class="g g-Whitespace">   </span><span class="mi">1577</span>     <span class="n">execution_options</span><span class="p">,</span>
-<span class="g g-Whitespace">   </span><span class="mi">1578</span>     <span class="n">compiled_sql</span><span class="p">,</span>
-<span class="g g-Whitespace">   </span><span class="mi">1579</span>     <span class="n">distilled_params</span><span class="p">,</span>
-<span class="g g-Whitespace">   </span><span class="mi">1580</span>     <span class="n">elem</span><span class="p">,</span>
-<span class="g g-Whitespace">   </span><span class="mi">1581</span>     <span class="n">extracted_params</span><span class="p">,</span>
-<span class="g g-Whitespace">   </span><span class="mi">1582</span>     <span class="n">cache_hit</span><span class="o">=</span><span class="n">cache_hit</span><span class="p">,</span>
-<span class="g g-Whitespace">   </span><span class="mi">1583</span> <span class="p">)</span>
-<span class="g g-Whitespace">   </span><span class="mi">1584</span> <span class="k">if</span> <span class="n">has_events</span><span class="p">:</span>
-<span class="g g-Whitespace">   </span><span class="mi">1585</span>     <span class="bp">self</span><span class="o">.</span><span class="n">dispatch</span><span class="o">.</span><span class="n">after_execute</span><span class="p">(</span>
-<span class="g g-Whitespace">   </span><span class="mi">1586</span>         <span class="bp">self</span><span class="p">,</span>
-<span class="g g-Whitespace">   </span><span class="mi">1587</span>         <span class="n">elem</span><span class="p">,</span>
-   <span class="p">(</span><span class="o">...</span><span class="p">)</span>
-<span class="g g-Whitespace">   </span><span class="mi">1591</span>         <span class="n">ret</span><span class="p">,</span>
-<span class="g g-Whitespace">   </span><span class="mi">1592</span>     <span class="p">)</span>
-
-<span class="nn">File /opt/miniconda3/envs/dasc_5410/lib/python3.11/site-packages/sqlalchemy/engine/base.py:1943,</span> in <span class="ni">Connection._execute_context</span><span class="nt">(self, dialect, constructor, statement, parameters, execution_options, *args, **kw)</span>
-<span class="g g-Whitespace">   </span><span class="mi">1940</span>             <span class="n">branched</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
-<span class="g g-Whitespace">   </span><span class="mi">1942</span> <span class="k">except</span> <span class="ne">BaseException</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
-<span class="ne">-&gt; </span><span class="mi">1943</span>     <span class="bp">self</span><span class="o">.</span><span class="n">_handle_dbapi_exception</span><span class="p">(</span>
-<span class="g g-Whitespace">   </span><span class="mi">1944</span>         <span class="n">e</span><span class="p">,</span> <span class="n">statement</span><span class="p">,</span> <span class="n">parameters</span><span class="p">,</span> <span class="n">cursor</span><span class="p">,</span> <span class="n">context</span>
-<span class="g g-Whitespace">   </span><span class="mi">1945</span>     <span class="p">)</span>
-<span class="g g-Whitespace">   </span><span class="mi">1947</span> <span class="k">return</span> <span class="n">result</span>
-
-<span class="nn">File /opt/miniconda3/envs/dasc_5410/lib/python3.11/site-packages/sqlalchemy/engine/base.py:2124,</span> in <span class="ni">Connection._handle_dbapi_exception</span><span class="nt">(self, e, statement, parameters, cursor, context)</span>
-<span class="g g-Whitespace">   </span><span class="mi">2122</span>     <span class="n">util</span><span class="o">.</span><span class="n">raise_</span><span class="p">(</span><span class="n">newraise</span><span class="p">,</span> <span class="n">with_traceback</span><span class="o">=</span><span class="n">exc_info</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span> <span class="n">from_</span><span class="o">=</span><span class="n">e</span><span class="p">)</span>
-<span class="g g-Whitespace">   </span><span class="mi">2123</span> <span class="k">elif</span> <span class="n">should_wrap</span><span class="p">:</span>
-<span class="ne">-&gt; </span><span class="mi">2124</span>     <span class="n">util</span><span class="o">.</span><span class="n">raise_</span><span class="p">(</span>
-<span class="g g-Whitespace">   </span><span class="mi">2125</span>         <span class="n">sqlalchemy_exception</span><span class="p">,</span> <span class="n">with_traceback</span><span class="o">=</span><span class="n">exc_info</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span> <span class="n">from_</span><span class="o">=</span><span class="n">e</span>
-<span class="g g-Whitespace">   </span><span class="mi">2126</span>     <span class="p">)</span>
-<span class="g g-Whitespace">   </span><span class="mi">2127</span> <span class="k">else</span><span class="p">:</span>
-<span class="g g-Whitespace">   </span><span class="mi">2128</span>     <span class="n">util</span><span class="o">.</span><span class="n">raise_</span><span class="p">(</span><span class="n">exc_info</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">with_traceback</span><span class="o">=</span><span class="n">exc_info</span><span class="p">[</span><span class="mi">2</span><span class="p">])</span>
-
-<span class="nn">File /opt/miniconda3/envs/dasc_5410/lib/python3.11/site-packages/sqlalchemy/util/compat.py:211,</span> in <span class="ni">raise_</span><span class="nt">(***failed resolving arguments***)</span>
-<span class="g g-Whitespace">    </span><span class="mi">208</span>     <span class="n">exception</span><span class="o">.</span><span class="n">__cause__</span> <span class="o">=</span> <span class="n">replace_context</span>
-<span class="g g-Whitespace">    </span><span class="mi">210</span> <span class="k">try</span><span class="p">:</span>
-<span class="ne">--&gt; </span><span class="mi">211</span>     <span class="k">raise</span> <span class="n">exception</span>
-<span class="g g-Whitespace">    </span><span class="mi">212</span> <span class="k">finally</span><span class="p">:</span>
-<span class="g g-Whitespace">    </span><span class="mi">213</span>     <span class="c1"># credit to</span>
-<span class="g g-Whitespace">    </span><span class="mi">214</span>     <span class="c1"># https://cosmicpercolator.com/2016/01/13/exception-leaks-in-python-2-and-3/</span>
-<span class="g g-Whitespace">    </span><span class="mi">215</span>     <span class="c1"># as the __traceback__ object creates a cycle</span>
-<span class="g g-Whitespace">    </span><span class="mi">216</span>     <span class="k">del</span> <span class="n">exception</span><span class="p">,</span> <span class="n">replace_context</span><span class="p">,</span> <span class="n">from_</span><span class="p">,</span> <span class="n">with_traceback</span>
-
-<span class="nn">File /opt/miniconda3/envs/dasc_5410/lib/python3.11/site-packages/sqlalchemy/engine/base.py:1900,</span> in <span class="ni">Connection._execute_context</span><span class="nt">(self, dialect, constructor, statement, parameters, execution_options, *args, **kw)</span>
-<span class="g g-Whitespace">   </span><span class="mi">1898</span>                 <span class="k">break</span>
-<span class="g g-Whitespace">   </span><span class="mi">1899</span>     <span class="k">if</span> <span class="ow">not</span> <span class="n">evt_handled</span><span class="p">:</span>
-<span class="ne">-&gt; </span><span class="mi">1900</span>         <span class="bp">self</span><span class="o">.</span><span class="n">dialect</span><span class="o">.</span><span class="n">do_execute</span><span class="p">(</span>
-<span class="g g-Whitespace">   </span><span class="mi">1901</span>             <span class="n">cursor</span><span class="p">,</span> <span class="n">statement</span><span class="p">,</span> <span class="n">parameters</span><span class="p">,</span> <span class="n">context</span>
-<span class="g g-Whitespace">   </span><span class="mi">1902</span>         <span class="p">)</span>
-<span class="g g-Whitespace">   </span><span class="mi">1904</span> <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_has_events</span> <span class="ow">or</span> <span class="bp">self</span><span class="o">.</span><span class="n">engine</span><span class="o">.</span><span class="n">_has_events</span><span class="p">:</span>
-<span class="g g-Whitespace">   </span><span class="mi">1905</span>     <span class="bp">self</span><span class="o">.</span><span class="n">dispatch</span><span class="o">.</span><span class="n">after_cursor_execute</span><span class="p">(</span>
-<span class="g g-Whitespace">   </span><span class="mi">1906</span>         <span class="bp">self</span><span class="p">,</span>
-<span class="g g-Whitespace">   </span><span class="mi">1907</span>         <span class="n">cursor</span><span class="p">,</span>
-   <span class="p">(</span><span class="o">...</span><span class="p">)</span>
-<span class="g g-Whitespace">   </span><span class="mi">1911</span>         <span class="n">context</span><span class="o">.</span><span class="n">executemany</span><span class="p">,</span>
-<span class="g g-Whitespace">   </span><span class="mi">1912</span>     <span class="p">)</span>
-
-<span class="nn">File /opt/miniconda3/envs/dasc_5410/lib/python3.11/site-packages/sqlalchemy/engine/default.py:736,</span> in <span class="ni">DefaultDialect.do_execute</span><span class="nt">(self, cursor, statement, parameters, context)</span>
-<span class="g g-Whitespace">    </span><span class="mi">735</span> <span class="k">def</span> <span class="nf">do_execute</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">cursor</span><span class="p">,</span> <span class="n">statement</span><span class="p">,</span> <span class="n">parameters</span><span class="p">,</span> <span class="n">context</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
-<span class="ne">--&gt; </span><span class="mi">736</span>     <span class="n">cursor</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="n">statement</span><span class="p">,</span> <span class="n">parameters</span><span class="p">)</span>
-
-<span class="ne">IntegrityError</span>: (psycopg2.errors.UniqueViolation) duplicate key value violates unique constraint &quot;employees_pkey&quot;
-<span class="ne">DETAIL</span>:  Key (id)=(1) already exists.
-
-<span class="p">[</span><span class="n">SQL</span><span class="p">:</span> <span class="n">INSERT</span> <span class="n">INTO</span> <span class="n">employees</span> <span class="p">(</span><span class="nb">id</span><span class="p">)</span>
-<span class="n">VALUES</span> <span class="p">(</span><span class="mi">1</span><span class="p">),</span> <span class="p">(</span><span class="mi">1</span><span class="p">);]</span>
-<span class="p">(</span><span class="n">Background</span> <span class="n">on</span> <span class="n">this</span> <span class="n">error</span> <span class="n">at</span><span class="p">:</span> <span class="n">https</span><span class="p">:</span><span class="o">//</span><span class="n">sqlalche</span><span class="o">.</span><span class="n">me</span><span class="o">/</span><span class="n">e</span><span class="o">/</span><span class="mi">14</span><span class="o">/</span><span class="n">gkpj</span><span class="p">)</span>
+<div class="output text_html"><table>
+    <thead>
+        <tr>
+            <th>id</th>
+            <th>first_name</th>
+            <th>last_name</th>
+            <th>age</th>
+            <th>department</th>
+        </tr>
+    </thead>
+    <tbody>
+    </tbody>
+</table></div></div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">%%</span><span class="k">sql</span>
+INSERT INTO employees (first_name, last_name, age, department)
+VALUES (&#39;John&#39;, &#39;Doe&#39;, 25, &#39;Sales&#39;);
 </pre></div>
 </div>
 </div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> * postgresql://postgres:***@localhost:5432/dvdrental
+1 rows affected.
+</pre></div>
+</div>
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[]
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">%%</span><span class="k">sql</span>
+SELECT * FROM employees;
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> * postgresql://postgres:***@localhost:5432/dvdrental
+1 rows affected.
+</pre></div>
+</div>
+<div class="output text_html"><table>
+    <thead>
+        <tr>
+            <th>id</th>
+            <th>first_name</th>
+            <th>last_name</th>
+            <th>age</th>
+            <th>department</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>1</td>
+            <td>John</td>
+            <td>Doe</td>
+            <td>25</td>
+            <td>Sales</td>
+        </tr>
+    </tbody>
+</table></div></div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">%%</span><span class="k">sql</span>
+INSERT INTO employees
+VALUES (2, &#39;Jane&#39;, &#39;Doe&#39;, 30, &#39;Marketing&#39;);
+
+SELECT * FROM employees;
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> * postgresql://postgres:***@localhost:5432/dvdrental
+1 rows affected.
+2 rows affected.
+</pre></div>
+</div>
+<div class="output text_html"><table>
+    <thead>
+        <tr>
+            <th>id</th>
+            <th>first_name</th>
+            <th>last_name</th>
+            <th>age</th>
+            <th>department</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>1</td>
+            <td>John</td>
+            <td>Doe</td>
+            <td>25</td>
+            <td>Sales</td>
+        </tr>
+        <tr>
+            <td>2</td>
+            <td>Jane</td>
+            <td>Doe</td>
+            <td>30</td>
+            <td>Marketing</td>
+        </tr>
+    </tbody>
+</table></div></div>
 </div>
 </section>
 </section>
@@ -966,7 +924,7 @@ INSERT INTO employees (first_name, last_name, age, department_id) VALUES
 <span class="n">The</span> <span class="n">above</span> <span class="n">exception</span> <span class="n">was</span> <span class="n">the</span> <span class="n">direct</span> <span class="n">cause</span> <span class="n">of</span> <span class="n">the</span> <span class="n">following</span> <span class="n">exception</span><span class="p">:</span>
 
 <span class="ne">IntegrityError</span><span class="g g-Whitespace">                            </span>Traceback (most recent call last)
-<span class="n">Cell</span> <span class="n">In</span><span class="p">[</span><span class="mi">124</span><span class="p">],</span> <span class="n">line</span> <span class="mi">1</span>
+<span class="n">Cell</span> <span class="n">In</span><span class="p">[</span><span class="mi">175</span><span class="p">],</span> <span class="n">line</span> <span class="mi">1</span>
 <span class="ne">----&gt; </span><span class="mi">1</span> <span class="n">get_ipython</span><span class="p">()</span><span class="o">.</span><span class="n">run_cell_magic</span><span class="p">(</span><span class="s1">&#39;sql&#39;</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="s2">&quot;INSERT INTO employees (first_name, last_name, age, department_id) VALUES</span><span class="se">\n</span><span class="s2">    (&#39;Quan&#39;, &#39;Nguyen&#39;, 30, 12345);</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
 
 <span class="nn">File /opt/miniconda3/envs/dasc_5410/lib/python3.11/site-packages/IPython/core/interactiveshell.py:2541,</span> in <span class="ni">InteractiveShell.run_cell_magic</span><span class="nt">(self, magic_name, line, cell)</span>
@@ -1225,7 +1183,7 @@ INSERT INTO employees (first_name, last_name, age, department, email) VALUES
 <span class="n">The</span> <span class="n">above</span> <span class="n">exception</span> <span class="n">was</span> <span class="n">the</span> <span class="n">direct</span> <span class="n">cause</span> <span class="n">of</span> <span class="n">the</span> <span class="n">following</span> <span class="n">exception</span><span class="p">:</span>
 
 <span class="ne">IntegrityError</span><span class="g g-Whitespace">                            </span>Traceback (most recent call last)
-<span class="n">Cell</span> <span class="n">In</span><span class="p">[</span><span class="mi">127</span><span class="p">],</span> <span class="n">line</span> <span class="mi">1</span>
+<span class="n">Cell</span> <span class="n">In</span><span class="p">[</span><span class="mi">178</span><span class="p">],</span> <span class="n">line</span> <span class="mi">1</span>
 <span class="ne">----&gt; </span><span class="mi">1</span> <span class="n">get_ipython</span><span class="p">()</span><span class="o">.</span><span class="n">run_cell_magic</span><span class="p">(</span><span class="s1">&#39;sql&#39;</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="s2">&quot;INSERT INTO employees (first_name, last_name, age, department, email) VALUES</span><span class="se">\n</span><span class="s2">    (&#39;Jane&#39;, &#39;Smith&#39;, 25, &#39;Marketing&#39;, &#39;john.doe@example.com&#39;);</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
 
 <span class="nn">File /opt/miniconda3/envs/dasc_5410/lib/python3.11/site-packages/IPython/core/interactiveshell.py:2541,</span> in <span class="ni">InteractiveShell.run_cell_magic</span><span class="nt">(self, magic_name, line, cell)</span>
@@ -1391,7 +1349,6 @@ CREATE TABLE employees (
 <div class="cell_output docutils container">
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> * postgresql://postgres:***@localhost:5432/dvdrental
 Done.
-Done.
 </pre></div>
 </div>
 <div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[]
@@ -1399,21 +1356,47 @@ Done.
 </div>
 </div>
 </div>
-<ul class="simple">
-<li><p><strong>Explanation</strong>:</p>
-<ul>
-<li><p><code class="docutils literal notranslate"><span class="pre">first_name</span> <span class="pre">VARCHAR(50)</span> <span class="pre">NOT</span> <span class="pre">NULL</span></code>: Ensures that the <code class="docutils literal notranslate"><span class="pre">first_name</span></code> column cannot have a <code class="docutils literal notranslate"><span class="pre">NULL</span></code> value.</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">last_name</span> <span class="pre">VARCHAR(50)</span> <span class="pre">NOT</span> <span class="pre">NULL</span></code>: Ensures that the <code class="docutils literal notranslate"><span class="pre">last_name</span></code> column cannot have a <code class="docutils literal notranslate"><span class="pre">NULL</span></code> value.</p></li>
-</ul>
-</li>
-</ul>
-<p>Attempt to insert a row with a NULL first_name</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">%%</span><span class="k">sql</span>
-INSERT INTO employees (first_name, last_name, age, department) 
-VALUES
-    (NULL, &#39;Doe&#39;, 30, &#39;Engineering&#39;);
+INSERT INTO employees (first_name, last_name, age, department) VALUES
+    (&#39;John&#39;, &#39;Doe&#39;, 30, &#39;Engineering&#39;)
+RETURNING *;
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> * postgresql://postgres:***@localhost:5432/dvdrental
+1 rows affected.
+</pre></div>
+</div>
+<div class="output text_html"><table>
+    <thead>
+        <tr>
+            <th>id</th>
+            <th>first_name</th>
+            <th>last_name</th>
+            <th>age</th>
+            <th>department</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>1</td>
+            <td>John</td>
+            <td>Doe</td>
+            <td>30</td>
+            <td>Engineering</td>
+        </tr>
+    </tbody>
+</table></div></div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">%%</span><span class="k">sql</span>
+INSERT INTO employees ( last_name, age, department) VALUES
+    (&#39;John&#39;, 30, &#39;Engineering&#39;)
+;
 </pre></div>
 </div>
 </div>
@@ -1435,14 +1418,14 @@ VALUES
 <span class="ne">--&gt; </span><span class="mi">736</span>     <span class="n">cursor</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="n">statement</span><span class="p">,</span> <span class="n">parameters</span><span class="p">)</span>
 
 <span class="ne">NotNullViolation</span>: null value in column &quot;first_name&quot; of relation &quot;employees&quot; violates not-null constraint
-<span class="ne">DETAIL</span>:  Failing row contains (1, null, Doe, 30, Engineering).
+<span class="ne">DETAIL</span>:  Failing row contains (3, null, John, 30, Engineering).
 
 
 <span class="n">The</span> <span class="n">above</span> <span class="n">exception</span> <span class="n">was</span> <span class="n">the</span> <span class="n">direct</span> <span class="n">cause</span> <span class="n">of</span> <span class="n">the</span> <span class="n">following</span> <span class="n">exception</span><span class="p">:</span>
 
 <span class="ne">IntegrityError</span><span class="g g-Whitespace">                            </span>Traceback (most recent call last)
-<span class="n">Cell</span> <span class="n">In</span><span class="p">[</span><span class="mi">129</span><span class="p">],</span> <span class="n">line</span> <span class="mi">1</span>
-<span class="ne">----&gt; </span><span class="mi">1</span> <span class="n">get_ipython</span><span class="p">()</span><span class="o">.</span><span class="n">run_cell_magic</span><span class="p">(</span><span class="s1">&#39;sql&#39;</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="s2">&quot;INSERT INTO employees (first_name, last_name, age, department) </span><span class="se">\n</span><span class="s2">VALUES</span><span class="se">\n</span><span class="s2">    (NULL, &#39;Doe&#39;, 30, &#39;Engineering&#39;);</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="n">Cell</span> <span class="n">In</span><span class="p">[</span><span class="mi">242</span><span class="p">],</span> <span class="n">line</span> <span class="mi">1</span>
+<span class="ne">----&gt; </span><span class="mi">1</span> <span class="n">get_ipython</span><span class="p">()</span><span class="o">.</span><span class="n">run_cell_magic</span><span class="p">(</span><span class="s1">&#39;sql&#39;</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="s2">&quot;INSERT INTO employees ( last_name, age, department) VALUES</span><span class="se">\n</span><span class="s2">    (&#39;John&#39;, 30, &#39;Engineering&#39;)</span><span class="se">\n</span><span class="s2">;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
 
 <span class="nn">File /opt/miniconda3/envs/dasc_5410/lib/python3.11/site-packages/IPython/core/interactiveshell.py:2541,</span> in <span class="ni">InteractiveShell.run_cell_magic</span><span class="nt">(self, magic_name, line, cell)</span>
 <span class="g g-Whitespace">   </span><span class="mi">2539</span> <span class="k">with</span> <span class="bp">self</span><span class="o">.</span><span class="n">builtin_trap</span><span class="p">:</span>
@@ -1563,15 +1546,134 @@ VALUES
 <span class="ne">--&gt; </span><span class="mi">736</span>     <span class="n">cursor</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="n">statement</span><span class="p">,</span> <span class="n">parameters</span><span class="p">)</span>
 
 <span class="ne">IntegrityError</span>: (psycopg2.errors.NotNullViolation) null value in column &quot;first_name&quot; of relation &quot;employees&quot; violates not-null constraint
-<span class="ne">DETAIL</span>:  Failing row contains (1, null, Doe, 30, Engineering).
+<span class="ne">DETAIL</span>:  Failing row contains (3, null, John, 30, Engineering).
 
-<span class="p">[</span><span class="n">SQL</span><span class="p">:</span> <span class="n">INSERT</span> <span class="n">INTO</span> <span class="n">employees</span> <span class="p">(</span><span class="n">first_name</span><span class="p">,</span> <span class="n">last_name</span><span class="p">,</span> <span class="n">age</span><span class="p">,</span> <span class="n">department</span><span class="p">)</span> 
-<span class="n">VALUES</span>
-    <span class="p">(</span><span class="n">NULL</span><span class="p">,</span> <span class="s1">&#39;Doe&#39;</span><span class="p">,</span> <span class="mi">30</span><span class="p">,</span> <span class="s1">&#39;Engineering&#39;</span><span class="p">);]</span>
+<span class="p">[</span><span class="n">SQL</span><span class="p">:</span> <span class="n">INSERT</span> <span class="n">INTO</span> <span class="n">employees</span> <span class="p">(</span> <span class="n">last_name</span><span class="p">,</span> <span class="n">age</span><span class="p">,</span> <span class="n">department</span><span class="p">)</span> <span class="n">VALUES</span>
+    <span class="p">(</span><span class="s1">&#39;John&#39;</span><span class="p">,</span> <span class="mi">30</span><span class="p">,</span> <span class="s1">&#39;Engineering&#39;</span><span class="p">)</span>
+<span class="p">;]</span>
 <span class="p">(</span><span class="n">Background</span> <span class="n">on</span> <span class="n">this</span> <span class="n">error</span> <span class="n">at</span><span class="p">:</span> <span class="n">https</span><span class="p">:</span><span class="o">//</span><span class="n">sqlalche</span><span class="o">.</span><span class="n">me</span><span class="o">/</span><span class="n">e</span><span class="o">/</span><span class="mi">14</span><span class="o">/</span><span class="n">gkpj</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">%%</span><span class="k">sql</span>
+INSERT INTO employees (first_name, last_name, age, department) VALUES
+    (&#39;John&#39;, &#39;Doe&#39;, 30, &#39;Engineering&#39;);
+
+SELECT * FROM employees;
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> * postgresql://postgres:***@localhost:5432/dvdrental
+1 rows affected.
+4 rows affected.
+</pre></div>
+</div>
+<div class="output text_html"><table>
+    <thead>
+        <tr>
+            <th>id</th>
+            <th>first_name</th>
+            <th>last_name</th>
+            <th>age</th>
+            <th>department</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>1</td>
+            <td>John</td>
+            <td>Doe</td>
+            <td>30</td>
+            <td>Engineering</td>
+        </tr>
+        <tr>
+            <td>2</td>
+            <td>John</td>
+            <td>30</td>
+            <td>30</td>
+            <td>Engineering</td>
+        </tr>
+        <tr>
+            <td>4</td>
+            <td>John</td>
+            <td>Doe</td>
+            <td>30</td>
+            <td>Engineering</td>
+        </tr>
+        <tr>
+            <td>5</td>
+            <td>John</td>
+            <td>Doe</td>
+            <td>30</td>
+            <td>Engineering</td>
+        </tr>
+    </tbody>
+</table></div></div>
+</div>
+<ul class="simple">
+<li><p><strong>Explanation</strong>:</p>
+<ul>
+<li><p><code class="docutils literal notranslate"><span class="pre">first_name</span> <span class="pre">VARCHAR(50)</span> <span class="pre">NOT</span> <span class="pre">NULL</span></code>: Ensures that the <code class="docutils literal notranslate"><span class="pre">first_name</span></code> column cannot have a <code class="docutils literal notranslate"><span class="pre">NULL</span></code> value.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">last_name</span> <span class="pre">VARCHAR(50)</span> <span class="pre">NOT</span> <span class="pre">NULL</span></code>: Ensures that the <code class="docutils literal notranslate"><span class="pre">last_name</span></code> column cannot have a <code class="docutils literal notranslate"><span class="pre">NULL</span></code> value.</p></li>
+</ul>
+</li>
+</ul>
+<p>Attempt to insert a row with a NULL first_name</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">%%</span><span class="k">sql</span>
+INSERT INTO employees (first_name, last_name, age, department) 
+VALUES
+    (&#39;John&#39;, &#39;Doe&#39;, 30, NULL);
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> * postgresql://postgres:***@localhost:5432/dvdrental
+1 rows affected.
+</pre></div>
+</div>
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[]
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">%%</span><span class="k">sql</span>
+SELECT * FROM employees;
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> * postgresql://postgres:***@localhost:5432/dvdrental
+1 rows affected.
+</pre></div>
+</div>
+<div class="output text_html"><table>
+    <thead>
+        <tr>
+            <th>id</th>
+            <th>first_name</th>
+            <th>last_name</th>
+            <th>age</th>
+            <th>department</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>2</td>
+            <td>John</td>
+            <td>Doe</td>
+            <td>30</td>
+            <td>None</td>
+        </tr>
+    </tbody>
+</table></div></div>
 </div>
 </section>
 </section>
@@ -1694,8 +1796,9 @@ CREATE TABLE employees (
     id SERIAL PRIMARY KEY,
     first_name VARCHAR(50),
     last_name VARCHAR(50),
-    age INT CHECK (age &gt; 0),
-    department VARCHAR(50)
+    age INT CHECK (age &gt; 0 AND age &lt; 100),
+    department VARCHAR(50),
+    date_time TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 </pre></div>
 </div>
@@ -1723,44 +1826,9 @@ Done.
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">%%</span><span class="k">sql</span>
-INSERT INTO employees (first_name, last_name, age, department) VALUES
-    (&#39;John&#39;, &#39;Doe&#39;, 30, &#39;Engineering&#39;)
+INSERT INTO employees (first_name, last_name,  department) VALUES
+    (&#39;John&#39;, &#39;Doe&#39;, &#39;Engineering&#39;)
 RETURNING *;
-</pre></div>
-</div>
-</div>
-<div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> * postgresql://postgres:***@localhost:5432/dvdrental
-1 rows affected.
-</pre></div>
-</div>
-<div class="output text_html"><table>
-    <thead>
-        <tr>
-            <th>id</th>
-            <th>first_name</th>
-            <th>last_name</th>
-            <th>age</th>
-            <th>department</th>
-        </tr>
-    </thead>
-    <tbody>
-        <tr>
-            <td>1</td>
-            <td>John</td>
-            <td>Doe</td>
-            <td>30</td>
-            <td>Engineering</td>
-        </tr>
-    </tbody>
-</table></div></div>
-</div>
-<p>Attempt to Insert a Row with an Invalid age:</p>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">%%</span><span class="k">sql</span>
-INSERT INTO employees (first_name, last_name, age, department) VALUES
-    (&#39;Jane&#39;, &#39;Smith&#39;, -5, &#39;Marketing&#39;);
 </pre></div>
 </div>
 </div>
@@ -1782,14 +1850,14 @@ INSERT INTO employees (first_name, last_name, age, department) VALUES
 <span class="ne">--&gt; </span><span class="mi">736</span>     <span class="n">cursor</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="n">statement</span><span class="p">,</span> <span class="n">parameters</span><span class="p">)</span>
 
 <span class="ne">CheckViolation</span>: new row for relation &quot;employees&quot; violates check constraint &quot;employees_age_check&quot;
-<span class="ne">DETAIL</span>:  Failing row contains (2, Jane, Smith, -5, Marketing).
+<span class="ne">DETAIL</span>:  Failing row contains (2, John, Doe, -1, Engineering, 2024-09-25 12:56:38.338107).
 
 
 <span class="n">The</span> <span class="n">above</span> <span class="n">exception</span> <span class="n">was</span> <span class="n">the</span> <span class="n">direct</span> <span class="n">cause</span> <span class="n">of</span> <span class="n">the</span> <span class="n">following</span> <span class="n">exception</span><span class="p">:</span>
 
 <span class="ne">IntegrityError</span><span class="g g-Whitespace">                            </span>Traceback (most recent call last)
-<span class="n">Cell</span> <span class="n">In</span><span class="p">[</span><span class="mi">134</span><span class="p">],</span> <span class="n">line</span> <span class="mi">1</span>
-<span class="ne">----&gt; </span><span class="mi">1</span> <span class="n">get_ipython</span><span class="p">()</span><span class="o">.</span><span class="n">run_cell_magic</span><span class="p">(</span><span class="s1">&#39;sql&#39;</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="s2">&quot;INSERT INTO employees (first_name, last_name, age, department) VALUES</span><span class="se">\n</span><span class="s2">    (&#39;Jane&#39;, &#39;Smith&#39;, -5, &#39;Marketing&#39;);</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="n">Cell</span> <span class="n">In</span><span class="p">[</span><span class="mi">197</span><span class="p">],</span> <span class="n">line</span> <span class="mi">1</span>
+<span class="ne">----&gt; </span><span class="mi">1</span> <span class="n">get_ipython</span><span class="p">()</span><span class="o">.</span><span class="n">run_cell_magic</span><span class="p">(</span><span class="s1">&#39;sql&#39;</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="s2">&quot;INSERT INTO employees (first_name, last_name,  department) VALUES</span><span class="se">\n</span><span class="s2">    (&#39;John&#39;, &#39;Doe&#39;, &#39;Engineering&#39;)</span><span class="se">\n</span><span class="s2">RETURNING *;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
 
 <span class="nn">File /opt/miniconda3/envs/dasc_5410/lib/python3.11/site-packages/IPython/core/interactiveshell.py:2541,</span> in <span class="ni">InteractiveShell.run_cell_magic</span><span class="nt">(self, magic_name, line, cell)</span>
 <span class="g g-Whitespace">   </span><span class="mi">2539</span> <span class="k">with</span> <span class="bp">self</span><span class="o">.</span><span class="n">builtin_trap</span><span class="p">:</span>
@@ -1910,14 +1978,53 @@ INSERT INTO employees (first_name, last_name, age, department) VALUES
 <span class="ne">--&gt; </span><span class="mi">736</span>     <span class="n">cursor</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="n">statement</span><span class="p">,</span> <span class="n">parameters</span><span class="p">)</span>
 
 <span class="ne">IntegrityError</span>: (psycopg2.errors.CheckViolation) new row for relation &quot;employees&quot; violates check constraint &quot;employees_age_check&quot;
-<span class="ne">DETAIL</span>:  Failing row contains (2, Jane, Smith, -5, Marketing).
+<span class="ne">DETAIL</span>:  Failing row contains (2, John, Doe, -1, Engineering, 2024-09-25 12:56:38.338107).
 
-<span class="p">[</span><span class="n">SQL</span><span class="p">:</span> <span class="n">INSERT</span> <span class="n">INTO</span> <span class="n">employees</span> <span class="p">(</span><span class="n">first_name</span><span class="p">,</span> <span class="n">last_name</span><span class="p">,</span> <span class="n">age</span><span class="p">,</span> <span class="n">department</span><span class="p">)</span> <span class="n">VALUES</span>
-    <span class="p">(</span><span class="s1">&#39;Jane&#39;</span><span class="p">,</span> <span class="s1">&#39;Smith&#39;</span><span class="p">,</span> <span class="o">-</span><span class="mi">5</span><span class="p">,</span> <span class="s1">&#39;Marketing&#39;</span><span class="p">);]</span>
+<span class="p">[</span><span class="n">SQL</span><span class="p">:</span> <span class="n">INSERT</span> <span class="n">INTO</span> <span class="n">employees</span> <span class="p">(</span><span class="n">first_name</span><span class="p">,</span> <span class="n">last_name</span><span class="p">,</span>  <span class="n">department</span><span class="p">)</span> <span class="n">VALUES</span>
+    <span class="p">(</span><span class="s1">&#39;John&#39;</span><span class="p">,</span> <span class="s1">&#39;Doe&#39;</span><span class="p">,</span> <span class="s1">&#39;Engineering&#39;</span><span class="p">)</span>
+<span class="n">RETURNING</span> <span class="o">*</span><span class="p">;]</span>
 <span class="p">(</span><span class="n">Background</span> <span class="n">on</span> <span class="n">this</span> <span class="n">error</span> <span class="n">at</span><span class="p">:</span> <span class="n">https</span><span class="p">:</span><span class="o">//</span><span class="n">sqlalche</span><span class="o">.</span><span class="n">me</span><span class="o">/</span><span class="n">e</span><span class="o">/</span><span class="mi">14</span><span class="o">/</span><span class="n">gkpj</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
+</div>
+<p>Attempt to Insert a Row with an Invalid age:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">%%</span><span class="k">sql</span>
+INSERT INTO employees (first_name, last_name, age, department) VALUES
+    (&#39;Jane&#39;, &#39;Smith&#39;, 50, &#39;Marketing&#39;)
+RETURNING *;
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> * postgresql://postgres:***@localhost:5432/dvdrental
+1 rows affected.
+</pre></div>
+</div>
+<div class="output text_html"><table>
+    <thead>
+        <tr>
+            <th>id</th>
+            <th>first_name</th>
+            <th>last_name</th>
+            <th>age</th>
+            <th>department</th>
+            <th>date_time</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>3</td>
+            <td>Jane</td>
+            <td>Smith</td>
+            <td>50</td>
+            <td>Marketing</td>
+            <td>2024-09-25 12:54:55.125256</td>
+        </tr>
+    </tbody>
+</table></div></div>
 </div>
 </section>
 </section>
@@ -2366,7 +2473,7 @@ CREATE TABLE employees (
     age INT,
     department_id INT,
     FOREIGN KEY (department_id) REFERENCES departments (id)
-    ON DELETE CASCADE
+    ON DELETE NO ACTION
 );
 </pre></div>
 </div>
@@ -2384,13 +2491,6 @@ Done.
 </div>
 </div>
 </div>
-<ul class="simple">
-<li><p><strong>Explanation</strong>:</p>
-<ul>
-<li><p>If the <code class="docutils literal notranslate"><span class="pre">id</span></code> in the <code class="docutils literal notranslate"><span class="pre">departments</span></code> table is deleted, all rows in the <code class="docutils literal notranslate"><span class="pre">employees</span></code> table with the matching <code class="docutils literal notranslate"><span class="pre">department_id</span></code> will also be deleted.</p></li>
-</ul>
-</li>
-</ul>
 <p>Insert Sample Data into departments Table:</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
@@ -2473,16 +2573,160 @@ RETURNING *;
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">%%</span><span class="k">sql</span>
-DELETE FROM departments WHERE id = 2;
+DELETE FROM departments WHERE id = 1;
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> * postgresql://postgres:***@localhost:5432/dvdrental
-1 rows affected.
 </pre></div>
 </div>
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[]
+<div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span><span class="gt">---------------------------------------------------------------------------</span>
+<span class="ne">ForeignKeyViolation</span><span class="g g-Whitespace">                       </span>Traceback (most recent call last)
+<span class="nn">File /opt/miniconda3/envs/dasc_5410/lib/python3.11/site-packages/sqlalchemy/engine/base.py:1900,</span> in <span class="ni">Connection._execute_context</span><span class="nt">(self, dialect, constructor, statement, parameters, execution_options, *args, **kw)</span>
+<span class="g g-Whitespace">   </span><span class="mi">1899</span>     <span class="k">if</span> <span class="ow">not</span> <span class="n">evt_handled</span><span class="p">:</span>
+<span class="ne">-&gt; </span><span class="mi">1900</span>         <span class="bp">self</span><span class="o">.</span><span class="n">dialect</span><span class="o">.</span><span class="n">do_execute</span><span class="p">(</span>
+<span class="g g-Whitespace">   </span><span class="mi">1901</span>             <span class="n">cursor</span><span class="p">,</span> <span class="n">statement</span><span class="p">,</span> <span class="n">parameters</span><span class="p">,</span> <span class="n">context</span>
+<span class="g g-Whitespace">   </span><span class="mi">1902</span>         <span class="p">)</span>
+<span class="g g-Whitespace">   </span><span class="mi">1904</span> <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_has_events</span> <span class="ow">or</span> <span class="bp">self</span><span class="o">.</span><span class="n">engine</span><span class="o">.</span><span class="n">_has_events</span><span class="p">:</span>
+
+<span class="nn">File /opt/miniconda3/envs/dasc_5410/lib/python3.11/site-packages/sqlalchemy/engine/default.py:736,</span> in <span class="ni">DefaultDialect.do_execute</span><span class="nt">(self, cursor, statement, parameters, context)</span>
+<span class="g g-Whitespace">    </span><span class="mi">735</span> <span class="k">def</span> <span class="nf">do_execute</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">cursor</span><span class="p">,</span> <span class="n">statement</span><span class="p">,</span> <span class="n">parameters</span><span class="p">,</span> <span class="n">context</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<span class="ne">--&gt; </span><span class="mi">736</span>     <span class="n">cursor</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="n">statement</span><span class="p">,</span> <span class="n">parameters</span><span class="p">)</span>
+
+<span class="ne">ForeignKeyViolation</span>: update or delete on table &quot;departments&quot; violates foreign key constraint &quot;employees_department_id_fkey&quot; on table &quot;employees&quot;
+<span class="ne">DETAIL</span>:  Key (id)=(1) is still referenced from table &quot;employees&quot;.
+
+
+<span class="n">The</span> <span class="n">above</span> <span class="n">exception</span> <span class="n">was</span> <span class="n">the</span> <span class="n">direct</span> <span class="n">cause</span> <span class="n">of</span> <span class="n">the</span> <span class="n">following</span> <span class="n">exception</span><span class="p">:</span>
+
+<span class="ne">IntegrityError</span><span class="g g-Whitespace">                            </span>Traceback (most recent call last)
+<span class="n">Cell</span> <span class="n">In</span><span class="p">[</span><span class="mi">219</span><span class="p">],</span> <span class="n">line</span> <span class="mi">1</span>
+<span class="ne">----&gt; </span><span class="mi">1</span> <span class="n">get_ipython</span><span class="p">()</span><span class="o">.</span><span class="n">run_cell_magic</span><span class="p">(</span><span class="s1">&#39;sql&#39;</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="s1">&#39;DELETE FROM departments WHERE id = 1;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)</span>
+
+<span class="nn">File /opt/miniconda3/envs/dasc_5410/lib/python3.11/site-packages/IPython/core/interactiveshell.py:2541,</span> in <span class="ni">InteractiveShell.run_cell_magic</span><span class="nt">(self, magic_name, line, cell)</span>
+<span class="g g-Whitespace">   </span><span class="mi">2539</span> <span class="k">with</span> <span class="bp">self</span><span class="o">.</span><span class="n">builtin_trap</span><span class="p">:</span>
+<span class="g g-Whitespace">   </span><span class="mi">2540</span>     <span class="n">args</span> <span class="o">=</span> <span class="p">(</span><span class="n">magic_arg_s</span><span class="p">,</span> <span class="n">cell</span><span class="p">)</span>
+<span class="ne">-&gt; </span><span class="mi">2541</span>     <span class="n">result</span> <span class="o">=</span> <span class="n">fn</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+<span class="g g-Whitespace">   </span><span class="mi">2543</span> <span class="c1"># The code below prevents the output from being displayed</span>
+<span class="g g-Whitespace">   </span><span class="mi">2544</span> <span class="c1"># when using magics with decorator @output_can_be_silenced</span>
+<span class="g g-Whitespace">   </span><span class="mi">2545</span> <span class="c1"># when the last Python token in the expression is a &#39;;&#39;.</span>
+<span class="g g-Whitespace">   </span><span class="mi">2546</span> <span class="k">if</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">fn</span><span class="p">,</span> <span class="n">magic</span><span class="o">.</span><span class="n">MAGIC_OUTPUT_CAN_BE_SILENCED</span><span class="p">,</span> <span class="kc">False</span><span class="p">):</span>
+
+<span class="nn">File /opt/miniconda3/envs/dasc_5410/lib/python3.11/site-packages/sql/magic.py:95,</span> in <span class="ni">SqlMagic.execute</span><span class="nt">(self, line, cell, local_ns)</span>
+<span class="g g-Whitespace">     </span><span class="mi">92</span>     <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_persist_dataframe</span><span class="p">(</span><span class="n">parsed</span><span class="p">[</span><span class="s1">&#39;sql&#39;</span><span class="p">],</span> <span class="n">conn</span><span class="p">,</span> <span class="n">user_ns</span><span class="p">)</span>
+<span class="g g-Whitespace">     </span><span class="mi">94</span> <span class="k">try</span><span class="p">:</span>
+<span class="ne">---&gt; </span><span class="mi">95</span>     <span class="n">result</span> <span class="o">=</span> <span class="n">sql</span><span class="o">.</span><span class="n">run</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">conn</span><span class="p">,</span> <span class="n">parsed</span><span class="p">[</span><span class="s1">&#39;sql&#39;</span><span class="p">],</span> <span class="bp">self</span><span class="p">,</span> <span class="n">user_ns</span><span class="p">)</span>
+<span class="g g-Whitespace">     </span><span class="mi">97</span>     <span class="k">if</span> <span class="n">result</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">result</span><span class="p">,</span> <span class="nb">str</span><span class="p">)</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">column_local_vars</span><span class="p">:</span>
+<span class="g g-Whitespace">     </span><span class="mi">98</span>         <span class="c1">#Instead of returning values, set variables directly in the</span>
+<span class="g g-Whitespace">     </span><span class="mi">99</span>         <span class="c1">#users namespace. Variable names given by column names</span>
+<span class="g g-Whitespace">    </span><span class="mi">101</span>         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">autopandas</span><span class="p">:</span>
+
+<span class="nn">File /opt/miniconda3/envs/dasc_5410/lib/python3.11/site-packages/sql/run.py:340,</span> in <span class="ni">run</span><span class="nt">(conn, sql, config, user_namespace)</span>
+<span class="g g-Whitespace">    </span><span class="mi">338</span> <span class="k">else</span><span class="p">:</span>
+<span class="g g-Whitespace">    </span><span class="mi">339</span>     <span class="n">txt</span> <span class="o">=</span> <span class="n">sqlalchemy</span><span class="o">.</span><span class="n">sql</span><span class="o">.</span><span class="n">text</span><span class="p">(</span><span class="n">statement</span><span class="p">)</span>
+<span class="ne">--&gt; </span><span class="mi">340</span>     <span class="n">result</span> <span class="o">=</span> <span class="n">conn</span><span class="o">.</span><span class="n">session</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="n">txt</span><span class="p">,</span> <span class="n">user_namespace</span><span class="p">)</span>
+<span class="g g-Whitespace">    </span><span class="mi">341</span> <span class="n">_commit</span><span class="p">(</span><span class="n">conn</span><span class="o">=</span><span class="n">conn</span><span class="p">,</span> <span class="n">config</span><span class="o">=</span><span class="n">config</span><span class="p">)</span>
+<span class="g g-Whitespace">    </span><span class="mi">342</span> <span class="k">if</span> <span class="n">result</span> <span class="ow">and</span> <span class="n">config</span><span class="o">.</span><span class="n">feedback</span><span class="p">:</span>
+
+<span class="nn">File /opt/miniconda3/envs/dasc_5410/lib/python3.11/site-packages/sqlalchemy/engine/base.py:1380,</span> in <span class="ni">Connection.execute</span><span class="nt">(self, statement, *multiparams, **params)</span>
+<span class="g g-Whitespace">   </span><span class="mi">1376</span>     <span class="n">util</span><span class="o">.</span><span class="n">raise_</span><span class="p">(</span>
+<span class="g g-Whitespace">   </span><span class="mi">1377</span>         <span class="n">exc</span><span class="o">.</span><span class="n">ObjectNotExecutableError</span><span class="p">(</span><span class="n">statement</span><span class="p">),</span> <span class="n">replace_context</span><span class="o">=</span><span class="n">err</span>
+<span class="g g-Whitespace">   </span><span class="mi">1378</span>     <span class="p">)</span>
+<span class="g g-Whitespace">   </span><span class="mi">1379</span> <span class="k">else</span><span class="p">:</span>
+<span class="ne">-&gt; </span><span class="mi">1380</span>     <span class="k">return</span> <span class="n">meth</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">multiparams</span><span class="p">,</span> <span class="n">params</span><span class="p">,</span> <span class="n">_EMPTY_EXECUTION_OPTS</span><span class="p">)</span>
+
+<span class="nn">File /opt/miniconda3/envs/dasc_5410/lib/python3.11/site-packages/sqlalchemy/sql/elements.py:334,</span> in <span class="ni">ClauseElement._execute_on_connection</span><span class="nt">(self, connection, multiparams, params, execution_options, _force)</span>
+<span class="g g-Whitespace">    </span><span class="mi">330</span> <span class="k">def</span> <span class="nf">_execute_on_connection</span><span class="p">(</span>
+<span class="g g-Whitespace">    </span><span class="mi">331</span>     <span class="bp">self</span><span class="p">,</span> <span class="n">connection</span><span class="p">,</span> <span class="n">multiparams</span><span class="p">,</span> <span class="n">params</span><span class="p">,</span> <span class="n">execution_options</span><span class="p">,</span> <span class="n">_force</span><span class="o">=</span><span class="kc">False</span>
+<span class="g g-Whitespace">    </span><span class="mi">332</span> <span class="p">):</span>
+<span class="g g-Whitespace">    </span><span class="mi">333</span>     <span class="k">if</span> <span class="n">_force</span> <span class="ow">or</span> <span class="bp">self</span><span class="o">.</span><span class="n">supports_execution</span><span class="p">:</span>
+<span class="ne">--&gt; </span><span class="mi">334</span>         <span class="k">return</span> <span class="n">connection</span><span class="o">.</span><span class="n">_execute_clauseelement</span><span class="p">(</span>
+<span class="g g-Whitespace">    </span><span class="mi">335</span>             <span class="bp">self</span><span class="p">,</span> <span class="n">multiparams</span><span class="p">,</span> <span class="n">params</span><span class="p">,</span> <span class="n">execution_options</span>
+<span class="g g-Whitespace">    </span><span class="mi">336</span>         <span class="p">)</span>
+<span class="g g-Whitespace">    </span><span class="mi">337</span>     <span class="k">else</span><span class="p">:</span>
+<span class="g g-Whitespace">    </span><span class="mi">338</span>         <span class="k">raise</span> <span class="n">exc</span><span class="o">.</span><span class="n">ObjectNotExecutableError</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+
+<span class="nn">File /opt/miniconda3/envs/dasc_5410/lib/python3.11/site-packages/sqlalchemy/engine/base.py:1572,</span> in <span class="ni">Connection._execute_clauseelement</span><span class="nt">(self, elem, multiparams, params, execution_options)</span>
+<span class="g g-Whitespace">   </span><span class="mi">1560</span> <span class="n">compiled_cache</span> <span class="o">=</span> <span class="n">execution_options</span><span class="o">.</span><span class="n">get</span><span class="p">(</span>
+<span class="g g-Whitespace">   </span><span class="mi">1561</span>     <span class="s2">&quot;compiled_cache&quot;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">engine</span><span class="o">.</span><span class="n">_compiled_cache</span>
+<span class="g g-Whitespace">   </span><span class="mi">1562</span> <span class="p">)</span>
+<span class="g g-Whitespace">   </span><span class="mi">1564</span> <span class="n">compiled_sql</span><span class="p">,</span> <span class="n">extracted_params</span><span class="p">,</span> <span class="n">cache_hit</span> <span class="o">=</span> <span class="n">elem</span><span class="o">.</span><span class="n">_compile_w_cache</span><span class="p">(</span>
+<span class="g g-Whitespace">   </span><span class="mi">1565</span>     <span class="n">dialect</span><span class="o">=</span><span class="n">dialect</span><span class="p">,</span>
+<span class="g g-Whitespace">   </span><span class="mi">1566</span>     <span class="n">compiled_cache</span><span class="o">=</span><span class="n">compiled_cache</span><span class="p">,</span>
+   <span class="p">(</span><span class="o">...</span><span class="p">)</span>
+<span class="g g-Whitespace">   </span><span class="mi">1570</span>     <span class="n">linting</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">dialect</span><span class="o">.</span><span class="n">compiler_linting</span> <span class="o">|</span> <span class="n">compiler</span><span class="o">.</span><span class="n">WARN_LINTING</span><span class="p">,</span>
+<span class="g g-Whitespace">   </span><span class="mi">1571</span> <span class="p">)</span>
+<span class="ne">-&gt; </span><span class="mi">1572</span> <span class="n">ret</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_execute_context</span><span class="p">(</span>
+<span class="g g-Whitespace">   </span><span class="mi">1573</span>     <span class="n">dialect</span><span class="p">,</span>
+<span class="g g-Whitespace">   </span><span class="mi">1574</span>     <span class="n">dialect</span><span class="o">.</span><span class="n">execution_ctx_cls</span><span class="o">.</span><span class="n">_init_compiled</span><span class="p">,</span>
+<span class="g g-Whitespace">   </span><span class="mi">1575</span>     <span class="n">compiled_sql</span><span class="p">,</span>
+<span class="g g-Whitespace">   </span><span class="mi">1576</span>     <span class="n">distilled_params</span><span class="p">,</span>
+<span class="g g-Whitespace">   </span><span class="mi">1577</span>     <span class="n">execution_options</span><span class="p">,</span>
+<span class="g g-Whitespace">   </span><span class="mi">1578</span>     <span class="n">compiled_sql</span><span class="p">,</span>
+<span class="g g-Whitespace">   </span><span class="mi">1579</span>     <span class="n">distilled_params</span><span class="p">,</span>
+<span class="g g-Whitespace">   </span><span class="mi">1580</span>     <span class="n">elem</span><span class="p">,</span>
+<span class="g g-Whitespace">   </span><span class="mi">1581</span>     <span class="n">extracted_params</span><span class="p">,</span>
+<span class="g g-Whitespace">   </span><span class="mi">1582</span>     <span class="n">cache_hit</span><span class="o">=</span><span class="n">cache_hit</span><span class="p">,</span>
+<span class="g g-Whitespace">   </span><span class="mi">1583</span> <span class="p">)</span>
+<span class="g g-Whitespace">   </span><span class="mi">1584</span> <span class="k">if</span> <span class="n">has_events</span><span class="p">:</span>
+<span class="g g-Whitespace">   </span><span class="mi">1585</span>     <span class="bp">self</span><span class="o">.</span><span class="n">dispatch</span><span class="o">.</span><span class="n">after_execute</span><span class="p">(</span>
+<span class="g g-Whitespace">   </span><span class="mi">1586</span>         <span class="bp">self</span><span class="p">,</span>
+<span class="g g-Whitespace">   </span><span class="mi">1587</span>         <span class="n">elem</span><span class="p">,</span>
+   <span class="p">(</span><span class="o">...</span><span class="p">)</span>
+<span class="g g-Whitespace">   </span><span class="mi">1591</span>         <span class="n">ret</span><span class="p">,</span>
+<span class="g g-Whitespace">   </span><span class="mi">1592</span>     <span class="p">)</span>
+
+<span class="nn">File /opt/miniconda3/envs/dasc_5410/lib/python3.11/site-packages/sqlalchemy/engine/base.py:1943,</span> in <span class="ni">Connection._execute_context</span><span class="nt">(self, dialect, constructor, statement, parameters, execution_options, *args, **kw)</span>
+<span class="g g-Whitespace">   </span><span class="mi">1940</span>             <span class="n">branched</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+<span class="g g-Whitespace">   </span><span class="mi">1942</span> <span class="k">except</span> <span class="ne">BaseException</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+<span class="ne">-&gt; </span><span class="mi">1943</span>     <span class="bp">self</span><span class="o">.</span><span class="n">_handle_dbapi_exception</span><span class="p">(</span>
+<span class="g g-Whitespace">   </span><span class="mi">1944</span>         <span class="n">e</span><span class="p">,</span> <span class="n">statement</span><span class="p">,</span> <span class="n">parameters</span><span class="p">,</span> <span class="n">cursor</span><span class="p">,</span> <span class="n">context</span>
+<span class="g g-Whitespace">   </span><span class="mi">1945</span>     <span class="p">)</span>
+<span class="g g-Whitespace">   </span><span class="mi">1947</span> <span class="k">return</span> <span class="n">result</span>
+
+<span class="nn">File /opt/miniconda3/envs/dasc_5410/lib/python3.11/site-packages/sqlalchemy/engine/base.py:2124,</span> in <span class="ni">Connection._handle_dbapi_exception</span><span class="nt">(self, e, statement, parameters, cursor, context)</span>
+<span class="g g-Whitespace">   </span><span class="mi">2122</span>     <span class="n">util</span><span class="o">.</span><span class="n">raise_</span><span class="p">(</span><span class="n">newraise</span><span class="p">,</span> <span class="n">with_traceback</span><span class="o">=</span><span class="n">exc_info</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span> <span class="n">from_</span><span class="o">=</span><span class="n">e</span><span class="p">)</span>
+<span class="g g-Whitespace">   </span><span class="mi">2123</span> <span class="k">elif</span> <span class="n">should_wrap</span><span class="p">:</span>
+<span class="ne">-&gt; </span><span class="mi">2124</span>     <span class="n">util</span><span class="o">.</span><span class="n">raise_</span><span class="p">(</span>
+<span class="g g-Whitespace">   </span><span class="mi">2125</span>         <span class="n">sqlalchemy_exception</span><span class="p">,</span> <span class="n">with_traceback</span><span class="o">=</span><span class="n">exc_info</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span> <span class="n">from_</span><span class="o">=</span><span class="n">e</span>
+<span class="g g-Whitespace">   </span><span class="mi">2126</span>     <span class="p">)</span>
+<span class="g g-Whitespace">   </span><span class="mi">2127</span> <span class="k">else</span><span class="p">:</span>
+<span class="g g-Whitespace">   </span><span class="mi">2128</span>     <span class="n">util</span><span class="o">.</span><span class="n">raise_</span><span class="p">(</span><span class="n">exc_info</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">with_traceback</span><span class="o">=</span><span class="n">exc_info</span><span class="p">[</span><span class="mi">2</span><span class="p">])</span>
+
+<span class="nn">File /opt/miniconda3/envs/dasc_5410/lib/python3.11/site-packages/sqlalchemy/util/compat.py:211,</span> in <span class="ni">raise_</span><span class="nt">(***failed resolving arguments***)</span>
+<span class="g g-Whitespace">    </span><span class="mi">208</span>     <span class="n">exception</span><span class="o">.</span><span class="n">__cause__</span> <span class="o">=</span> <span class="n">replace_context</span>
+<span class="g g-Whitespace">    </span><span class="mi">210</span> <span class="k">try</span><span class="p">:</span>
+<span class="ne">--&gt; </span><span class="mi">211</span>     <span class="k">raise</span> <span class="n">exception</span>
+<span class="g g-Whitespace">    </span><span class="mi">212</span> <span class="k">finally</span><span class="p">:</span>
+<span class="g g-Whitespace">    </span><span class="mi">213</span>     <span class="c1"># credit to</span>
+<span class="g g-Whitespace">    </span><span class="mi">214</span>     <span class="c1"># https://cosmicpercolator.com/2016/01/13/exception-leaks-in-python-2-and-3/</span>
+<span class="g g-Whitespace">    </span><span class="mi">215</span>     <span class="c1"># as the __traceback__ object creates a cycle</span>
+<span class="g g-Whitespace">    </span><span class="mi">216</span>     <span class="k">del</span> <span class="n">exception</span><span class="p">,</span> <span class="n">replace_context</span><span class="p">,</span> <span class="n">from_</span><span class="p">,</span> <span class="n">with_traceback</span>
+
+<span class="nn">File /opt/miniconda3/envs/dasc_5410/lib/python3.11/site-packages/sqlalchemy/engine/base.py:1900,</span> in <span class="ni">Connection._execute_context</span><span class="nt">(self, dialect, constructor, statement, parameters, execution_options, *args, **kw)</span>
+<span class="g g-Whitespace">   </span><span class="mi">1898</span>                 <span class="k">break</span>
+<span class="g g-Whitespace">   </span><span class="mi">1899</span>     <span class="k">if</span> <span class="ow">not</span> <span class="n">evt_handled</span><span class="p">:</span>
+<span class="ne">-&gt; </span><span class="mi">1900</span>         <span class="bp">self</span><span class="o">.</span><span class="n">dialect</span><span class="o">.</span><span class="n">do_execute</span><span class="p">(</span>
+<span class="g g-Whitespace">   </span><span class="mi">1901</span>             <span class="n">cursor</span><span class="p">,</span> <span class="n">statement</span><span class="p">,</span> <span class="n">parameters</span><span class="p">,</span> <span class="n">context</span>
+<span class="g g-Whitespace">   </span><span class="mi">1902</span>         <span class="p">)</span>
+<span class="g g-Whitespace">   </span><span class="mi">1904</span> <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_has_events</span> <span class="ow">or</span> <span class="bp">self</span><span class="o">.</span><span class="n">engine</span><span class="o">.</span><span class="n">_has_events</span><span class="p">:</span>
+<span class="g g-Whitespace">   </span><span class="mi">1905</span>     <span class="bp">self</span><span class="o">.</span><span class="n">dispatch</span><span class="o">.</span><span class="n">after_cursor_execute</span><span class="p">(</span>
+<span class="g g-Whitespace">   </span><span class="mi">1906</span>         <span class="bp">self</span><span class="p">,</span>
+<span class="g g-Whitespace">   </span><span class="mi">1907</span>         <span class="n">cursor</span><span class="p">,</span>
+   <span class="p">(</span><span class="o">...</span><span class="p">)</span>
+<span class="g g-Whitespace">   </span><span class="mi">1911</span>         <span class="n">context</span><span class="o">.</span><span class="n">executemany</span><span class="p">,</span>
+<span class="g g-Whitespace">   </span><span class="mi">1912</span>     <span class="p">)</span>
+
+<span class="nn">File /opt/miniconda3/envs/dasc_5410/lib/python3.11/site-packages/sqlalchemy/engine/default.py:736,</span> in <span class="ni">DefaultDialect.do_execute</span><span class="nt">(self, cursor, statement, parameters, context)</span>
+<span class="g g-Whitespace">    </span><span class="mi">735</span> <span class="k">def</span> <span class="nf">do_execute</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">cursor</span><span class="p">,</span> <span class="n">statement</span><span class="p">,</span> <span class="n">parameters</span><span class="p">,</span> <span class="n">context</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<span class="ne">--&gt; </span><span class="mi">736</span>     <span class="n">cursor</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="n">statement</span><span class="p">,</span> <span class="n">parameters</span><span class="p">)</span>
+
+<span class="ne">IntegrityError</span>: (psycopg2.errors.ForeignKeyViolation) update or delete on table &quot;departments&quot; violates foreign key constraint &quot;employees_department_id_fkey&quot; on table &quot;employees&quot;
+<span class="ne">DETAIL</span>:  Key (id)=(1) is still referenced from table &quot;employees&quot;.
+
+<span class="p">[</span><span class="n">SQL</span><span class="p">:</span> <span class="n">DELETE</span> <span class="n">FROM</span> <span class="n">departments</span> <span class="n">WHERE</span> <span class="nb">id</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;]</span>
+<span class="p">(</span><span class="n">Background</span> <span class="n">on</span> <span class="n">this</span> <span class="n">error</span> <span class="n">at</span><span class="p">:</span> <span class="n">https</span><span class="p">:</span><span class="o">//</span><span class="n">sqlalche</span><span class="o">.</span><span class="n">me</span><span class="o">/</span><span class="n">e</span><span class="o">/</span><span class="mi">14</span><span class="o">/</span><span class="n">gkpj</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -2508,8 +2752,8 @@ SELECT * FROM departments;
     </thead>
     <tbody>
         <tr>
-            <td>1</td>
-            <td>Engineering</td>
+            <td>2</td>
+            <td>Marketing</td>
         </tr>
     </tbody>
 </table></div></div>
@@ -2538,11 +2782,11 @@ SELECT * FROM employees;
     </thead>
     <tbody>
         <tr>
-            <td>1</td>
-            <td>John</td>
-            <td>Doe</td>
-            <td>30</td>
-            <td>1</td>
+            <td>2</td>
+            <td>Jane</td>
+            <td>Smith</td>
+            <td>25</td>
+            <td>2</td>
         </tr>
     </tbody>
 </table></div></div>
@@ -2559,6 +2803,14 @@ SELECT * FROM employees;
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">ALTER</span> <span class="n">TABLE</span> <span class="n">table_name</span>
 <span class="n">ADD</span> <span class="n">COLUMN</span> <span class="n">column_name</span> <span class="n">datatype</span> <span class="n">constraint</span><span class="p">;</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span>  <span class="n">Cell</span> <span class="n">In</span><span class="p">[</span><span class="mi">228</span><span class="p">],</span> <span class="n">line</span> <span class="mi">1</span>
+    <span class="n">ALTER</span> <span class="n">TABLE</span> <span class="n">table_name</span>
+          <span class="o">^</span>
+<span class="ne">SyntaxError</span>: invalid syntax
 </pre></div>
 </div>
 </div>
@@ -2601,7 +2853,7 @@ SELECT * FROM employees;
 </div>
 <div class="cell_output docutils container">
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> * postgresql://postgres:***@localhost:5432/dvdrental
-1 rows affected.
+0 rows affected.
 </pre></div>
 </div>
 <div class="output text_html"><table>
@@ -2616,14 +2868,6 @@ SELECT * FROM employees;
         </tr>
     </thead>
     <tbody>
-        <tr>
-            <td>1</td>
-            <td>John</td>
-            <td>Doe</td>
-            <td>30</td>
-            <td>1</td>
-            <td>None</td>
-        </tr>
     </tbody>
 </table></div></div>
 </div>
@@ -2695,13 +2939,13 @@ INSERT INTO employees (first_name, last_name) VALUES (&#39;John&#39;, &#39;Doe&#
 <span class="ne">--&gt; </span><span class="mi">736</span>     <span class="n">cursor</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="n">statement</span><span class="p">,</span> <span class="n">parameters</span><span class="p">)</span>
 
 <span class="ne">NotNullViolation</span>: null value in column &quot;age&quot; of relation &quot;employees&quot; violates not-null constraint
-<span class="ne">DETAIL</span>:  Failing row contains (3, John, Doe, null, null, null).
+<span class="ne">DETAIL</span>:  Failing row contains (1, John, Doe, null, null, null).
 
 
 <span class="n">The</span> <span class="n">above</span> <span class="n">exception</span> <span class="n">was</span> <span class="n">the</span> <span class="n">direct</span> <span class="n">cause</span> <span class="n">of</span> <span class="n">the</span> <span class="n">following</span> <span class="n">exception</span><span class="p">:</span>
 
 <span class="ne">IntegrityError</span><span class="g g-Whitespace">                            </span>Traceback (most recent call last)
-<span class="n">Cell</span> <span class="n">In</span><span class="p">[</span><span class="mi">155</span><span class="p">],</span> <span class="n">line</span> <span class="mi">1</span>
+<span class="n">Cell</span> <span class="n">In</span><span class="p">[</span><span class="mi">232</span><span class="p">],</span> <span class="n">line</span> <span class="mi">1</span>
 <span class="ne">----&gt; </span><span class="mi">1</span> <span class="n">get_ipython</span><span class="p">()</span><span class="o">.</span><span class="n">run_cell_magic</span><span class="p">(</span><span class="s1">&#39;sql&#39;</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="s2">&quot;INSERT INTO employees (first_name, last_name) VALUES (&#39;John&#39;, &#39;Doe&#39;);</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
 
 <span class="nn">File /opt/miniconda3/envs/dasc_5410/lib/python3.11/site-packages/IPython/core/interactiveshell.py:2541,</span> in <span class="ni">InteractiveShell.run_cell_magic</span><span class="nt">(self, magic_name, line, cell)</span>
@@ -2823,7 +3067,7 @@ INSERT INTO employees (first_name, last_name) VALUES (&#39;John&#39;, &#39;Doe&#
 <span class="ne">--&gt; </span><span class="mi">736</span>     <span class="n">cursor</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="n">statement</span><span class="p">,</span> <span class="n">parameters</span><span class="p">)</span>
 
 <span class="ne">IntegrityError</span>: (psycopg2.errors.NotNullViolation) null value in column &quot;age&quot; of relation &quot;employees&quot; violates not-null constraint
-<span class="ne">DETAIL</span>:  Failing row contains (3, John, Doe, null, null, null).
+<span class="ne">DETAIL</span>:  Failing row contains (1, John, Doe, null, null, null).
 
 <span class="p">[</span><span class="n">SQL</span><span class="p">:</span> <span class="n">INSERT</span> <span class="n">INTO</span> <span class="n">employees</span> <span class="p">(</span><span class="n">first_name</span><span class="p">,</span> <span class="n">last_name</span><span class="p">)</span> <span class="n">VALUES</span> <span class="p">(</span><span class="s1">&#39;John&#39;</span><span class="p">,</span> <span class="s1">&#39;Doe&#39;</span><span class="p">);]</span>
 <span class="p">(</span><span class="n">Background</span> <span class="n">on</span> <span class="n">this</span> <span class="n">error</span> <span class="n">at</span><span class="p">:</span> <span class="n">https</span><span class="p">:</span><span class="o">//</span><span class="n">sqlalche</span><span class="o">.</span><span class="n">me</span><span class="o">/</span><span class="n">e</span><span class="o">/</span><span class="mi">14</span><span class="o">/</span><span class="n">gkpj</span><span class="p">)</span>
@@ -2882,7 +3126,7 @@ SELECT * FROM employees;
 </div>
 <div class="cell_output docutils container">
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> * postgresql://postgres:***@localhost:5432/dvdrental
-1 rows affected.
+0 rows affected.
 </pre></div>
 </div>
 <div class="output text_html"><table>
@@ -2896,13 +3140,6 @@ SELECT * FROM employees;
         </tr>
     </thead>
     <tbody>
-        <tr>
-            <td>1</td>
-            <td>John</td>
-            <td>Doe</td>
-            <td>30</td>
-            <td>1</td>
-        </tr>
     </tbody>
 </table></div></div>
 </div>
@@ -2945,25 +3182,6 @@ Done.
 </ul>
 </li>
 </ul>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">%%</span><span class="k">sql</span>
-SELECT * FROM employees;
-</pre></div>
-</div>
-</div>
-<div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> * postgresql://postgres:***@localhost:5432/dvdrental
-(psycopg2.errors.UndefinedTable) relation &quot;employees&quot; does not exist
-LINE 1: SELECT * FROM employees;
-                      ^
-
-[SQL: SELECT * FROM employees;]
-(Background on this error at: https://sqlalche.me/e/14/f405)
-</pre></div>
-</div>
-</div>
-</div>
 </section>
 </section>
 </section>
