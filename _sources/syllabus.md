@@ -65,7 +65,7 @@ You are responsible for the following deliverables, which will determine your co
 
 Every week, you will have a worksheet that is worth 2%. These low-stakes assignments consist of multiple choice questions and small exercises that help you consolidate your understanding of the materials and serve as a formative assessment. 
 
-The worksheet will be distributed via Github classroom every Monday (except for midterms' weeks) and the deadline for each worksheet is the same Sunday of that week at 11:59 PM. 
+The worksheet will be distributed via Github classroom. See deadline of each worksheet on Moodle.
 
 ## Mid-terms & exam
 
