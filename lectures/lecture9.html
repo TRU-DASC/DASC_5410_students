@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>Lecture 9: Subqueries in SQL &#8212; DASC 5410 - Data and Database Management for Data Science</title>
+    <title>Lecture 9: Joins &amp; subqueries in SQL &#8212; DASC 5410 - Data and Database Management for Data Science</title>
   
   
   
@@ -60,6 +60,8 @@
     <script>DOCUMENTATION_OPTIONS.pagename = 'lectures/lecture9';</script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Installation instruction for macOS" href="../installation_mac.html" />
+    <link rel="prev" title="Lecture 8: Transactions ACID in SQL" href="lecture8.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
   </head>
@@ -122,8 +124,6 @@
       
       
       
-        
-      
       <div class="bd-sidebar-primary bd-sidebar">
         
 
@@ -180,7 +180,7 @@
             </li>
         </ul>
         <p aria-level="2" class="caption" role="heading"><span class="caption-text">Lectures Notes</span></p>
-<ul class="nav bd-sidenav">
+<ul class="current nav bd-sidenav">
 <li class="toctree-l1"><a class="reference internal" href="lecture1.html">Lecture 1: Data types and data structures</a></li>
 <li class="toctree-l1"><a class="reference internal" href="lecture2.html">Lecture 2: Relational models</a></li>
 <li class="toctree-l1"><a class="reference internal" href="lecture3.html">Lecture 3: Relational models part 2</a></li>
@@ -188,6 +188,8 @@
 <li class="toctree-l1"><a class="reference internal" href="lecture5.html">Lecture 5: PostgreSQL part 2</a></li>
 <li class="toctree-l1"><a class="reference internal" href="lecture6.html">Lecture 6: PostgreSQL part 3</a></li>
 <li class="toctree-l1"><a class="reference internal" href="lecture7.html">Lecture 7: PostgreSQL part 4</a></li>
+<li class="toctree-l1"><a class="reference internal" href="lecture8.html">Lecture 8: Transactions ACID in SQL</a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">Lecture 9: Joins &amp; subqueries in SQL</a></li>
 </ul>
 <p aria-level="2" class="caption" role="heading"><span class="caption-text">Installation Guide</span></p>
 <ul class="nav bd-sidenav">
@@ -197,6 +199,10 @@
 <p aria-level="2" class="caption" role="heading"><span class="caption-text">Github tutorial</span></p>
 <ul class="nav bd-sidenav">
 <li class="toctree-l1"><a class="reference internal" href="tutorial_github.html">Version control with GitHub</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Midterms Information</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../midterm1.html">Midterm 1 instruction</a></li>
 </ul>
 
     </div>
@@ -335,7 +341,7 @@ document.write(`
               
 
 <div id="jb-print-docs-body" class="onlyprint">
-    <h1>Lecture 9: Subqueries in SQL</h1>
+    <h1>Lecture 9: Joins & subqueries in SQL</h1>
     <!-- Table of contents -->
     <div id="print-main-content">
         <div id="jb-print-toc">
@@ -345,7 +351,45 @@ document.write(`
             </div>
             <nav aria-label="Page">
                 <ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#connecting-to-the-database">Connecting to the Database</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#learning-objectives">Learning Objectives</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#join-statements">JOIN Statements</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#types-of-joins">Types of JOINs</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#example-tables">Example Tables</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#creating-the-student-table">Creating the <code class="docutils literal notranslate"><span class="pre">student</span></code> Table</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#creating-the-course-table">Creating the <code class="docutils literal notranslate"><span class="pre">course</span></code> Table</a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#inner-join">INNER JOIN</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#dealing-with-ambiguous-column-names">Dealing with Ambiguous Column Names</a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#left-join">LEFT JOIN</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#right-join">RIGHT JOIN</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#full-outer-join">FULL OUTER JOIN</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#joining-more-than-two-tables">Joining More Than Two Tables</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#summary">Summary</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#subqueries">Subqueries</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#types-of-subqueries">Types of Subqueries</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#single-row-subqueries">Single-Row Subqueries</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#example-find-all-the-rentals-with-the-price-that-is-above-the-average-rental-price">Example: Find all the rentals with the price that is above the average rental price</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#example-return-the-name-of-all-customers-whose-rental-price-is-larger-than-11-00">Example: Return the name of all customers whose rental price is larger than $11.00</a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#multiple-row-subqueries">Multiple-Row Subqueries</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#example-with-in">Example with <code class="docutils literal notranslate"><span class="pre">IN</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#example-with-any">Example with <code class="docutils literal notranslate"><span class="pre">ANY</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#example-using-all">Example: Using <code class="docutils literal notranslate"><span class="pre">ALL</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#correlated-subqueries">Correlated Subqueries</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#example-find-payments-where-the-amount-is-greater-than-the-average-payment-amount-for-the-same-customer">Example: Find payments where the amount is greater than the average payment amount for the same customer.</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#id1">Summary</a></li>
+</ul>
+</li>
+</ul>
+</li>
 </ul>
             </nav>
         </div>
@@ -357,15 +401,24 @@ document.write(`
 <div id="searchbox"></div>
                 <article class="bd-article">
                   
-  <section class="tex2jax_ignore mathjax_ignore" id="lecture-9-subqueries-in-sql">
-<h1>Lecture 9: Subqueries in SQL<a class="headerlink" href="#lecture-9-subqueries-in-sql" title="Link to this heading">#</a></h1>
-<section id="connecting-to-the-database">
-<h2>Connecting to the Database<a class="headerlink" href="#connecting-to-the-database" title="Link to this heading">#</a></h2>
+  <section class="tex2jax_ignore mathjax_ignore" id="lecture-9-joins-subqueries-in-sql">
+<h1>Lecture 9: Joins &amp; subqueries in SQL<a class="headerlink" href="#lecture-9-joins-subqueries-in-sql" title="Link to this heading">#</a></h1>
+<section id="learning-objectives">
+<h2>Learning Objectives<a class="headerlink" href="#learning-objectives" title="Link to this heading">#</a></h2>
+<p>By the end of this lecture, students should understand:</p>
+<ul class="simple">
+<li><p>What JOIN statements are and why they are used.</p></li>
+<li><p>The different types of JOINs: INNER JOIN, LEFT JOIN, RIGHT JOIN, and FULL OUTER JOIN.</p></li>
+<li><p>How to deal with ambiguous column names in JOINs.</p></li>
+<li><p>How to join more than two tables.</p></li>
+<li><p>What subqueries are and why they are used.</p></li>
+<li><p>The different types of subqueries: single-row, multiple-row, and correlated subqueries.</p></li>
+</ul>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># load the ipython-sql extension</span>
 <span class="o">%</span><span class="k">load_ext</span> sql
-
+<span class="o">%</span><span class="k">config</span> SqlMagic.displaylimit = 10
 <span class="kn">import</span> <span class="nn">json</span>
 <span class="kn">import</span> <span class="nn">urllib.parse</span>
 
@@ -376,12 +429,6 @@ document.write(`
 <span class="n">password</span> <span class="o">=</span> <span class="n">urllib</span><span class="o">.</span><span class="n">parse</span><span class="o">.</span><span class="n">quote</span><span class="p">(</span><span class="n">login</span><span class="p">[</span><span class="s1">&#39;password&#39;</span><span class="p">])</span>
 <span class="n">host</span> <span class="o">=</span> <span class="n">login</span><span class="p">[</span><span class="s1">&#39;host&#39;</span><span class="p">]</span>
 <span class="n">port</span> <span class="o">=</span> <span class="n">login</span><span class="p">[</span><span class="s1">&#39;port&#39;</span><span class="p">]</span>
-</pre></div>
-</div>
-</div>
-<div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>The sql extension is already loaded. To reload it, use:
-  %reload_ext sql
 </pre></div>
 </div>
 </div>
@@ -399,6 +446,1636 @@ document.write(`
 </div>
 </div>
 </div>
+</section>
+<section id="join-statements">
+<h2>JOIN Statements<a class="headerlink" href="#join-statements" title="Link to this heading">#</a></h2>
+<p>JOIN statements are used in SQL to combine rows from two or more tables based on a related column between them. This is essential for querying data that is spread across multiple tables.</p>
+<section id="types-of-joins">
+<h3>Types of JOINs<a class="headerlink" href="#types-of-joins" title="Link to this heading">#</a></h3>
+<ol class="arabic simple">
+<li><p><strong>INNER JOIN</strong>: Returns records that have matching values in both tables.</p></li>
+<li><p><strong>LEFT JOIN (or LEFT OUTER JOIN)</strong>: Returns all records from the left table, and the matched records from the right table. The result is NULL from the right side if there is no match.</p></li>
+<li><p><strong>RIGHT JOIN (or RIGHT OUTER JOIN)</strong>: Returns all records from the right table, and the matched records from the left table. The result is NULL from the left side when there is no match.</p></li>
+<li><p><strong>FULL OUTER JOIN</strong>: Returns all records when there is a match in either left or right table. Records not matching in either table will have NULLs.</p></li>
+</ol>
+<section id="example-tables">
+<h4>Example Tables<a class="headerlink" href="#example-tables" title="Link to this heading">#</a></h4>
+<p>For this lecture, we will create two simple tables: <code class="docutils literal notranslate"><span class="pre">student</span></code> and <code class="docutils literal notranslate"><span class="pre">course</span></code>.</p>
+</section>
+<section id="creating-the-student-table">
+<h4>Creating the <code class="docutils literal notranslate"><span class="pre">student</span></code> Table<a class="headerlink" href="#creating-the-student-table" title="Link to this heading">#</a></h4>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">%%</span><span class="k">sql</span>
+DROP TABLE IF EXISTS student CASCADE;
+CREATE TABLE student (
+    student_id SERIAL PRIMARY KEY,
+    first_name VARCHAR(50),
+    last_name VARCHAR(50)
+);
+
+INSERT INTO student (first_name, last_name) VALUES
+(&#39;John&#39;, &#39;Doe&#39;),
+(&#39;Jane&#39;, &#39;Smith&#39;),
+(&#39;Alice&#39;, &#39;Johnson&#39;),
+(&#39;Bob&#39;, &#39;Brown&#39;)
+RETURNING *;
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> * postgresql://postgres:***@localhost:5432/dvdrental
+Done.
+Done.
+4 rows affected.
+</pre></div>
+</div>
+<div class="output text_html"><table>
+    <thead>
+        <tr>
+            <th>student_id</th>
+            <th>first_name</th>
+            <th>last_name</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>1</td>
+            <td>John</td>
+            <td>Doe</td>
+        </tr>
+        <tr>
+            <td>2</td>
+            <td>Jane</td>
+            <td>Smith</td>
+        </tr>
+        <tr>
+            <td>3</td>
+            <td>Alice</td>
+            <td>Johnson</td>
+        </tr>
+        <tr>
+            <td>4</td>
+            <td>Bob</td>
+            <td>Brown</td>
+        </tr>
+    </tbody>
+</table></div></div>
+</div>
+</section>
+<section id="creating-the-course-table">
+<h4>Creating the <code class="docutils literal notranslate"><span class="pre">course</span></code> Table<a class="headerlink" href="#creating-the-course-table" title="Link to this heading">#</a></h4>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">%%</span><span class="k">sql</span>
+
+DROP TABLE IF EXISTS course CASCADE;
+CREATE TABLE course (
+    course_id SERIAL PRIMARY KEY,
+    student_id INT,
+    course_name VARCHAR(100),
+    FOREIGN KEY (student_id) REFERENCES student(student_id)
+);
+
+INSERT INTO course (student_id, course_name) VALUES
+(1, &#39;Mathematics&#39;),
+(2, &#39;Science&#39;),
+(3, &#39;History&#39;),
+(1, &#39;Literature&#39;)
+RETURNING *;
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> * postgresql://postgres:***@localhost:5432/dvdrental
+Done.
+Done.
+4 rows affected.
+</pre></div>
+</div>
+<div class="output text_html"><table>
+    <thead>
+        <tr>
+            <th>course_id</th>
+            <th>student_id</th>
+            <th>course_name</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>1</td>
+            <td>1</td>
+            <td>Mathematics</td>
+        </tr>
+        <tr>
+            <td>2</td>
+            <td>2</td>
+            <td>Science</td>
+        </tr>
+        <tr>
+            <td>3</td>
+            <td>3</td>
+            <td>History</td>
+        </tr>
+        <tr>
+            <td>4</td>
+            <td>1</td>
+            <td>Literature</td>
+        </tr>
+    </tbody>
+</table></div></div>
+</div>
+<p>Before performing any JOIN operations, let’s display the first few rows of the <code class="docutils literal notranslate"><span class="pre">student</span></code> and <code class="docutils literal notranslate"><span class="pre">course</span></code> tables.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">%%</span><span class="k">sql</span>
+SELECT * FROM student;
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> * postgresql://postgres:***@localhost:5432/dvdrental
+4 rows affected.
+</pre></div>
+</div>
+<div class="output text_html"><table>
+    <thead>
+        <tr>
+            <th>student_id</th>
+            <th>first_name</th>
+            <th>last_name</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>1</td>
+            <td>John</td>
+            <td>Doe</td>
+        </tr>
+        <tr>
+            <td>2</td>
+            <td>Jane</td>
+            <td>Smith</td>
+        </tr>
+        <tr>
+            <td>3</td>
+            <td>Alice</td>
+            <td>Johnson</td>
+        </tr>
+        <tr>
+            <td>4</td>
+            <td>Bob</td>
+            <td>Brown</td>
+        </tr>
+    </tbody>
+</table></div></div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">%%</span><span class="k">sql</span>
+SELECT * FROM course;
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> * postgresql://postgres:***@localhost:5432/dvdrental
+4 rows affected.
+</pre></div>
+</div>
+<div class="output text_html"><table>
+    <thead>
+        <tr>
+            <th>course_id</th>
+            <th>student_id</th>
+            <th>course_name</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>1</td>
+            <td>1</td>
+            <td>Mathematics</td>
+        </tr>
+        <tr>
+            <td>2</td>
+            <td>2</td>
+            <td>Science</td>
+        </tr>
+        <tr>
+            <td>3</td>
+            <td>3</td>
+            <td>History</td>
+        </tr>
+        <tr>
+            <td>4</td>
+            <td>1</td>
+            <td>Literature</td>
+        </tr>
+    </tbody>
+</table></div></div>
+</div>
+</section>
+</section>
+<section id="inner-join">
+<h3>INNER JOIN<a class="headerlink" href="#inner-join" title="Link to this heading">#</a></h3>
+<p>The <code class="docutils literal notranslate"><span class="pre">INNER</span> <span class="pre">JOIN</span></code>keyword selects records that have matching values in both tables.</p>
+<p><img alt="" src="https://www.w3schools.com/sql/img_innerjoin.gif" /></p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">%%</span><span class="k">sql</span>
+SELECT *
+FROM student
+INNER JOIN course 
+ON student.student_id = course.student_id
+LIMIT 10;
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> * postgresql://postgres:***@localhost:5432/dvdrental
+4 rows affected.
+</pre></div>
+</div>
+<div class="output text_html"><table>
+    <thead>
+        <tr>
+            <th>student_id</th>
+            <th>first_name</th>
+            <th>last_name</th>
+            <th>course_id</th>
+            <th>student_id_1</th>
+            <th>course_name</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>1</td>
+            <td>John</td>
+            <td>Doe</td>
+            <td>1</td>
+            <td>1</td>
+            <td>Mathematics</td>
+        </tr>
+        <tr>
+            <td>2</td>
+            <td>Jane</td>
+            <td>Smith</td>
+            <td>2</td>
+            <td>2</td>
+            <td>Science</td>
+        </tr>
+        <tr>
+            <td>3</td>
+            <td>Alice</td>
+            <td>Johnson</td>
+            <td>3</td>
+            <td>3</td>
+            <td>History</td>
+        </tr>
+        <tr>
+            <td>1</td>
+            <td>John</td>
+            <td>Doe</td>
+            <td>4</td>
+            <td>1</td>
+            <td>Literature</td>
+        </tr>
+    </tbody>
+</table></div></div>
+</div>
+<p>You can also use alias to give a table a temporary name to make the query more readable. In the example below we give <code class="docutils literal notranslate"><span class="pre">student</span></code> table an alias called <code class="docutils literal notranslate"><span class="pre">s</span></code> and the <code class="docutils literal notranslate"><span class="pre">course</span></code> table an alias called <code class="docutils literal notranslate"><span class="pre">c</span></code>:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">%%</span><span class="k">sql</span>
+SELECT *
+FROM student AS s
+INNER JOIN course AS c ON s.student_id = c.student_id
+LIMIT 10;
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> * postgresql://postgres:***@localhost:5432/dvdrental
+4 rows affected.
+</pre></div>
+</div>
+<div class="output text_html"><table>
+    <thead>
+        <tr>
+            <th>student_id</th>
+            <th>first_name</th>
+            <th>last_name</th>
+            <th>course_id</th>
+            <th>student_id_1</th>
+            <th>course_name</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>1</td>
+            <td>John</td>
+            <td>Doe</td>
+            <td>1</td>
+            <td>1</td>
+            <td>Mathematics</td>
+        </tr>
+        <tr>
+            <td>2</td>
+            <td>Jane</td>
+            <td>Smith</td>
+            <td>2</td>
+            <td>2</td>
+            <td>Science</td>
+        </tr>
+        <tr>
+            <td>3</td>
+            <td>Alice</td>
+            <td>Johnson</td>
+            <td>3</td>
+            <td>3</td>
+            <td>History</td>
+        </tr>
+        <tr>
+            <td>1</td>
+            <td>John</td>
+            <td>Doe</td>
+            <td>4</td>
+            <td>1</td>
+            <td>Literature</td>
+        </tr>
+    </tbody>
+</table></div></div>
+</div>
+<section id="dealing-with-ambiguous-column-names">
+<h4>Dealing with Ambiguous Column Names<a class="headerlink" href="#dealing-with-ambiguous-column-names" title="Link to this heading">#</a></h4>
+<p>When joining multiple tables, you may encounter ambiguous column names. This happens when two or more tables have columns with the same name. To resolve this, you can use table aliases or fully qualify the column names.</p>
+<p><strong>Example with Ambiguous Column Names</strong></p>
+<p>Consider the <code class="docutils literal notranslate"><span class="pre">student</span></code> and <code class="docutils literal notranslate"><span class="pre">course</span></code> tables both having a column named <code class="docutils literal notranslate"><span class="pre">student_id</span></code>.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">%%</span><span class="k">sql</span>
+SELECT student_id, first_name, last_name, course_name
+FROM student
+INNER JOIN course ON student.student_id = course.student_id
+LIMIT 10;
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> * postgresql://postgres:***@localhost:5432/dvdrental
+(psycopg2.errors.AmbiguousColumn) column reference &quot;student_id&quot; is ambiguous
+LINE 1: SELECT student_id, first_name, last_name, course_name
+               ^
+
+[SQL: SELECT student_id, first_name, last_name, course_name
+FROM student
+INNER JOIN course ON student.student_id = course.student_id
+LIMIT 10;]
+(Background on this error at: https://sqlalche.me/e/14/f405)
+</pre></div>
+</div>
+</div>
+</div>
+<ul class="simple">
+<li><p><strong>Problem</strong>: The column <code class="docutils literal notranslate"><span class="pre">student_id</span></code> is ambiguous because it exists in both tables.</p></li>
+</ul>
+<p><strong>Resolving Ambiguity with Table Aliases</strong></p>
+<p>You can use table aliases to differentiate between columns from different tables.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">%%</span><span class="k">sql</span>
+SELECT s.student_id, s.first_name, s.last_name, c.course_name
+FROM student AS s
+INNER JOIN course AS c ON s.student_id = c.student_id
+LIMIT 10;
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> * postgresql://postgres:***@localhost:5432/dvdrental
+4 rows affected.
+</pre></div>
+</div>
+<div class="output text_html"><table>
+    <thead>
+        <tr>
+            <th>student_id</th>
+            <th>first_name</th>
+            <th>last_name</th>
+            <th>course_name</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>1</td>
+            <td>John</td>
+            <td>Doe</td>
+            <td>Mathematics</td>
+        </tr>
+        <tr>
+            <td>2</td>
+            <td>Jane</td>
+            <td>Smith</td>
+            <td>Science</td>
+        </tr>
+        <tr>
+            <td>3</td>
+            <td>Alice</td>
+            <td>Johnson</td>
+            <td>History</td>
+        </tr>
+        <tr>
+            <td>1</td>
+            <td>John</td>
+            <td>Doe</td>
+            <td>Literature</td>
+        </tr>
+    </tbody>
+</table></div></div>
+</div>
+</section>
+</section>
+<section id="left-join">
+<h3>LEFT JOIN<a class="headerlink" href="#left-join" title="Link to this heading">#</a></h3>
+<p>The <code class="docutils literal notranslate"><span class="pre">LEFT</span> <span class="pre">JOIN</span></code> keyword returns all records from the left table (student), and the matched records from the right table (course). The result is NULL from the right side if there is no match.</p>
+<p><img alt="" src="https://www.w3schools.com/sql/img_leftjoin.gif" /></p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">%%</span><span class="k">sql</span>
+SELECT s.student_id, s.first_name, s.last_name, c.course_name
+FROM student AS s
+LEFT JOIN course AS c ON s.student_id = c.student_id
+LIMIT 10;
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> * postgresql://postgres:***@localhost:5432/dvdrental
+5 rows affected.
+</pre></div>
+</div>
+<div class="output text_html"><table>
+    <thead>
+        <tr>
+            <th>student_id</th>
+            <th>first_name</th>
+            <th>last_name</th>
+            <th>course_name</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>1</td>
+            <td>John</td>
+            <td>Doe</td>
+            <td>Mathematics</td>
+        </tr>
+        <tr>
+            <td>2</td>
+            <td>Jane</td>
+            <td>Smith</td>
+            <td>Science</td>
+        </tr>
+        <tr>
+            <td>3</td>
+            <td>Alice</td>
+            <td>Johnson</td>
+            <td>History</td>
+        </tr>
+        <tr>
+            <td>1</td>
+            <td>John</td>
+            <td>Doe</td>
+            <td>Literature</td>
+        </tr>
+        <tr>
+            <td>4</td>
+            <td>Bob</td>
+            <td>Brown</td>
+            <td>None</td>
+        </tr>
+    </tbody>
+</table></div></div>
+</div>
+</section>
+<section id="right-join">
+<h3>RIGHT JOIN<a class="headerlink" href="#right-join" title="Link to this heading">#</a></h3>
+<p>The <code class="docutils literal notranslate"><span class="pre">RIGHT</span> <span class="pre">JOIN</span></code> keyword returns all records from the right table (course), and the matched records from the left table (student). The result is NULL from the left side when there is no match.</p>
+<p><img alt="" src="https://www.w3schools.com/sql/img_rightjoin.gif" /></p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">%%</span><span class="k">sql</span>
+SELECT s.student_id, s.first_name, s.last_name, c.course_name
+FROM student AS s
+RIGHT JOIN course AS c ON s.student_id = c.student_id
+LIMIT 10;
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> * postgresql://postgres:***@localhost:5432/dvdrental
+4 rows affected.
+</pre></div>
+</div>
+<div class="output text_html"><table>
+    <thead>
+        <tr>
+            <th>student_id</th>
+            <th>first_name</th>
+            <th>last_name</th>
+            <th>course_name</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>1</td>
+            <td>John</td>
+            <td>Doe</td>
+            <td>Mathematics</td>
+        </tr>
+        <tr>
+            <td>2</td>
+            <td>Jane</td>
+            <td>Smith</td>
+            <td>Science</td>
+        </tr>
+        <tr>
+            <td>3</td>
+            <td>Alice</td>
+            <td>Johnson</td>
+            <td>History</td>
+        </tr>
+        <tr>
+            <td>1</td>
+            <td>John</td>
+            <td>Doe</td>
+            <td>Literature</td>
+        </tr>
+    </tbody>
+</table></div></div>
+</div>
+</section>
+<section id="full-outer-join">
+<h3>FULL OUTER JOIN<a class="headerlink" href="#full-outer-join" title="Link to this heading">#</a></h3>
+<p>The <code class="docutils literal notranslate"><span class="pre">FULL</span> <span class="pre">OUTER</span> <span class="pre">JOIN</span></code> keyword returns all records when there is a match in either left (student) or right (course) table. Records not matching in either table will have NULLs.</p>
+<p><img alt="" src="https://media.geeksforgeeks.org/wp-content/uploads/20210328192056/imgfulljoin.gif" /></p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">%%</span><span class="k">sql</span>
+SELECT s.student_id, s.first_name, s.last_name, c.course_name
+FROM student AS s
+FULL OUTER JOIN course AS c ON s.student_id = c.student_id
+LIMIT 10;
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> * postgresql://postgres:***@localhost:5432/dvdrental
+5 rows affected.
+</pre></div>
+</div>
+<div class="output text_html"><table>
+    <thead>
+        <tr>
+            <th>student_id</th>
+            <th>first_name</th>
+            <th>last_name</th>
+            <th>course_name</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>1</td>
+            <td>John</td>
+            <td>Doe</td>
+            <td>Mathematics</td>
+        </tr>
+        <tr>
+            <td>2</td>
+            <td>Jane</td>
+            <td>Smith</td>
+            <td>Science</td>
+        </tr>
+        <tr>
+            <td>3</td>
+            <td>Alice</td>
+            <td>Johnson</td>
+            <td>History</td>
+        </tr>
+        <tr>
+            <td>1</td>
+            <td>John</td>
+            <td>Doe</td>
+            <td>Literature</td>
+        </tr>
+        <tr>
+            <td>4</td>
+            <td>Bob</td>
+            <td>Brown</td>
+            <td>None</td>
+        </tr>
+    </tbody>
+</table></div></div>
+</div>
+</section>
+<section id="joining-more-than-two-tables">
+<h3>Joining More Than Two Tables<a class="headerlink" href="#joining-more-than-two-tables" title="Link to this heading">#</a></h3>
+<p>You can join more than two tables by chaining multiple JOIN statements. Let’s join the <code class="docutils literal notranslate"><span class="pre">student</span></code>, <code class="docutils literal notranslate"><span class="pre">course</span></code>, and <code class="docutils literal notranslate"><span class="pre">enrollment</span></code> tables to get the student’s name, course name, and enrollment date.</p>
+<p><strong>Creating the <code class="docutils literal notranslate"><span class="pre">enrollment</span></code> Table</strong></p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">%%</span><span class="k">sql</span>
+DROP TABLE IF EXISTS enrollment CASCADE;
+CREATE TABLE enrollment (
+    enrollment_id SERIAL PRIMARY KEY,
+    student_id INT,
+    course_id INT,
+    enrollment_date DATE,
+    FOREIGN KEY (student_id) REFERENCES student(student_id),
+    FOREIGN KEY (course_id) REFERENCES course(course_id)
+);
+
+INSERT INTO enrollment (student_id, course_id, enrollment_date) VALUES
+(1, 1, &#39;2023-01-01&#39;),
+(2, 2, &#39;2023-01-02&#39;),
+(3, 3, &#39;2023-01-03&#39;),
+(1, 4, &#39;2023-01-04&#39;);
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> * postgresql://postgres:***@localhost:5432/dvdrental
+Done.
+Done.
+4 rows affected.
+</pre></div>
+</div>
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[]
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">%%</span><span class="k">sql</span>
+SELECT * FROM enrollment;
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> * postgresql://postgres:***@localhost:5432/dvdrental
+4 rows affected.
+</pre></div>
+</div>
+<div class="output text_html"><table>
+    <thead>
+        <tr>
+            <th>enrollment_id</th>
+            <th>student_id</th>
+            <th>course_id</th>
+            <th>enrollment_date</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>1</td>
+            <td>1</td>
+            <td>1</td>
+            <td>2023-01-01</td>
+        </tr>
+        <tr>
+            <td>2</td>
+            <td>2</td>
+            <td>2</td>
+            <td>2023-01-02</td>
+        </tr>
+        <tr>
+            <td>3</td>
+            <td>3</td>
+            <td>3</td>
+            <td>2023-01-03</td>
+        </tr>
+        <tr>
+            <td>4</td>
+            <td>1</td>
+            <td>4</td>
+            <td>2023-01-04</td>
+        </tr>
+    </tbody>
+</table></div></div>
+</div>
+<p><strong>Joining <code class="docutils literal notranslate"><span class="pre">student</span></code>, <code class="docutils literal notranslate"><span class="pre">course</span></code>, and <code class="docutils literal notranslate"><span class="pre">enrollment</span></code> Tables</strong></p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">%%</span><span class="k">sql</span>
+SELECT s.first_name, s.last_name, s.student_id, c.course_name, c.course_id, e.enrollment_date
+FROM student AS s
+INNER JOIN enrollment AS e ON s.student_id = e.student_id
+INNER JOIN course AS c ON e.course_id = c.course_id
+LIMIT 10;
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> * postgresql://postgres:***@localhost:5432/dvdrental
+4 rows affected.
+</pre></div>
+</div>
+<div class="output text_html"><table>
+    <thead>
+        <tr>
+            <th>first_name</th>
+            <th>last_name</th>
+            <th>student_id</th>
+            <th>course_name</th>
+            <th>course_id</th>
+            <th>enrollment_date</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>John</td>
+            <td>Doe</td>
+            <td>1</td>
+            <td>Mathematics</td>
+            <td>1</td>
+            <td>2023-01-01</td>
+        </tr>
+        <tr>
+            <td>Jane</td>
+            <td>Smith</td>
+            <td>2</td>
+            <td>Science</td>
+            <td>2</td>
+            <td>2023-01-02</td>
+        </tr>
+        <tr>
+            <td>Alice</td>
+            <td>Johnson</td>
+            <td>3</td>
+            <td>History</td>
+            <td>3</td>
+            <td>2023-01-03</td>
+        </tr>
+        <tr>
+            <td>John</td>
+            <td>Doe</td>
+            <td>1</td>
+            <td>Literature</td>
+            <td>4</td>
+            <td>2023-01-04</td>
+        </tr>
+    </tbody>
+</table></div></div>
+</div>
+</section>
+<section id="summary">
+<h3>Summary<a class="headerlink" href="#summary" title="Link to this heading">#</a></h3>
+<ul class="simple">
+<li><p><strong>INNER JOIN</strong>: Returns only the matching rows.</p></li>
+<li><p><strong>LEFT JOIN</strong>: Returns all rows from the left table, and the matched rows from the right table.</p></li>
+<li><p><strong>RIGHT JOIN</strong>: Returns all rows from the right table, and the matched rows from the left table.</p></li>
+<li><p><strong>FULL OUTER JOIN</strong>: Returns all rows when there is a match in either left or right table.</p></li>
+<li><p><strong>Dealing with Ambiguous Column Names</strong>: Use table aliases or fully qualify column names to resolve ambiguity.</p></li>
+<li><p><strong>Joining More Than Two Tables</strong>: Chain multiple JOIN statements to combine data from more than two tables.</p></li>
+</ul>
+<p>By understanding and using these JOIN statements and techniques, you can effectively query and combine data from multiple tables in your database.</p>
+</section>
+</section>
+<section id="subqueries">
+<h2>Subqueries<a class="headerlink" href="#subqueries" title="Link to this heading">#</a></h2>
+<p>A subquery, also known as an inner query or nested query, is a query within another SQL query. Subqueries can be used to perform operations that require multiple steps, such as filtering data based on the results of another query.</p>
+<section id="types-of-subqueries">
+<h3>Types of Subqueries<a class="headerlink" href="#types-of-subqueries" title="Link to this heading">#</a></h3>
+<ol class="arabic simple">
+<li><p><strong>Single-Row Subqueries</strong>: Return a single row and are used with comparison operators like <code class="docutils literal notranslate"><span class="pre">=</span></code>, <code class="docutils literal notranslate"><span class="pre">&lt;</span></code>, <code class="docutils literal notranslate"><span class="pre">&gt;</span></code>, etc.</p></li>
+<li><p><strong>Multiple-Row Subqueries</strong>: Return multiple rows and are used with operators like <code class="docutils literal notranslate"><span class="pre">IN</span></code>, <code class="docutils literal notranslate"><span class="pre">ANY</span></code>, <code class="docutils literal notranslate"><span class="pre">ALL</span></code>.</p></li>
+<li><p><strong>Correlated Subqueries</strong>: Refer to columns in the outer query and are evaluated once for each row processed by the outer query.</p></li>
+</ol>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">%%</span><span class="k">sql</span>
+SELECT * FROM payment
+LIMIT 10;
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> * postgresql://postgres:***@localhost:5432/dvdrental
+10 rows affected.
+</pre></div>
+</div>
+<div class="output text_html"><table>
+    <thead>
+        <tr>
+            <th>payment_id</th>
+            <th>customer_id</th>
+            <th>staff_id</th>
+            <th>rental_id</th>
+            <th>amount</th>
+            <th>payment_date</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>17503</td>
+            <td>341</td>
+            <td>2</td>
+            <td>1520</td>
+            <td>7.99</td>
+            <td>2007-02-15 22:25:46.996577</td>
+        </tr>
+        <tr>
+            <td>17504</td>
+            <td>341</td>
+            <td>1</td>
+            <td>1778</td>
+            <td>1.99</td>
+            <td>2007-02-16 17:23:14.996577</td>
+        </tr>
+        <tr>
+            <td>17505</td>
+            <td>341</td>
+            <td>1</td>
+            <td>1849</td>
+            <td>7.99</td>
+            <td>2007-02-16 22:41:45.996577</td>
+        </tr>
+        <tr>
+            <td>17506</td>
+            <td>341</td>
+            <td>2</td>
+            <td>2829</td>
+            <td>2.99</td>
+            <td>2007-02-19 19:39:56.996577</td>
+        </tr>
+        <tr>
+            <td>17507</td>
+            <td>341</td>
+            <td>2</td>
+            <td>3130</td>
+            <td>7.99</td>
+            <td>2007-02-20 17:31:48.996577</td>
+        </tr>
+        <tr>
+            <td>17508</td>
+            <td>341</td>
+            <td>1</td>
+            <td>3382</td>
+            <td>5.99</td>
+            <td>2007-02-21 12:33:49.996577</td>
+        </tr>
+        <tr>
+            <td>17509</td>
+            <td>342</td>
+            <td>2</td>
+            <td>2190</td>
+            <td>5.99</td>
+            <td>2007-02-17 23:58:17.996577</td>
+        </tr>
+        <tr>
+            <td>17510</td>
+            <td>342</td>
+            <td>1</td>
+            <td>2914</td>
+            <td>5.99</td>
+            <td>2007-02-20 02:11:44.996577</td>
+        </tr>
+        <tr>
+            <td>17511</td>
+            <td>342</td>
+            <td>1</td>
+            <td>3081</td>
+            <td>2.99</td>
+            <td>2007-02-20 13:57:39.996577</td>
+        </tr>
+        <tr>
+            <td>17512</td>
+            <td>343</td>
+            <td>2</td>
+            <td>1547</td>
+            <td>4.99</td>
+            <td>2007-02-16 00:10:50.996577</td>
+        </tr>
+    </tbody>
+</table></div></div>
+</div>
+</section>
+<section id="single-row-subqueries">
+<h3>Single-Row Subqueries<a class="headerlink" href="#single-row-subqueries" title="Link to this heading">#</a></h3>
+<p>Single-row subqueries return a single row and are used with comparison operators like <code class="docutils literal notranslate"><span class="pre">=</span></code>, <code class="docutils literal notranslate"><span class="pre">&lt;</span></code>, <code class="docutils literal notranslate"><span class="pre">&gt;</span></code>, etc.</p>
+<section id="example-find-all-the-rentals-with-the-price-that-is-above-the-average-rental-price">
+<h4>Example: Find all the rentals with the price that is above the average rental price<a class="headerlink" href="#example-find-all-the-rentals-with-the-price-that-is-above-the-average-rental-price" title="Link to this heading">#</a></h4>
+<p>This query looks simple. You might be tempted to try</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">%%</span><span class="k">sql</span>
+SELECT rental_id 
+FROM payment
+WHERE amount &gt; AVG(amount);
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> * postgresql://postgres:***@localhost:5432/dvdrental
+(psycopg2.errors.GroupingError) aggregate functions are not allowed in WHERE
+LINE 3: WHERE amount &gt; AVG(amount);
+                       ^
+
+[SQL: SELECT rental_id 
+FROM payment
+WHERE amount &gt; AVG(amount);]
+(Background on this error at: https://sqlalche.me/e/14/f405)
+</pre></div>
+</div>
+</div>
+</div>
+<p>This doesn’t work because we cannot use an aggregate function within the <code class="docutils literal notranslate"><span class="pre">WHERE</span></code> clause.</p>
+<p>To answer this question, we would need to querry the data twice:</p>
+<ol class="arabic simple">
+<li><p>To retrive the average <code class="docutils literal notranslate"><span class="pre">amount</span></code></p></li>
+<li><p>To retrive the <code class="docutils literal notranslate"><span class="pre">rental_id</span></code> where the <code class="docutils literal notranslate"><span class="pre">amount</span></code> is larger than the average <code class="docutils literal notranslate"><span class="pre">amount</span></code> from the first querry</p></li>
+</ol>
+<p>However, we don’t need to do that in two separate queries and manually take the data coming from the first query and use it in the second. We can use a <strong>subquery</strong> to do that for us.</p>
+<p>First, let’s compute the average <code class="docutils literal notranslate"><span class="pre">amount</span></code> in payment:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">%%</span><span class="k">sql</span>
+SELECT AVG(amount) FROM payment;
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> * postgresql://postgres:***@localhost:5432/dvdrental
+1 rows affected.
+</pre></div>
+</div>
+<div class="output text_html"><table>
+    <thead>
+        <tr>
+            <th>avg</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>4.2006056453822965</td>
+        </tr>
+    </tbody>
+</table></div></div>
+</div>
+<p>We can use this intermediate information in our original query by embedding the above query in the <code class="docutils literal notranslate"><span class="pre">WHERE</span></code> clause of the original query:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">%%</span><span class="k">sql</span>
+SELECT rental_id, amount
+FROM payment
+WHERE amount &gt; (SELECT AVG(amount) FROM payment)
+LIMIT 10;
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> * postgresql://postgres:***@localhost:5432/dvdrental
+10 rows affected.
+</pre></div>
+</div>
+<div class="output text_html"><table>
+    <thead>
+        <tr>
+            <th>rental_id</th>
+            <th>amount</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>1520</td>
+            <td>7.99</td>
+        </tr>
+        <tr>
+            <td>1849</td>
+            <td>7.99</td>
+        </tr>
+        <tr>
+            <td>3130</td>
+            <td>7.99</td>
+        </tr>
+        <tr>
+            <td>3382</td>
+            <td>5.99</td>
+        </tr>
+        <tr>
+            <td>2190</td>
+            <td>5.99</td>
+        </tr>
+        <tr>
+            <td>2914</td>
+            <td>5.99</td>
+        </tr>
+        <tr>
+            <td>1547</td>
+            <td>4.99</td>
+        </tr>
+        <tr>
+            <td>1564</td>
+            <td>6.99</td>
+        </tr>
+        <tr>
+            <td>2461</td>
+            <td>6.99</td>
+        </tr>
+        <tr>
+            <td>2980</td>
+            <td>8.99</td>
+        </tr>
+    </tbody>
+</table></div></div>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>A subquery can be used in the <code class="docutils literal notranslate"><span class="pre">SELECT</span></code>, <code class="docutils literal notranslate"><span class="pre">FROM</span></code>, <code class="docutils literal notranslate"><span class="pre">WHERE</span></code>, and <code class="docutils literal notranslate"><span class="pre">HAVING</span></code> clauses. Subqueries are most commonly used in the <code class="docutils literal notranslate"><span class="pre">WHERE</span></code> clause.</p>
+</div>
+</section>
+<section id="example-return-the-name-of-all-customers-whose-rental-price-is-larger-than-11-00">
+<h4>Example: Return the name of all customers whose rental price is larger than $11.00<a class="headerlink" href="#example-return-the-name-of-all-customers-whose-rental-price-is-larger-than-11-00" title="Link to this heading">#</a></h4>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">%%</span><span class="k">sql</span>
+
+SELECT first_name, last_name
+FROM customer
+WHERE customer_id IN (
+    SELECT customer_id
+    FROM payment
+    WHERE amount &gt; 11.00
+);
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> * postgresql://postgres:***@localhost:5432/dvdrental
+8 rows affected.
+</pre></div>
+</div>
+<div class="output text_html"><table>
+    <thead>
+        <tr>
+            <th>first_name</th>
+            <th>last_name</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>Karen</td>
+            <td>Jackson</td>
+        </tr>
+        <tr>
+            <td>Victoria</td>
+            <td>Gibson</td>
+        </tr>
+        <tr>
+            <td>Vanessa</td>
+            <td>Sims</td>
+        </tr>
+        <tr>
+            <td>Rosemary</td>
+            <td>Schmidt</td>
+        </tr>
+        <tr>
+            <td>Tanya</td>
+            <td>Gilbert</td>
+        </tr>
+        <tr>
+            <td>Nicholas</td>
+            <td>Barfield</td>
+        </tr>
+        <tr>
+            <td>Kent</td>
+            <td>Arsenault</td>
+        </tr>
+        <tr>
+            <td>Terrance</td>
+            <td>Roush</td>
+        </tr>
+    </tbody>
+</table></div></div>
+</div>
+</section>
+</section>
+<section id="multiple-row-subqueries">
+<h3>Multiple-Row Subqueries<a class="headerlink" href="#multiple-row-subqueries" title="Link to this heading">#</a></h3>
+<p>Multiple-row subqueries return multiple rows and are used with operators like <code class="docutils literal notranslate"><span class="pre">IN</span></code>, <code class="docutils literal notranslate"><span class="pre">ANY</span></code>, <code class="docutils literal notranslate"><span class="pre">ALL</span></code>.</p>
+<section id="example-with-in">
+<h4>Example with <code class="docutils literal notranslate"><span class="pre">IN</span></code><a class="headerlink" href="#example-with-in" title="Link to this heading">#</a></h4>
+<p>Return the name of all customers whose rental price is larger than the average rental price</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">%%</span><span class="k">sql</span>
+
+SELECT first_name, last_name
+FROM customer
+WHERE customer_id IN (
+    SELECT customer_id
+    FROM payment
+    WHERE amount &gt; (SELECT AVG(amount) FROM payment)
+    ORDER BY amount DESC
+)
+LIMIT 10;
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> * postgresql://postgres:***@localhost:5432/dvdrental
+10 rows affected.
+</pre></div>
+</div>
+<div class="output text_html"><table>
+    <thead>
+        <tr>
+            <th>first_name</th>
+            <th>last_name</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>Vivian</td>
+            <td>Ruiz</td>
+        </tr>
+        <tr>
+            <td>Wanda</td>
+            <td>Patterson</td>
+        </tr>
+        <tr>
+            <td>Dan</td>
+            <td>Paine</td>
+        </tr>
+        <tr>
+            <td>Priscilla</td>
+            <td>Lowe</td>
+        </tr>
+        <tr>
+            <td>Guy</td>
+            <td>Brownlee</td>
+        </tr>
+        <tr>
+            <td>Alice</td>
+            <td>Stewart</td>
+        </tr>
+        <tr>
+            <td>Chris</td>
+            <td>Brothers</td>
+        </tr>
+        <tr>
+            <td>Kay</td>
+            <td>Caldwell</td>
+        </tr>
+        <tr>
+            <td>Christina</td>
+            <td>Ramirez</td>
+        </tr>
+        <tr>
+            <td>Yolanda</td>
+            <td>Weaver</td>
+        </tr>
+    </tbody>
+</table></div></div>
+</div>
+</section>
+<section id="example-with-any">
+<h4>Example with <code class="docutils literal notranslate"><span class="pre">ANY</span></code><a class="headerlink" href="#example-with-any" title="Link to this heading">#</a></h4>
+<p>The <code class="docutils literal notranslate"><span class="pre">ANY</span></code> operator is used to compare a value to any value in a list or subquery.</p>
+<p>Find customers who have made a payment greater than any payment made by customer with <code class="docutils literal notranslate"><span class="pre">customer_id</span></code> = 1</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">%%</span><span class="k">sql</span>
+SELECT first_name, last_name
+FROM customer
+WHERE customer_id IN (
+    SELECT customer_id
+    FROM payment
+    WHERE amount &gt; ANY (
+        SELECT amount
+        FROM payment
+        WHERE customer_id = 1
+    )
+);
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> * postgresql://postgres:***@localhost:5432/dvdrental
+599 rows affected.
+</pre></div>
+</div>
+<div class="output text_html"><table>
+    <thead>
+        <tr>
+            <th>first_name</th>
+            <th>last_name</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>Jared</td>
+            <td>Ely</td>
+        </tr>
+        <tr>
+            <td>Mary</td>
+            <td>Smith</td>
+        </tr>
+        <tr>
+            <td>Patricia</td>
+            <td>Johnson</td>
+        </tr>
+        <tr>
+            <td>Linda</td>
+            <td>Williams</td>
+        </tr>
+        <tr>
+            <td>Barbara</td>
+            <td>Jones</td>
+        </tr>
+        <tr>
+            <td>Elizabeth</td>
+            <td>Brown</td>
+        </tr>
+        <tr>
+            <td>Jennifer</td>
+            <td>Davis</td>
+        </tr>
+        <tr>
+            <td>Maria</td>
+            <td>Miller</td>
+        </tr>
+        <tr>
+            <td>Susan</td>
+            <td>Wilson</td>
+        </tr>
+        <tr>
+            <td>Margaret</td>
+            <td>Moore</td>
+        </tr>
+    </tbody>
+</table>
+<span style="font-style:italic;text-align:center;">599 rows, truncated to displaylimit of 10</span></div></div>
+</div>
+</section>
+<section id="example-using-all">
+<h4>Example: Using <code class="docutils literal notranslate"><span class="pre">ALL</span></code><a class="headerlink" href="#example-using-all" title="Link to this heading">#</a></h4>
+<p>The <code class="docutils literal notranslate"><span class="pre">ALL</span></code> operator is used to compare a value to all values in a list or subquery.</p>
+<p>Find customers who have made a payment greater than <strong>all</strong> payments made by customer with <code class="docutils literal notranslate"><span class="pre">customer_id</span></code> = 1</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">%%</span><span class="k">sql</span>
+SELECT first_name, last_name
+FROM customer
+WHERE customer_id IN (
+    SELECT customer_id
+    FROM payment
+    WHERE amount &gt; ALL (
+        SELECT amount
+        FROM payment
+        WHERE customer_id = 1
+    )
+);
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> * postgresql://postgres:***@localhost:5432/dvdrental
+101 rows affected.
+</pre></div>
+</div>
+<div class="output text_html"><table>
+    <thead>
+        <tr>
+            <th>first_name</th>
+            <th>last_name</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>Patricia</td>
+            <td>Johnson</td>
+        </tr>
+        <tr>
+            <td>Linda</td>
+            <td>Williams</td>
+        </tr>
+        <tr>
+            <td>Nancy</td>
+            <td>Thomas</td>
+        </tr>
+        <tr>
+            <td>Karen</td>
+            <td>Jackson</td>
+        </tr>
+        <tr>
+            <td>Michelle</td>
+            <td>Clark</td>
+        </tr>
+        <tr>
+            <td>Angela</td>
+            <td>Hernandez</td>
+        </tr>
+        <tr>
+            <td>Anna</td>
+            <td>Hill</td>
+        </tr>
+        <tr>
+            <td>Janet</td>
+            <td>Phillips</td>
+        </tr>
+        <tr>
+            <td>Joyce</td>
+            <td>Edwards</td>
+        </tr>
+        <tr>
+            <td>Diane</td>
+            <td>Collins</td>
+        </tr>
+    </tbody>
+</table>
+<span style="font-style:italic;text-align:center;">101 rows, truncated to displaylimit of 10</span></div></div>
+</div>
+<p>We can also achive the same result by filter the amount by the maximum amount paid by <code class="docutils literal notranslate"><span class="pre">customer_id</span></code> = 1</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">%%</span><span class="k">sql</span>
+SELECT first_name, last_name
+FROM customer
+WHERE customer_id IN (
+    SELECT customer_id
+    FROM payment
+    WHERE amount &gt; (
+        SELECT MAX(amount)
+        FROM payment
+        WHERE customer_id = 1
+    )
+);
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> * postgresql://postgres:***@localhost:5432/dvdrental
+101 rows affected.
+</pre></div>
+</div>
+<div class="output text_html"><table>
+    <thead>
+        <tr>
+            <th>first_name</th>
+            <th>last_name</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>Patricia</td>
+            <td>Johnson</td>
+        </tr>
+        <tr>
+            <td>Linda</td>
+            <td>Williams</td>
+        </tr>
+        <tr>
+            <td>Nancy</td>
+            <td>Thomas</td>
+        </tr>
+        <tr>
+            <td>Karen</td>
+            <td>Jackson</td>
+        </tr>
+        <tr>
+            <td>Michelle</td>
+            <td>Clark</td>
+        </tr>
+        <tr>
+            <td>Angela</td>
+            <td>Hernandez</td>
+        </tr>
+        <tr>
+            <td>Anna</td>
+            <td>Hill</td>
+        </tr>
+        <tr>
+            <td>Janet</td>
+            <td>Phillips</td>
+        </tr>
+        <tr>
+            <td>Joyce</td>
+            <td>Edwards</td>
+        </tr>
+        <tr>
+            <td>Diane</td>
+            <td>Collins</td>
+        </tr>
+    </tbody>
+</table>
+<span style="font-style:italic;text-align:center;">101 rows, truncated to displaylimit of 10</span></div></div>
+</div>
+</section>
+</section>
+<section id="correlated-subqueries">
+<h3>Correlated Subqueries<a class="headerlink" href="#correlated-subqueries" title="Link to this heading">#</a></h3>
+<p>Correlated subqueries refer to columns in the outer query and are evaluated once for each row processed by the outer query.</p>
+<section id="example-find-payments-where-the-amount-is-greater-than-the-average-payment-amount-for-the-same-customer">
+<h4>Example: Find payments where the amount is greater than the average payment amount for the same customer.<a class="headerlink" href="#example-find-payments-where-the-amount-is-greater-than-the-average-payment-amount-for-the-same-customer" title="Link to this heading">#</a></h4>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">%%</span><span class="k">sql</span>
+SELECT payment_id, customer_id, amount, payment_date
+FROM payment p1
+WHERE amount &gt; (
+    SELECT AVG(amount)
+    FROM payment p2
+    WHERE p2.customer_id = p1.customer_id
+);
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> * postgresql://postgres:***@localhost:5432/dvdrental
+7213 rows affected.
+</pre></div>
+</div>
+<div class="output text_html"><table>
+    <thead>
+        <tr>
+            <th>payment_id</th>
+            <th>customer_id</th>
+            <th>amount</th>
+            <th>payment_date</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>17503</td>
+            <td>341</td>
+            <td>7.99</td>
+            <td>2007-02-15 22:25:46.996577</td>
+        </tr>
+        <tr>
+            <td>17505</td>
+            <td>341</td>
+            <td>7.99</td>
+            <td>2007-02-16 22:41:45.996577</td>
+        </tr>
+        <tr>
+            <td>17507</td>
+            <td>341</td>
+            <td>7.99</td>
+            <td>2007-02-20 17:31:48.996577</td>
+        </tr>
+        <tr>
+            <td>17508</td>
+            <td>341</td>
+            <td>5.99</td>
+            <td>2007-02-21 12:33:49.996577</td>
+        </tr>
+        <tr>
+            <td>17509</td>
+            <td>342</td>
+            <td>5.99</td>
+            <td>2007-02-17 23:58:17.996577</td>
+        </tr>
+        <tr>
+            <td>17510</td>
+            <td>342</td>
+            <td>5.99</td>
+            <td>2007-02-20 02:11:44.996577</td>
+        </tr>
+        <tr>
+            <td>17512</td>
+            <td>343</td>
+            <td>4.99</td>
+            <td>2007-02-16 00:10:50.996577</td>
+        </tr>
+        <tr>
+            <td>17513</td>
+            <td>343</td>
+            <td>6.99</td>
+            <td>2007-02-16 01:15:33.996577</td>
+        </tr>
+        <tr>
+            <td>17516</td>
+            <td>343</td>
+            <td>6.99</td>
+            <td>2007-02-18 18:26:38.996577</td>
+        </tr>
+        <tr>
+            <td>17517</td>
+            <td>343</td>
+            <td>8.99</td>
+            <td>2007-02-20 07:03:29.996577</td>
+        </tr>
+    </tbody>
+</table>
+<span style="font-style:italic;text-align:center;">7213 rows, truncated to displaylimit of 10</span></div></div>
+</div>
+<p>The subquery is correlated because it references the <code class="docutils literal notranslate"><span class="pre">customer_id</span></code> from the outer query’s payment table.</p>
+<p>You can also rewrite this subquerries as join</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">%%</span><span class="k">sql</span>
+SELECT p1.payment_id, p1.customer_id, p1.amount, p1.payment_date
+FROM payment p1
+JOIN (
+    SELECT customer_id, AVG(amount) AS avg_amount
+    FROM payment
+    GROUP BY customer_id
+) p2 ON p1.customer_id = p2.customer_id
+WHERE p1.amount &gt; p2.avg_amount;
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> * postgresql://postgres:***@localhost:5432/dvdrental
+7213 rows affected.
+</pre></div>
+</div>
+<div class="output text_html"><table>
+    <thead>
+        <tr>
+            <th>payment_id</th>
+            <th>customer_id</th>
+            <th>amount</th>
+            <th>payment_date</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>17503</td>
+            <td>341</td>
+            <td>7.99</td>
+            <td>2007-02-15 22:25:46.996577</td>
+        </tr>
+        <tr>
+            <td>17505</td>
+            <td>341</td>
+            <td>7.99</td>
+            <td>2007-02-16 22:41:45.996577</td>
+        </tr>
+        <tr>
+            <td>17507</td>
+            <td>341</td>
+            <td>7.99</td>
+            <td>2007-02-20 17:31:48.996577</td>
+        </tr>
+        <tr>
+            <td>17508</td>
+            <td>341</td>
+            <td>5.99</td>
+            <td>2007-02-21 12:33:49.996577</td>
+        </tr>
+        <tr>
+            <td>17509</td>
+            <td>342</td>
+            <td>5.99</td>
+            <td>2007-02-17 23:58:17.996577</td>
+        </tr>
+        <tr>
+            <td>17510</td>
+            <td>342</td>
+            <td>5.99</td>
+            <td>2007-02-20 02:11:44.996577</td>
+        </tr>
+        <tr>
+            <td>17512</td>
+            <td>343</td>
+            <td>4.99</td>
+            <td>2007-02-16 00:10:50.996577</td>
+        </tr>
+        <tr>
+            <td>17513</td>
+            <td>343</td>
+            <td>6.99</td>
+            <td>2007-02-16 01:15:33.996577</td>
+        </tr>
+        <tr>
+            <td>17516</td>
+            <td>343</td>
+            <td>6.99</td>
+            <td>2007-02-18 18:26:38.996577</td>
+        </tr>
+        <tr>
+            <td>17517</td>
+            <td>343</td>
+            <td>8.99</td>
+            <td>2007-02-20 07:03:29.996577</td>
+        </tr>
+    </tbody>
+</table>
+<span style="font-style:italic;text-align:center;">7213 rows, truncated to displaylimit of 10</span></div></div>
+</div>
+</section>
+<section id="id1">
+<h4>Summary<a class="headerlink" href="#id1" title="Link to this heading">#</a></h4>
+<ul class="simple">
+<li><p><strong>Single-Row Subqueries</strong>: Return a single row and are used with comparison operators.</p></li>
+<li><p><strong>Multiple-Row Subqueries</strong>: Return multiple rows and are used with operators like <code class="docutils literal notranslate"><span class="pre">IN</span></code>, <code class="docutils literal notranslate"><span class="pre">ANY</span></code>, <code class="docutils literal notranslate"><span class="pre">ALL</span></code>.</p></li>
+<li><p><strong>Correlated Subqueries</strong>: Refer to columns in the outer query and are evaluated once for each row processed by the outer query.</p></li>
+</ul>
+</section>
+</section>
 </section>
 </section>
 
@@ -432,6 +2109,24 @@ document.write(`
                 <footer class="prev-next-footer d-print-none">
                   
 <div class="prev-next-area">
+    <a class="left-prev"
+       href="lecture8.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">Lecture 8: Transactions ACID in SQL</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="../installation_mac.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">Installation instruction for macOS</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
 </div>
                 </footer>
               
@@ -448,7 +2143,45 @@ document.write(`
   </div>
   <nav class="bd-toc-nav page-toc">
     <ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#connecting-to-the-database">Connecting to the Database</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#learning-objectives">Learning Objectives</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#join-statements">JOIN Statements</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#types-of-joins">Types of JOINs</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#example-tables">Example Tables</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#creating-the-student-table">Creating the <code class="docutils literal notranslate"><span class="pre">student</span></code> Table</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#creating-the-course-table">Creating the <code class="docutils literal notranslate"><span class="pre">course</span></code> Table</a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#inner-join">INNER JOIN</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#dealing-with-ambiguous-column-names">Dealing with Ambiguous Column Names</a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#left-join">LEFT JOIN</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#right-join">RIGHT JOIN</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#full-outer-join">FULL OUTER JOIN</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#joining-more-than-two-tables">Joining More Than Two Tables</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#summary">Summary</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#subqueries">Subqueries</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#types-of-subqueries">Types of Subqueries</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#single-row-subqueries">Single-Row Subqueries</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#example-find-all-the-rentals-with-the-price-that-is-above-the-average-rental-price">Example: Find all the rentals with the price that is above the average rental price</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#example-return-the-name-of-all-customers-whose-rental-price-is-larger-than-11-00">Example: Return the name of all customers whose rental price is larger than $11.00</a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#multiple-row-subqueries">Multiple-Row Subqueries</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#example-with-in">Example with <code class="docutils literal notranslate"><span class="pre">IN</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#example-with-any">Example with <code class="docutils literal notranslate"><span class="pre">ANY</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#example-using-all">Example: Using <code class="docutils literal notranslate"><span class="pre">ALL</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#correlated-subqueries">Correlated Subqueries</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#example-find-payments-where-the-amount-is-greater-than-the-average-payment-amount-for-the-same-customer">Example: Find payments where the amount is greater than the average payment amount for the same customer.</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#id1">Summary</a></li>
+</ul>
+</li>
+</ul>
+</li>
 </ul>
   </nav></div>
 

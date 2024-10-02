@@ -1,0 +1,1201 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Worksheet 5: Transactions, joins, subquerries &#8212; DASC 5410 - Data and Database Management for Data Science</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../../_static/styles/theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../../_static/styles/bootstrap.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../../_static/styles/pydata-sphinx-theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+
+  
+  <link href="../../_static/vendor/fontawesome/6.5.2/css/all.min.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=fa44fd50" />
+    <link rel="stylesheet" type="text/css" href="../../_static/styles/sphinx-book-theme.css?v=a3416100" />
+    <link rel="stylesheet" type="text/css" href="../../_static/togglebutton.css?v=13237357" />
+    <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css?v=be8a1c11" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sphinx-thebe.css?v=4fa983c6" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sphinx-design.min.css?v=95c83b7e" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" />
+<link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
+  <script src="../../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+    <script src="../../_static/documentation_options.js?v=9eb32ce0"></script>
+    <script src="../../_static/doctools.js?v=9a2dae69"></script>
+    <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../../_static/copybutton.js?v=f281be69"></script>
+    <script src="../../_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="../../_static/togglebutton.js?v=4a39c7ea"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="../../_static/design-tabs.js?v=f930bc37"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script async="async" src="../../_static/sphinx-thebe.js?v=c100c467"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'worksheets/source/worksheet5';</script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-primary-sidebar-checkbox"/>
+  <label class="overlay overlay-primary" for="pst-primary-sidebar-checkbox"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-secondary-sidebar-checkbox"/>
+  <label class="overlay overlay-secondary" for="pst-secondary-sidebar-checkbox"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search this book..."
+         aria-label="Search this book..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+        
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../../syllabus.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="../../_static/TRU_Logo.png" class="logo__image only-light" alt="DASC 5410 - Data and Database Management for Data Science - Home"/>
+    <script>document.write(`<img src="../../_static/TRU_Logo.png" class="logo__image only-dark" alt="DASC 5410 - Data and Database Management for Data Science - Home"/>`);</script>
+  
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+ <script>
+ document.write(`
+   <button class="btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="../../syllabus.html">
+                    DASC 5410 - Data and Database Management for Data Science
+                </a>
+            </li>
+        </ul>
+        <p aria-level="2" class="caption" role="heading"><span class="caption-text">Lectures Notes</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../../lectures/lecture1.html">Lecture 1: Data types and data structures</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../lectures/lecture2.html">Lecture 2: Relational models</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../lectures/lecture3.html">Lecture 3: Relational models part 2</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../lectures/lecture4.html">Lecture 4: PostgreSQL part 1</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../lectures/lecture5.html">Lecture 5: PostgreSQL part 2</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../lectures/lecture6.html">Lecture 6: PostgreSQL part 3</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../lectures/lecture7.html">Lecture 7: PostgreSQL part 4</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../lectures/lecture8.html">Lecture 8: Transactions ACID in SQL</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../lectures/lecture9.html">Lecture 9: Joins &amp; subqueries in SQL</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Installation Guide</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../../installation_mac.html">Installation instruction for macOS</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../installation_windows.html">Installation instruction for Windows</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Github tutorial</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../../lectures/tutorial_github.html">Version control with GitHub</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Midterms Information</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../../midterm1.html">Midterm 1 instruction</a></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</button></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="../../_sources/worksheets/source/worksheet5.ipynb" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.ipynb</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
+  </button>
+`);
+</script>
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm pst-navbar-icon search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+  </button>
+`);
+</script>
+<button class="sidebar-toggle secondary-toggle btn btn-sm" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</button>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>Worksheet 5: Transactions, joins, subquerries</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-1-transactions-in-sql">Exercise 1: Transactions in SQL</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#scenario">Scenario</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#task">Task</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-2-using-joins-with-the-dvd-rental-database">Exercise 2: Using JOINs with the DVD Rental Database</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#tasks">Tasks</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#inner-join">1. Inner Join</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#left-join">2. Left Join</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#id1">3. Inner join</a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-3-using-group-by-and-join-with-the-dvd-rental-database">Exercise 3: Using GROUP BY and JOIN with the DVD Rental Database</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#id2">Scenario</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#id3">Task</a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-4-using-join-group-by-where-and-having-with-the-dvd-rental-database">Exercise 4: Using JOIN, GROUP BY, WHERE, and HAVING with the DVD Rental Database</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#id4">Scenario</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#id5">Task</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-5-using-subqueries-with-the-dvd-rental-database">Exercise 5: Using Subqueries with the DVD Rental Database</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#find-customers-with-no-rentals-in-a-specific-period">5.1: Find Customers with No Rentals in a Specific Period</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#id6">Task</a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#find-customers-with-more-than-average-spending">5.2: Find Customers with More Than Average Spending</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#id7">Task</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#submission-instructions">Submission instructions</a></li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="worksheet-5-transactions-joins-subquerries">
+<h1>Worksheet 5: Transactions, joins, subquerries<a class="headerlink" href="#worksheet-5-transactions-joins-subquerries" title="Link to this heading">#</a></h1>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<span class="o">%</span><span class="k">load_ext</span> sql
+<span class="o">%</span><span class="k">config</span> SqlMagic.displaylimit = 20
+<span class="o">%</span><span class="k">config</span> SqlMagic.autolimit = 30
+</pre></div>
+</div>
+</div>
+</div>
+<p>Make sure to edit the <code class="docutils literal notranslate"><span class="pre">credentials.json</span></code> file with your details</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># load the credentials from the credentials.json file</span>
+<span class="kn">import</span> <span class="nn">json</span>
+<span class="kn">import</span> <span class="nn">urllib.parse</span>
+
+<span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s1">&#39;data/credentials.json&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+    <span class="n">login</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">f</span><span class="p">)</span>
+    
+<span class="n">username</span> <span class="o">=</span> <span class="n">login</span><span class="p">[</span><span class="s1">&#39;user&#39;</span><span class="p">]</span>
+<span class="n">password</span> <span class="o">=</span> <span class="n">urllib</span><span class="o">.</span><span class="n">parse</span><span class="o">.</span><span class="n">quote</span><span class="p">(</span><span class="n">login</span><span class="p">[</span><span class="s1">&#39;password&#39;</span><span class="p">])</span>
+<span class="n">host</span> <span class="o">=</span> <span class="n">login</span><span class="p">[</span><span class="s1">&#39;host&#39;</span><span class="p">]</span>
+<span class="n">port</span> <span class="o">=</span> <span class="n">login</span><span class="p">[</span><span class="s1">&#39;port&#39;</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">%</span><span class="k">sql</span> postgresql://{username}:{password}@{host}:{port}/dvdrental
+</pre></div>
+</div>
+</div>
+</div>
+<section id="exercise-1-transactions-in-sql">
+<h2>Exercise 1: Transactions in SQL<a class="headerlink" href="#exercise-1-transactions-in-sql" title="Link to this heading">#</a></h2>
+<p>rubric: {accuracy = 10}</p>
+<p>In this exercise, you will learn how to use transactions in SQL. Transactions allow you to execute a series of SQL statements as a single unit of work. You will also learn how to declare variables, use <code class="docutils literal notranslate"><span class="pre">COMMIT</span></code>, and <code class="docutils literal notranslate"><span class="pre">ROLLBACK</span></code>.</p>
+<section id="scenario">
+<h3>Scenario<a class="headerlink" href="#scenario" title="Link to this heading">#</a></h3>
+<p>You are working with a bookstore database that contains the following tables:</p>
+<ul class="simple">
+<li><p><strong>books</strong>: Contains information about books.</p>
+<ul>
+<li><p><code class="docutils literal notranslate"><span class="pre">book_id</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">title</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">author</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">price</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">stock</span></code></p></li>
+</ul>
+</li>
+<li><p><strong>sales</strong>: Contains information about book sales.</p>
+<ul>
+<li><p><code class="docutils literal notranslate"><span class="pre">sale_id</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">book_id</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">quantity</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">sale_date</span></code></p></li>
+</ul>
+</li>
+</ul>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">%%</span><span class="k">sql</span>
+-- Step 1: Drop existing tables if they exist
+DROP TABLE IF EXISTS books CASCADE;
+DROP TABLE IF EXISTS sales CASCADE;
+
+-- Step 2: Create the books table
+CREATE TABLE books (
+    book_id SERIAL PRIMARY KEY,
+    title VARCHAR(255),
+    author VARCHAR(255),
+    price DECIMAL(10, 2),
+    stock INT
+);
+
+-- Step 3: Create the sales table
+CREATE TABLE sales (
+    sale_id SERIAL PRIMARY KEY,
+    book_id INT REFERENCES books(book_id),
+    quantity INT,
+    sale_date TIMESTAMP
+);
+
+-- Step 4: Insert sample data into books table
+INSERT INTO books (title, author, price, stock) VALUES
+(&#39;Book A&#39;, &#39;Author A&#39;, 10.00, 100),
+(&#39;Book B&#39;, &#39;Author B&#39;, 15.00, 50);
+
+-- Step 5: Insert sample data into sales table
+INSERT INTO sales (book_id, quantity, sale_date) VALUES
+(1, 10, &#39;2021-01-01 00:00:00&#39;::timestamp + (RANDOM() * (INTERVAL &#39;1 day&#39;))),
+(2, 5, &#39;2021-01-02 00:00:00&#39;::timestamp + (RANDOM() * (INTERVAL &#39;1 day&#39;)));
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">%%</span><span class="k">sql</span>
+SELECT * FROM books;
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">%%</span><span class="k">sql</span>
+SELECT * FROM sales;
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="task">
+<h3>Task<a class="headerlink" href="#task" title="Link to this heading">#</a></h3>
+<p>Imagine a customer will order Book A</p>
+<p>Create a transaction that performs the following operations:</p>
+<ol class="arabic simple">
+<li><p>Declare a variable to store the <code class="docutils literal notranslate"><span class="pre">current_stock</span></code> and <code class="docutils literal notranslate"><span class="pre">order_quantity</span></code> with INT data type. Set order_quantity to 20</p></li>
+<li><p>If the <code class="docutils literal notranslate"><span class="pre">current_stock</span></code> is larger or equal than the <code class="docutils literal notranslate"><span class="pre">order_quantity</span></code> then do the following:</p>
+<ol class="arabic simple">
+<li><p>Insert a new sale record into the <code class="docutils literal notranslate"><span class="pre">sales</span></code> table. Use NOW() as the sale_date</p></li>
+<li><p>Update the stock of the sold book in the <code class="docutils literal notranslate"><span class="pre">books</span></code> table.</p></li>
+<li><p>Commit the transaction.</p></li>
+</ol>
+</li>
+<li><p>Otherwise, roll back the transaction.</p></li>
+</ol>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># BEGIN SOLUTION</span>
+<span class="o">%%</span><span class="k">sql</span>
+
+-- Step 5: Begin the transaction
+BEGIN;
+
+-- Step 6: Declare variables to store the current stock and order quantity
+DO $$
+DECLARE
+    current_stock INT;
+    order_quantity INT := 20;  -- Set the order quantity here
+BEGIN
+
+-- Step 7: Check if there is enough stock for the sale
+SELECT stock INTO current_stock
+FROM books
+WHERE book_id = 1;
+
+IF current_stock &gt;= order_quantity THEN
+    -- Step 8: Insert a new sale record into the sales table
+    INSERT INTO sales (book_id, quantity, sale_date)
+    VALUES (1, order_quantity, NOW());
+
+    -- Step 9: Update the stock of the sold book in the books table
+    UPDATE books
+    SET stock = stock - order_quantity
+    WHERE book_id = 1;
+
+    -- Commit the transaction
+    COMMIT;
+ELSE
+    -- Rollback the transaction due to insufficient stock
+    ROLLBACK;
+END IF;
+
+END $$;
+# END SOLUTION
+</pre></div>
+</div>
+</div>
+</div>
+<p>Check if the transaction was successful</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">%%</span><span class="k">sql</span>
+SELECT * FROM books;
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">%%</span><span class="k">sql</span>
+SELECT * FROM sales;
+</pre></div>
+</div>
+</div>
+</div>
+<p>Now try to set the order quantity to 2000 and run the code, it should roll back the transaction and nothing changes</p>
+</section>
+<section id="exercise-2-using-joins-with-the-dvd-rental-database">
+<h3>Exercise 2: Using JOINs with the DVD Rental Database<a class="headerlink" href="#exercise-2-using-joins-with-the-dvd-rental-database" title="Link to this heading">#</a></h3>
+<p>rubric: {accuracy = 30}</p>
+<p>You are working with the DVD Rental database and need to retrieve information about customers, their rentals, and the films they have rented. You will use different types of JOINs to combine data from multiple tables.</p>
+</section>
+<section id="tasks">
+<h3>Tasks<a class="headerlink" href="#tasks" title="Link to this heading">#</a></h3>
+<section id="inner-join">
+<h4>1. Inner Join<a class="headerlink" href="#inner-join" title="Link to this heading">#</a></h4>
+<p>Retrieve a list of customers and the titles of the films they have rented. For this task, you might need to <code class="docutils literal notranslate"><span class="pre">INNER</span> <span class="pre">JOIN</span></code> multiple tables (customer, rental, inventory, film)</p>
+<p>Expected output:</p>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head text-right"><p>first_name</p></th>
+<th class="head text-right"><p>last_name</p></th>
+<th class="head text-right"><p>title</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td class="text-right"><p>Tommy</p></td>
+<td class="text-right"><p>Collazo</p></td>
+<td class="text-right"><p>Freaky Pocus</p></td>
+</tr>
+<tr class="row-odd"><td class="text-right"><p>Manuel</p></td>
+<td class="text-right"><p>Murrell</p></td>
+<td class="text-right"><p>Graduate Lord</p></td>
+</tr>
+<tr class="row-even"><td class="text-right"><p>Andrew</p></td>
+<td class="text-right"><p>Purdy</p></td>
+<td class="text-right"><p>Love Suicides</p></td>
+</tr>
+<tr class="row-odd"><td class="text-right"><p>…</p></td>
+<td class="text-right"><p></p></td>
+<td class="text-right"><p></p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># BEGIN SOLUTION</span>
+<span class="o">%%</span><span class="k">sql</span>
+SELECT 
+    c.first_name, 
+    c.last_name, 
+    f.title
+FROM 
+    customer c
+INNER JOIN 
+    rental r ON c.customer_id = r.customer_id
+INNER JOIN 
+    inventory i ON r.inventory_id = i.inventory_id
+INNER JOIN 
+    film f ON i.film_id = f.film_id;
+# END SOLUTION
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="left-join">
+<h4>2. Left Join<a class="headerlink" href="#left-join" title="Link to this heading">#</a></h4>
+<p>Retrieve Customer Payment Information: Use a <code class="docutils literal notranslate"><span class="pre">LEFT</span> <span class="pre">JOIN</span></code> to retrieve a list of all customers and their payment amounts. Include customers who have not made any payments.</p>
+<p>You will need to use tables <code class="docutils literal notranslate"><span class="pre">customer</span></code> and <code class="docutils literal notranslate"><span class="pre">payment</span></code> for this question</p>
+<p>Expected output:</p>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head text-right"><p>customer_id</p></th>
+<th class="head text-right"><p>first_name</p></th>
+<th class="head text-right"><p>last_name</p></th>
+<th class="head text-right"><p>payment_amount</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td class="text-right"><p>341</p></td>
+<td class="text-right"><p>Peter</p></td>
+<td class="text-right"><p>Menard</p></td>
+<td class="text-right"><p>7.99</p></td>
+</tr>
+<tr class="row-odd"><td class="text-right"><p>341</p></td>
+<td class="text-right"><p>Peter</p></td>
+<td class="text-right"><p>Menard</p></td>
+<td class="text-right"><p>1.99</p></td>
+</tr>
+<tr class="row-even"><td class="text-right"><p>341</p></td>
+<td class="text-right"><p>Peter</p></td>
+<td class="text-right"><p>Menard</p></td>
+<td class="text-right"><p>7.99</p></td>
+</tr>
+<tr class="row-odd"><td class="text-right"><p>…</p></td>
+<td class="text-right"><p></p></td>
+<td class="text-right"><p></p></td>
+<td class="text-right"><p></p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># BEGIN SOLUTION</span>
+<span class="o">%%</span><span class="k">sql</span>
+SELECT 
+    c.customer_id,
+    c.first_name, 
+    c.last_name, 
+    p.amount AS payment_amount
+FROM 
+    customer c
+LEFT JOIN 
+    payment p ON c.customer_id = p.customer_id
+ORDER BY 
+    c.customer_id;
+# END SOLUTION
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="id1">
+<h4>3. Inner join<a class="headerlink" href="#id1" title="Link to this heading">#</a></h4>
+<p>Retrieve a list of all customers and staff members, rental_id, and rental_date. Sort the result in descending order by rental_date</p>
+<p>You will need to use 3 tables: <code class="docutils literal notranslate"><span class="pre">customer</span></code>, <code class="docutils literal notranslate"><span class="pre">rental</span></code>, <code class="docutils literal notranslate"><span class="pre">staff</span></code></p>
+<p>Expected output:</p>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head text-right"><p>customer_first_name</p></th>
+<th class="head text-right"><p>customer_last_name</p></th>
+<th class="head text-right"><p>staff_first_name</p></th>
+<th class="head text-right"><p>staff_last_name</p></th>
+<th class="head text-right"><p>rental_date</p></th>
+<th class="head text-right"><p>rental_id</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td class="text-right"><p>Louis</p></td>
+<td class="text-right"><p>Leone</p></td>
+<td class="text-right"><p>Jon</p></td>
+<td class="text-right"><p>Stephens</p></td>
+<td class="text-right"><p>2006-02-14 15:16:03</p></td>
+<td class="text-right"><p>11739</p></td>
+</tr>
+<tr class="row-odd"><td class="text-right"><p>Neil</p></td>
+<td class="text-right"><p>Renner</p></td>
+<td class="text-right"><p>Mike</p></td>
+<td class="text-right"><p>Hillyer</p></td>
+<td class="text-right"><p>2006-02-14 15:16:03</p></td>
+<td class="text-right"><p>14616</p></td>
+</tr>
+<tr class="row-even"><td class="text-right"><p>Natalie</p></td>
+<td class="text-right"><p>Meyer</p></td>
+<td class="text-right"><p>Jon</p></td>
+<td class="text-right"><p>Stephens</p></td>
+<td class="text-right"><p>2006-02-14 15:16:03</p></td>
+<td class="text-right"><p>11676</p></td>
+</tr>
+<tr class="row-odd"><td class="text-right"><p>…</p></td>
+<td class="text-right"><p></p></td>
+<td class="text-right"><p></p></td>
+<td class="text-right"><p></p></td>
+<td class="text-right"><p></p></td>
+<td class="text-right"><p></p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># BEGIN SOLUTION</span>
+<span class="o">%%</span><span class="k">sql</span>
+SELECT 
+    c.first_name AS customer_first_name, 
+    c.last_name AS customer_last_name, 
+    s.first_name AS staff_first_name, 
+    s.last_name AS staff_last_name,
+    r.rental_date,
+    r.rental_id
+FROM 
+    customer c
+INNER JOIN 
+    rental r ON c.customer_id = r.customer_id
+INNER JOIN 
+    staff s ON r.staff_id = s.staff_id
+ORDER BY 
+    r.rental_date DESC;
+# END SOLUTION
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="exercise-3-using-group-by-and-join-with-the-dvd-rental-database">
+<h3>Exercise 3: Using GROUP BY and JOIN with the DVD Rental Database<a class="headerlink" href="#exercise-3-using-group-by-and-join-with-the-dvd-rental-database" title="Link to this heading">#</a></h3>
+<p>rubric: {accuracy = 10}</p>
+<p>In this exercise, you will learn how to use the <code class="docutils literal notranslate"><span class="pre">GROUP</span> <span class="pre">BY</span></code> clause in combination with <code class="docutils literal notranslate"><span class="pre">JOIN</span></code> to query data from the DVD Rental database.</p>
+<section id="id2">
+<h4>Scenario<a class="headerlink" href="#id2" title="Link to this heading">#</a></h4>
+<p>You are working with the DVD Rental database and need to retrieve information about the <strong>total amount spent by each customer on rentals</strong>. Specifically, you want to list each customer along with the total amount they have spent.</p>
+</section>
+<section id="id3">
+<h4>Task<a class="headerlink" href="#id3" title="Link to this heading">#</a></h4>
+<ol class="arabic simple">
+<li><p><strong>Retrieve Customer Spending Information</strong>: Use a <code class="docutils literal notranslate"><span class="pre">JOIN</span></code> to combine data from the <code class="docutils literal notranslate"><span class="pre">customer</span></code> and <code class="docutils literal notranslate"><span class="pre">payment</span></code> tables.</p></li>
+<li><p><strong>Group By Customer</strong>: Use the <code class="docutils literal notranslate"><span class="pre">GROUP</span> <span class="pre">BY</span></code> clause to calculate the total amount spent by each customer.</p></li>
+</ol>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># BEGIN SOLUTION</span>
+<span class="o">%%</span><span class="k">sql</span>
+SELECT 
+    c.customer_id,
+    c.first_name, 
+    c.last_name, 
+    SUM(p.amount) AS total_spent
+FROM 
+    customer c
+JOIN 
+    payment p ON c.customer_id = p.customer_id
+GROUP BY 
+    c.customer_id, c.first_name, c.last_name
+ORDER BY 
+    total_spent DESC;
+# END SOLUTION
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="exercise-4-using-join-group-by-where-and-having-with-the-dvd-rental-database">
+<h3>Exercise 4: Using JOIN, GROUP BY, WHERE, and HAVING with the DVD Rental Database<a class="headerlink" href="#exercise-4-using-join-group-by-where-and-having-with-the-dvd-rental-database" title="Link to this heading">#</a></h3>
+<p>rubric: {accuracy = 20}</p>
+<section id="id4">
+<h4>Scenario<a class="headerlink" href="#id4" title="Link to this heading">#</a></h4>
+<p>You are working with the DVD Rental database and need to retrieve information about customers who have spent more than a certain amount on rentals. Specifically, you want to <strong>list each customer along with the total amount they have spent between ‘2007-02-01’ AND ‘2007-03-01’, but only include customers who have spent more than $30</strong>.</p>
+</section>
+<section id="id5">
+<h4>Task<a class="headerlink" href="#id5" title="Link to this heading">#</a></h4>
+<ul class="simple">
+<li><p>Retrieve Customer Spending Information: Use a <code class="docutils literal notranslate"><span class="pre">JOIN</span></code> to combine data from the <code class="docutils literal notranslate"><span class="pre">customer</span></code> and <code class="docutils literal notranslate"><span class="pre">payment</span></code> tables.</p></li>
+<li><p>Filter by Date: Use the <code class="docutils literal notranslate"><span class="pre">WHERE</span></code> clause to filter <code class="docutils literal notranslate"><span class="pre">payments</span></code> made between ‘2007-02-01’ and ‘2007-03-01’.</p></li>
+<li><p>Group By Customer: Use the <code class="docutils literal notranslate"><span class="pre">GROUP</span> <span class="pre">BY</span></code> clause to calculate the total amount spent by each customer.</p></li>
+<li><p>Filter by Total Spent: Use the <code class="docutils literal notranslate"><span class="pre">HAVING</span></code> clause to include only customers who have spent more than $30.</p></li>
+<li><p>Order by total spent in descending order</p></li>
+</ul>
+<p>Expected output:</p>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head text-right"><p>customer_id</p></th>
+<th class="head text-right"><p>first_name</p></th>
+<th class="head text-right"><p>last_name</p></th>
+<th class="head text-right"><p>total_spent</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td class="text-right"><p>454</p></td>
+<td class="text-right"><p>Alex</p></td>
+<td class="text-right"><p>Gresham</p></td>
+<td class="text-right"><p>52.90</p></td>
+</tr>
+<tr class="row-odd"><td class="text-right"><p>178</p></td>
+<td class="text-right"><p>Marion</p></td>
+<td class="text-right"><p>Snyder</p></td>
+<td class="text-right"><p>44.92</p></td>
+</tr>
+<tr class="row-even"><td class="text-right"><p>176</p></td>
+<td class="text-right"><p>June</p></td>
+<td class="text-right"><p>Carroll</p></td>
+<td class="text-right"><p>42.92</p></td>
+</tr>
+<tr class="row-odd"><td class="text-right"><p>26</p></td>
+<td class="text-right"><p>Jessica</p></td>
+<td class="text-right"><p>Hall</p></td>
+<td class="text-right"><p>41.93</p></td>
+</tr>
+<tr class="row-even"><td class="text-right"><p>…</p></td>
+<td class="text-right"><p></p></td>
+<td class="text-right"><p></p></td>
+<td class="text-right"><p></p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># BEGIN SOLUTION</span>
+<span class="o">%%</span><span class="k">sql</span>
+SELECT 
+    c.customer_id,
+    c.first_name, 
+    c.last_name, 
+    SUM(p.amount) AS total_spent
+FROM 
+    customer c
+JOIN 
+    payment p ON c.customer_id = p.customer_id
+WHERE 
+    p.payment_date BETWEEN &#39;2007-02-01&#39; AND &#39;2007-03-01&#39;
+GROUP BY 
+    c.customer_id, c.first_name, c.last_name
+HAVING 
+    SUM(p.amount) &gt; 30
+ORDER BY 
+    total_spent DESC;
+# END SOLUTION
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+</section>
+</section>
+<section id="exercise-5-using-subqueries-with-the-dvd-rental-database">
+<h2>Exercise 5: Using Subqueries with the DVD Rental Database<a class="headerlink" href="#exercise-5-using-subqueries-with-the-dvd-rental-database" title="Link to this heading">#</a></h2>
+<p>rubric: {accuracy = 20}</p>
+<section id="find-customers-with-no-rentals-in-a-specific-period">
+<h3>5.1: Find Customers with No Rentals in a Specific Period<a class="headerlink" href="#find-customers-with-no-rentals-in-a-specific-period" title="Link to this heading">#</a></h3>
+<section id="id6">
+<h4>Task<a class="headerlink" href="#id6" title="Link to this heading">#</a></h4>
+<p>Retrieve a list of customers who <strong>did NOT</strong> make any rentals within the specified date range (‘2007-02-01’ AND ‘2007-03-01’). Sort the result by <code class="docutils literal notranslate"><span class="pre">customer_id</span></code></p>
+<p>You will need to use <code class="docutils literal notranslate"><span class="pre">customer</span></code> and <code class="docutils literal notranslate"><span class="pre">rental</span></code> table</p>
+<p>Hint: Use <code class="docutils literal notranslate"><span class="pre">NOT</span> <span class="pre">IN</span></code></p>
+<p>Expected output:</p>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head text-right"><p>customer_id</p></th>
+<th class="head text-right"><p>first_name</p></th>
+<th class="head text-right"><p>last_name</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td class="text-right"><p>1</p></td>
+<td class="text-right"><p>Mary</p></td>
+<td class="text-right"><p>Smith</p></td>
+</tr>
+<tr class="row-odd"><td class="text-right"><p>2</p></td>
+<td class="text-right"><p>Patricia</p></td>
+<td class="text-right"><p>Johnson</p></td>
+</tr>
+<tr class="row-even"><td class="text-right"><p>3</p></td>
+<td class="text-right"><p>Linda</p></td>
+<td class="text-right"><p>Williams</p></td>
+</tr>
+<tr class="row-odd"><td class="text-right"><p>…</p></td>
+<td class="text-right"><p></p></td>
+<td class="text-right"><p></p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># BEGIN SOLUTION</span>
+<span class="o">%%</span><span class="k">sql</span>
+SELECT 
+    c.customer_id,
+    c.first_name, 
+    c.last_name
+FROM 
+    customer c
+WHERE 
+    c.customer_id NOT IN (
+        SELECT 
+            r.customer_id
+        FROM 
+            rental r
+        WHERE 
+            r.rental_date BETWEEN &#39;2007-02-01&#39; AND &#39;2007-03-01&#39;
+    )
+ORDER BY 
+    c.customer_id;
+# END SOLUTION
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="find-customers-with-more-than-average-spending">
+<h3>5.2: Find Customers with More Than Average Spending<a class="headerlink" href="#find-customers-with-more-than-average-spending" title="Link to this heading">#</a></h3>
+<section id="id7">
+<h4>Task<a class="headerlink" href="#id7" title="Link to this heading">#</a></h4>
+<p>Retrieve a list of customers who have <strong>total spending</strong> less than the <strong>average total amount spent</strong> by all customers. Sort the result by total spending in descending order.</p>
+<p>You will need to use the <code class="docutils literal notranslate"><span class="pre">customer</span></code> and <code class="docutils literal notranslate"><span class="pre">payment</span></code> table</p>
+<p>Expected output:</p>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head text-right"><p>customer_id</p></th>
+<th class="head text-right"><p>first_name</p></th>
+<th class="head text-right"><p>last_name</p></th>
+<th class="head text-right"><p>total_spent</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td class="text-right"><p>44</p></td>
+<td class="text-right"><p>Marie</p></td>
+<td class="text-right"><p>Turner</p></td>
+<td class="text-right"><p>101.79</p></td>
+</tr>
+<tr class="row-odd"><td class="text-right"><p>466</p></td>
+<td class="text-right"><p>Leo</p></td>
+<td class="text-right"><p>Ebert</p></td>
+<td class="text-right"><p>101.78</p></td>
+</tr>
+<tr class="row-even"><td class="text-right"><p>100</p></td>
+<td class="text-right"><p>Robin</p></td>
+<td class="text-right"><p>Hayes</p></td>
+<td class="text-right"><p>101.77</p></td>
+</tr>
+<tr class="row-odd"><td class="text-right"><p>593</p></td>
+<td class="text-right"><p>Rene</p></td>
+<td class="text-right"><p>Mcalister</p></td>
+<td class="text-right"><p>101.76</p></td>
+</tr>
+<tr class="row-even"><td class="text-right"><p>…</p></td>
+<td class="text-right"><p></p></td>
+<td class="text-right"><p></p></td>
+<td class="text-right"><p></p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># BEGIN SOLUTION</span>
+<span class="o">%%</span><span class="k">sql</span>
+SELECT 
+    c.customer_id,
+    c.first_name, 
+    c.last_name, 
+    SUM(p.amount) AS total_spent
+FROM 
+    customer c
+JOIN 
+    payment p ON c.customer_id = p.customer_id
+GROUP BY 
+    c.customer_id, c.first_name, c.last_name
+HAVING 
+    SUM(p.amount) &lt; (
+        SELECT 
+            AVG(total_spent)
+        FROM 
+            (
+                SELECT 
+                    SUM(p.amount) AS total_spent
+                FROM 
+                    payment p
+                GROUP BY 
+                    p.customer_id
+            ) AS avg_spending
+    )
+ORDER BY 
+    total_spent DESC;
+# END SOLUTION
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+</section>
+</section>
+<section id="submission-instructions">
+<h2>Submission instructions<a class="headerlink" href="#submission-instructions" title="Link to this heading">#</a></h2>
+<p>{rubric: mechanics = 5}</p>
+<ul class="simple">
+<li><p>Make sure the notebook can run from top to bottom without any error. Restart the kernel and run all cells.</p></li>
+<li><p>Commit and push your notebook to the github repo</p></li>
+<li><p>Double check your notebook is rendered properly on Github and you can see all the outputs clearly</p></li>
+<li><p>Submit URL of your Github repo to Moodle</p></li>
+</ul>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./worksheets/source"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-1-transactions-in-sql">Exercise 1: Transactions in SQL</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#scenario">Scenario</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#task">Task</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-2-using-joins-with-the-dvd-rental-database">Exercise 2: Using JOINs with the DVD Rental Database</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#tasks">Tasks</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#inner-join">1. Inner Join</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#left-join">2. Left Join</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#id1">3. Inner join</a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-3-using-group-by-and-join-with-the-dvd-rental-database">Exercise 3: Using GROUP BY and JOIN with the DVD Rental Database</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#id2">Scenario</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#id3">Task</a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-4-using-join-group-by-where-and-having-with-the-dvd-rental-database">Exercise 4: Using JOIN, GROUP BY, WHERE, and HAVING with the DVD Rental Database</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#id4">Scenario</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#id5">Task</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-5-using-subqueries-with-the-dvd-rental-database">Exercise 5: Using Subqueries with the DVD Rental Database</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#find-customers-with-no-rentals-in-a-specific-period">5.1: Find Customers with No Rentals in a Specific Period</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#id6">Task</a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#find-customers-with-more-than-average-spending">5.2: Find Customers with More Than Average Spending</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#id7">Task</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#submission-instructions">Submission instructions</a></li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By Quan Nguyen
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2023.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b"></script>
+<script src="../../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>
