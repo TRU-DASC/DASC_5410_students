@@ -1,0 +1,1489 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Lecture 10: Window function in SQL &#8212; DASC 5410 - Data and Database Management for Data Science</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../_static/styles/bootstrap.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+
+  
+  <link href="../_static/vendor/fontawesome/6.5.2/css/all.min.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=fa44fd50" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/sphinx-book-theme.css?v=a3416100" />
+    <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css?v=13237357" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css?v=be8a1c11" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-thebe.css?v=4fa983c6" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-design.min.css?v=95c83b7e" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
+  <script src="../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+    <script src="../_static/documentation_options.js?v=9eb32ce0"></script>
+    <script src="../_static/doctools.js?v=9a2dae69"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../_static/copybutton.js?v=f281be69"></script>
+    <script src="../_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="../_static/togglebutton.js?v=4a39c7ea"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="../_static/design-tabs.js?v=f930bc37"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script async="async" src="../_static/sphinx-thebe.js?v=c100c467"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'lectures/lecture10';</script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Installation instruction for macOS" href="../installation_mac.html" />
+    <link rel="prev" title="Lecture 9: Joins &amp; subqueries in SQL" href="lecture9.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-primary-sidebar-checkbox"/>
+  <label class="overlay overlay-primary" for="pst-primary-sidebar-checkbox"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-secondary-sidebar-checkbox"/>
+  <label class="overlay overlay-secondary" for="pst-secondary-sidebar-checkbox"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search this book..."
+         aria-label="Search this book..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../syllabus.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="../_static/TRU_Logo.png" class="logo__image only-light" alt="DASC 5410 - Data and Database Management for Data Science - Home"/>
+    <script>document.write(`<img src="../_static/TRU_Logo.png" class="logo__image only-dark" alt="DASC 5410 - Data and Database Management for Data Science - Home"/>`);</script>
+  
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+ <script>
+ document.write(`
+   <button class="btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="../syllabus.html">
+                    DASC 5410 - Data and Database Management for Data Science
+                </a>
+            </li>
+        </ul>
+        <p aria-level="2" class="caption" role="heading"><span class="caption-text">Lectures Notes</span></p>
+<ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="lecture1.html">Lecture 1: Data types and data structures</a></li>
+<li class="toctree-l1"><a class="reference internal" href="lecture2.html">Lecture 2: Relational models</a></li>
+<li class="toctree-l1"><a class="reference internal" href="lecture3.html">Lecture 3: Relational models part 2</a></li>
+<li class="toctree-l1"><a class="reference internal" href="lecture4.html">Lecture 4: PostgreSQL part 1</a></li>
+<li class="toctree-l1"><a class="reference internal" href="lecture5.html">Lecture 5: PostgreSQL part 2</a></li>
+<li class="toctree-l1"><a class="reference internal" href="lecture6.html">Lecture 6: PostgreSQL part 3</a></li>
+<li class="toctree-l1"><a class="reference internal" href="lecture7.html">Lecture 7: PostgreSQL part 4</a></li>
+<li class="toctree-l1"><a class="reference internal" href="lecture8.html">Lecture 8: Transactions ACID in SQL</a></li>
+<li class="toctree-l1"><a class="reference internal" href="lecture9.html">Lecture 9: Joins &amp; subqueries in SQL</a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">Lecture 10: Window function in SQL</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Installation Guide</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../installation_mac.html">Installation instruction for macOS</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../installation_windows.html">Installation instruction for Windows</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Github tutorial</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="tutorial_github.html">Version control with GitHub</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Midterms Information</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../midterm1.html">Midterm 1 instruction</a></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</button></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="../_sources/lectures/lecture10.ipynb" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.ipynb</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
+  </button>
+`);
+</script>
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm pst-navbar-icon search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+  </button>
+`);
+</script>
+<button class="sidebar-toggle secondary-toggle btn btn-sm" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</button>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>Lecture 10: Window function in SQL</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#learning-objectives">Learning Objectives</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#introduction">Introduction</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#common-window-functions">Common Window Functions</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#example-dataset-dvdrental">Example Dataset: dvdrental</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#row-number">1. ROW_NUMBER()</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#rank">2. RANK()</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#dense-rank">3. DENSE_RANK()</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#differences-between-rank-dense-rank-and-row-number">Differences Between <code class="docutils literal notranslate"><span class="pre">RANK</span></code>, <code class="docutils literal notranslate"><span class="pre">DENSE_RANK</span></code>, and <code class="docutils literal notranslate"><span class="pre">ROW_NUMBER</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#ntile">4. NTILE()</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#lag">5. LAG()</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#lead">6. LEAD()</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#sum">7. SUM()</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#avg">8. AVG()</a></li>
+</ul>
+</li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="lecture-10-window-function-in-sql">
+<h1>Lecture 10: Window function in SQL<a class="headerlink" href="#lecture-10-window-function-in-sql" title="Link to this heading">#</a></h1>
+<section id="learning-objectives">
+<h2>Learning Objectives<a class="headerlink" href="#learning-objectives" title="Link to this heading">#</a></h2>
+<p>By the end of this lecture, students should understand:</p>
+<ul class="simple">
+<li><p>What JOIN statements are and why they are used.</p></li>
+<li><p>The different types of JOINs: INNER JOIN, LEFT JOIN, RIGHT JOIN, and FULL OUTER JOIN.</p></li>
+<li><p>How to deal with ambiguous column names in JOINs.</p></li>
+<li><p>How to join more than two tables.</p></li>
+<li><p>What subqueries are and why they are used.</p></li>
+<li><p>The different types of subqueries: single-row, multiple-row, and correlated subqueries.</p></li>
+</ul>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># load the ipython-sql extension</span>
+<span class="o">%</span><span class="k">load_ext</span> sql
+<span class="o">%</span><span class="k">config</span> SqlMagic.displaylimit = 10
+<span class="kn">import</span> <span class="nn">json</span>
+<span class="kn">import</span> <span class="nn">urllib.parse</span>
+
+<span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s1">&#39;data/credentials.json&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+    <span class="n">login</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">f</span><span class="p">)</span>
+    
+<span class="n">username</span> <span class="o">=</span> <span class="n">login</span><span class="p">[</span><span class="s1">&#39;user&#39;</span><span class="p">]</span>
+<span class="n">password</span> <span class="o">=</span> <span class="n">urllib</span><span class="o">.</span><span class="n">parse</span><span class="o">.</span><span class="n">quote</span><span class="p">(</span><span class="n">login</span><span class="p">[</span><span class="s1">&#39;password&#39;</span><span class="p">])</span>
+<span class="n">host</span> <span class="o">=</span> <span class="n">login</span><span class="p">[</span><span class="s1">&#39;host&#39;</span><span class="p">]</span>
+<span class="n">port</span> <span class="o">=</span> <span class="n">login</span><span class="p">[</span><span class="s1">&#39;port&#39;</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>Let’s connect to your dvdrental database</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">%</span><span class="k">sql</span> postgresql://{username}:{password}@{host}:{port}/dvdrental
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&#39;Connected: postgres@dvdrental&#39;
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="introduction">
+<h2>Introduction<a class="headerlink" href="#introduction" title="Link to this heading">#</a></h2>
+<p>Window functions perform calculations across a set of table rows that are somehow related to the current row. They are often used for running totals, moving averages, and ranking.</p>
+</section>
+<section id="common-window-functions">
+<h2>Common Window Functions<a class="headerlink" href="#common-window-functions" title="Link to this heading">#</a></h2>
+<ol class="arabic simple">
+<li><p><strong>ROW_NUMBER()</strong></p></li>
+<li><p><strong>RANK()</strong></p></li>
+<li><p><strong>DENSE_RANK()</strong></p></li>
+<li><p><strong>NTILE()</strong></p></li>
+<li><p><strong>LAG()</strong></p></li>
+<li><p><strong>LEAD()</strong></p></li>
+<li><p><strong>SUM()</strong></p></li>
+<li><p><strong>AVG()</strong></p></li>
+</ol>
+<section id="example-dataset-dvdrental">
+<h3>Example Dataset: dvdrental<a class="headerlink" href="#example-dataset-dvdrental" title="Link to this heading">#</a></h3>
+</section>
+<section id="row-number">
+<h3>1. ROW_NUMBER()<a class="headerlink" href="#row-number" title="Link to this heading">#</a></h3>
+<p><strong>Description:</strong> Assign a unique sequential integer to each rental for each customer, ordered by rental date.</p>
+<p><strong>SQL with Window Function:</strong></p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">%%</span><span class="k">sql</span>
+SELECT 
+    customer_id, 
+    rental_date, 
+    ROW_NUMBER() OVER (PARTITION BY customer_id ORDER BY rental_date) AS row_num
+FROM rental;
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> * postgresql://postgres:***@localhost:5432/dvdrental
+16044 rows affected.
+</pre></div>
+</div>
+<div class="output text_html"><table>
+    <thead>
+        <tr>
+            <th>customer_id</th>
+            <th>rental_date</th>
+            <th>row_num</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>1</td>
+            <td>2005-05-25 11:30:37</td>
+            <td>1</td>
+        </tr>
+        <tr>
+            <td>1</td>
+            <td>2005-05-28 10:35:23</td>
+            <td>2</td>
+        </tr>
+        <tr>
+            <td>1</td>
+            <td>2005-06-15 00:54:12</td>
+            <td>3</td>
+        </tr>
+        <tr>
+            <td>1</td>
+            <td>2005-06-15 18:02:53</td>
+            <td>4</td>
+        </tr>
+        <tr>
+            <td>1</td>
+            <td>2005-06-15 21:08:46</td>
+            <td>5</td>
+        </tr>
+        <tr>
+            <td>1</td>
+            <td>2005-06-16 15:18:57</td>
+            <td>6</td>
+        </tr>
+        <tr>
+            <td>1</td>
+            <td>2005-06-18 08:41:48</td>
+            <td>7</td>
+        </tr>
+        <tr>
+            <td>1</td>
+            <td>2005-06-18 13:33:59</td>
+            <td>8</td>
+        </tr>
+        <tr>
+            <td>1</td>
+            <td>2005-06-21 06:24:45</td>
+            <td>9</td>
+        </tr>
+        <tr>
+            <td>1</td>
+            <td>2005-07-08 03:17:05</td>
+            <td>10</td>
+        </tr>
+    </tbody>
+</table>
+<span style="font-style:italic;text-align:center;">16044 rows, truncated to displaylimit of 10</span></div></div>
+</div>
+<p><strong>Task:</strong> Assume you are given the table below on rental transactions made by users. Write a query to obtain the third transaction of every customer. Output the user id, and rental date.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">%%</span><span class="k">sql</span>
+SELECT 
+    customer_id, 
+    rental_date
+FROM (
+    SELECT 
+        customer_id, 
+        rental_date, 
+        ROW_NUMBER() OVER (PARTITION BY customer_id ORDER BY rental_date) AS row_num
+    FROM rental
+) AS subquery
+WHERE row_num = 3;
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> * postgresql://postgres:***@localhost:5432/dvdrental
+599 rows affected.
+</pre></div>
+</div>
+<div class="output text_html"><table>
+    <thead>
+        <tr>
+            <th>customer_id</th>
+            <th>rental_date</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>1</td>
+            <td>2005-06-15 00:54:12</td>
+        </tr>
+        <tr>
+            <td>2</td>
+            <td>2005-07-10 06:31:24</td>
+        </tr>
+        <tr>
+            <td>3</td>
+            <td>2005-06-16 01:34:05</td>
+        </tr>
+        <tr>
+            <td>4</td>
+            <td>2005-06-16 14:01:27</td>
+        </tr>
+        <tr>
+            <td>5</td>
+            <td>2005-05-31 19:46:38</td>
+        </tr>
+        <tr>
+            <td>6</td>
+            <td>2005-05-30 11:25:01</td>
+        </tr>
+        <tr>
+            <td>7</td>
+            <td>2005-05-29 09:27:00</td>
+        </tr>
+        <tr>
+            <td>8</td>
+            <td>2005-06-17 18:21:35</td>
+        </tr>
+        <tr>
+            <td>9</td>
+            <td>2005-05-31 10:13:34</td>
+        </tr>
+        <tr>
+            <td>10</td>
+            <td>2005-06-17 11:11:14</td>
+        </tr>
+    </tbody>
+</table>
+<span style="font-style:italic;text-align:center;">599 rows, truncated to displaylimit of 10</span></div></div>
+</div>
+</section>
+<section id="rank">
+<h3>2. RANK()<a class="headerlink" href="#rank" title="Link to this heading">#</a></h3>
+<p><strong>Description:</strong> Rank customers based on their total count of rentals, allowing for gaps in ranking values.</p>
+<p><strong>SQL with Window Function:</strong></p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">%%</span><span class="k">sql</span>
+SELECT 
+    customer_id, 
+    rental_count, 
+    RANK() OVER (ORDER BY rental_count DESC) AS rank
+FROM (
+    SELECT 
+        customer_id, 
+        COUNT(*) AS rental_count
+    FROM 
+        rental
+    GROUP BY 
+        customer_id
+) ;
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> * postgresql://postgres:***@localhost:5432/dvdrental
+599 rows affected.
+</pre></div>
+</div>
+<div class="output text_html"><table>
+    <thead>
+        <tr>
+            <th>customer_id</th>
+            <th>rental_count</th>
+            <th>rank</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>148</td>
+            <td>46</td>
+            <td>1</td>
+        </tr>
+        <tr>
+            <td>526</td>
+            <td>45</td>
+            <td>2</td>
+        </tr>
+        <tr>
+            <td>144</td>
+            <td>42</td>
+            <td>3</td>
+        </tr>
+        <tr>
+            <td>236</td>
+            <td>42</td>
+            <td>3</td>
+        </tr>
+        <tr>
+            <td>75</td>
+            <td>41</td>
+            <td>5</td>
+        </tr>
+        <tr>
+            <td>469</td>
+            <td>40</td>
+            <td>6</td>
+        </tr>
+        <tr>
+            <td>197</td>
+            <td>40</td>
+            <td>6</td>
+        </tr>
+        <tr>
+            <td>137</td>
+            <td>39</td>
+            <td>8</td>
+        </tr>
+        <tr>
+            <td>178</td>
+            <td>39</td>
+            <td>8</td>
+        </tr>
+        <tr>
+            <td>468</td>
+            <td>39</td>
+            <td>8</td>
+        </tr>
+    </tbody>
+</table>
+<span style="font-style:italic;text-align:center;">599 rows, truncated to displaylimit of 10</span></div></div>
+</div>
+<p><strong>Alternative Approach:</strong></p>
+</section>
+<section id="dense-rank">
+<h3>3. DENSE_RANK()<a class="headerlink" href="#dense-rank" title="Link to this heading">#</a></h3>
+<p><strong>Task:</strong> Rank each rental for each customer by the total count of rentals, WITHOUT gaps in ranking values.</p>
+<p><strong>SQL with Window Function:</strong></p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">%%</span><span class="k">sql</span>
+SELECT 
+    customer_id, 
+    rental_count, 
+    DENSE_RANK() OVER (ORDER BY rental_count DESC) AS rank
+FROM (
+    SELECT 
+        customer_id, 
+        COUNT(*) AS rental_count
+    FROM 
+        rental
+    GROUP BY 
+        customer_id
+) ;
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> * postgresql://postgres:***@localhost:5432/dvdrental
+599 rows affected.
+</pre></div>
+</div>
+<div class="output text_html"><table>
+    <thead>
+        <tr>
+            <th>customer_id</th>
+            <th>rental_count</th>
+            <th>rank</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>148</td>
+            <td>46</td>
+            <td>1</td>
+        </tr>
+        <tr>
+            <td>526</td>
+            <td>45</td>
+            <td>2</td>
+        </tr>
+        <tr>
+            <td>144</td>
+            <td>42</td>
+            <td>3</td>
+        </tr>
+        <tr>
+            <td>236</td>
+            <td>42</td>
+            <td>3</td>
+        </tr>
+        <tr>
+            <td>75</td>
+            <td>41</td>
+            <td>4</td>
+        </tr>
+        <tr>
+            <td>469</td>
+            <td>40</td>
+            <td>5</td>
+        </tr>
+        <tr>
+            <td>197</td>
+            <td>40</td>
+            <td>5</td>
+        </tr>
+        <tr>
+            <td>137</td>
+            <td>39</td>
+            <td>6</td>
+        </tr>
+        <tr>
+            <td>178</td>
+            <td>39</td>
+            <td>6</td>
+        </tr>
+        <tr>
+            <td>468</td>
+            <td>39</td>
+            <td>6</td>
+        </tr>
+    </tbody>
+</table>
+<span style="font-style:italic;text-align:center;">599 rows, truncated to displaylimit of 10</span></div></div>
+</div>
+<section id="differences-between-rank-dense-rank-and-row-number">
+<h4>Differences Between <code class="docutils literal notranslate"><span class="pre">RANK</span></code>, <code class="docutils literal notranslate"><span class="pre">DENSE_RANK</span></code>, and <code class="docutils literal notranslate"><span class="pre">ROW_NUMBER</span></code><a class="headerlink" href="#differences-between-rank-dense-rank-and-row-number" title="Link to this heading">#</a></h4>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>Function</p></th>
+<th class="head"><p>Description</p></th>
+<th class="head"><p>Handling of Ties</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">ROW_NUMBER</span></code></p></td>
+<td><p>Assigns a unique sequential integer to rows within a partition of a result set.</p></td>
+<td><p>No ties, each row gets a unique number.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">RANK</span></code></p></td>
+<td><p>Assigns a rank to each row within the partition of a result set.</p></td>
+<td><p>Ties receive the same rank, with gaps in the ranking sequence.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">DENSE_RANK</span></code></p></td>
+<td><p>Similar to <code class="docutils literal notranslate"><span class="pre">RANK()</span></code>, but without gaps in ranking values.</p></td>
+<td><p>Ties receive the same rank, without gaps in the ranking sequence.</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>This table summarizes the key differences between <code class="docutils literal notranslate"><span class="pre">ROW_NUMBER</span></code>, <code class="docutils literal notranslate"><span class="pre">RANK</span></code>, and <code class="docutils literal notranslate"><span class="pre">DENSE_RANK</span></code> functions, particularly in how they handle ties.</p>
+</section>
+</section>
+<section id="ntile">
+<h3>4. NTILE()<a class="headerlink" href="#ntile" title="Link to this heading">#</a></h3>
+<p><strong>Task:</strong> Distribute rentals for each customer into four quartiles based on rental date.</p>
+<p><strong>SQL with Window Function:</strong></p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">%%</span><span class="k">sql</span>
+SELECT 
+    customer_id, 
+    rental_date, 
+    NTILE(4) OVER (PARTITION BY customer_id ORDER BY rental_date) AS quartile
+FROM rental;
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> * postgresql://postgres:***@localhost:5432/dvdrental
+16044 rows affected.
+</pre></div>
+</div>
+<div class="output text_html"><table>
+    <thead>
+        <tr>
+            <th>customer_id</th>
+            <th>rental_date</th>
+            <th>quartile</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>1</td>
+            <td>2005-05-25 11:30:37</td>
+            <td>1</td>
+        </tr>
+        <tr>
+            <td>1</td>
+            <td>2005-05-28 10:35:23</td>
+            <td>1</td>
+        </tr>
+        <tr>
+            <td>1</td>
+            <td>2005-06-15 00:54:12</td>
+            <td>1</td>
+        </tr>
+        <tr>
+            <td>1</td>
+            <td>2005-06-15 18:02:53</td>
+            <td>1</td>
+        </tr>
+        <tr>
+            <td>1</td>
+            <td>2005-06-15 21:08:46</td>
+            <td>1</td>
+        </tr>
+        <tr>
+            <td>1</td>
+            <td>2005-06-16 15:18:57</td>
+            <td>1</td>
+        </tr>
+        <tr>
+            <td>1</td>
+            <td>2005-06-18 08:41:48</td>
+            <td>1</td>
+        </tr>
+        <tr>
+            <td>1</td>
+            <td>2005-06-18 13:33:59</td>
+            <td>1</td>
+        </tr>
+        <tr>
+            <td>1</td>
+            <td>2005-06-21 06:24:45</td>
+            <td>2</td>
+        </tr>
+        <tr>
+            <td>1</td>
+            <td>2005-07-08 03:17:05</td>
+            <td>2</td>
+        </tr>
+    </tbody>
+</table>
+<span style="font-style:italic;text-align:center;">16044 rows, truncated to displaylimit of 10</span></div></div>
+</div>
+</section>
+<section id="lag">
+<h3>5. LAG()<a class="headerlink" href="#lag" title="Link to this heading">#</a></h3>
+<p><strong>Task:</strong> Find the time gap between rentals for each customer</p>
+<p><strong>SQL with Window Function:</strong></p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">%%</span><span class="k">sql</span>
+SELECT 
+    customer_id, 
+    rental_id, 
+    rental_date, 
+    LAG(rental_date) OVER (PARTITION BY customer_id ORDER BY rental_date) AS prev_rental_date,
+    rental_date - LAG(rental_date) OVER (PARTITION BY customer_id ORDER BY rental_date) AS time_gap
+FROM 
+    rental;
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> * postgresql://postgres:***@localhost:5432/dvdrental
+16044 rows affected.
+</pre></div>
+</div>
+<div class="output text_html"><table>
+    <thead>
+        <tr>
+            <th>customer_id</th>
+            <th>rental_id</th>
+            <th>rental_date</th>
+            <th>prev_rental_date</th>
+            <th>time_gap</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>1</td>
+            <td>76</td>
+            <td>2005-05-25 11:30:37</td>
+            <td>None</td>
+            <td>None</td>
+        </tr>
+        <tr>
+            <td>1</td>
+            <td>573</td>
+            <td>2005-05-28 10:35:23</td>
+            <td>2005-05-25 11:30:37</td>
+            <td>2 days, 23:04:46</td>
+        </tr>
+        <tr>
+            <td>1</td>
+            <td>1185</td>
+            <td>2005-06-15 00:54:12</td>
+            <td>2005-05-28 10:35:23</td>
+            <td>17 days, 14:18:49</td>
+        </tr>
+        <tr>
+            <td>1</td>
+            <td>1422</td>
+            <td>2005-06-15 18:02:53</td>
+            <td>2005-06-15 00:54:12</td>
+            <td>17:08:41</td>
+        </tr>
+        <tr>
+            <td>1</td>
+            <td>1476</td>
+            <td>2005-06-15 21:08:46</td>
+            <td>2005-06-15 18:02:53</td>
+            <td>3:05:53</td>
+        </tr>
+        <tr>
+            <td>1</td>
+            <td>1725</td>
+            <td>2005-06-16 15:18:57</td>
+            <td>2005-06-15 21:08:46</td>
+            <td>18:10:11</td>
+        </tr>
+        <tr>
+            <td>1</td>
+            <td>2308</td>
+            <td>2005-06-18 08:41:48</td>
+            <td>2005-06-16 15:18:57</td>
+            <td>1 day, 17:22:51</td>
+        </tr>
+        <tr>
+            <td>1</td>
+            <td>2363</td>
+            <td>2005-06-18 13:33:59</td>
+            <td>2005-06-18 08:41:48</td>
+            <td>4:52:11</td>
+        </tr>
+        <tr>
+            <td>1</td>
+            <td>3284</td>
+            <td>2005-06-21 06:24:45</td>
+            <td>2005-06-18 13:33:59</td>
+            <td>2 days, 16:50:46</td>
+        </tr>
+        <tr>
+            <td>1</td>
+            <td>4526</td>
+            <td>2005-07-08 03:17:05</td>
+            <td>2005-06-21 06:24:45</td>
+            <td>16 days, 20:52:20</td>
+        </tr>
+    </tbody>
+</table>
+<span style="font-style:italic;text-align:center;">16044 rows, truncated to displaylimit of 10</span></div></div>
+</div>
+</section>
+<section id="lead">
+<h3>6. LEAD()<a class="headerlink" href="#lead" title="Link to this heading">#</a></h3>
+<p><strong>Task:</strong> Retrieve the next rental date for each rental of each customer.</p>
+<p><strong>SQL with Window Function:</strong></p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">%%</span><span class="k">sql</span>
+SELECT 
+    customer_id, 
+    rental_date, 
+    LEAD(rental_date, 1) OVER (PARTITION BY customer_id ORDER BY rental_date) AS next_rental_date
+FROM rental;
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> * postgresql://postgres:***@localhost:5432/dvdrental
+16044 rows affected.
+</pre></div>
+</div>
+<div class="output text_html"><table>
+    <thead>
+        <tr>
+            <th>customer_id</th>
+            <th>rental_date</th>
+            <th>next_rental_date</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>1</td>
+            <td>2005-05-25 11:30:37</td>
+            <td>2005-05-28 10:35:23</td>
+        </tr>
+        <tr>
+            <td>1</td>
+            <td>2005-05-28 10:35:23</td>
+            <td>2005-06-15 00:54:12</td>
+        </tr>
+        <tr>
+            <td>1</td>
+            <td>2005-06-15 00:54:12</td>
+            <td>2005-06-15 18:02:53</td>
+        </tr>
+        <tr>
+            <td>1</td>
+            <td>2005-06-15 18:02:53</td>
+            <td>2005-06-15 21:08:46</td>
+        </tr>
+        <tr>
+            <td>1</td>
+            <td>2005-06-15 21:08:46</td>
+            <td>2005-06-16 15:18:57</td>
+        </tr>
+        <tr>
+            <td>1</td>
+            <td>2005-06-16 15:18:57</td>
+            <td>2005-06-18 08:41:48</td>
+        </tr>
+        <tr>
+            <td>1</td>
+            <td>2005-06-18 08:41:48</td>
+            <td>2005-06-18 13:33:59</td>
+        </tr>
+        <tr>
+            <td>1</td>
+            <td>2005-06-18 13:33:59</td>
+            <td>2005-06-21 06:24:45</td>
+        </tr>
+        <tr>
+            <td>1</td>
+            <td>2005-06-21 06:24:45</td>
+            <td>2005-07-08 03:17:05</td>
+        </tr>
+        <tr>
+            <td>1</td>
+            <td>2005-07-08 03:17:05</td>
+            <td>2005-07-08 07:33:56</td>
+        </tr>
+    </tbody>
+</table>
+<span style="font-style:italic;text-align:center;">16044 rows, truncated to displaylimit of 10</span></div></div>
+</div>
+<p><strong>Task</strong>: Find the week-to-week growth rate in total payment amount</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">%%</span><span class="k">sql</span>
+
+WITH weekly_payments AS (
+    SELECT 
+        DATE_TRUNC(&#39;week&#39;, payment_date) AS week, 
+        SUM(amount) AS total_amount
+    FROM 
+        payment
+    GROUP BY 
+        DATE_TRUNC(&#39;week&#39;, payment_date)
+)
+SELECT 
+    week, 
+    total_amount, 
+    LEAD(total_amount) OVER (ORDER BY week) AS next_week_amount,
+    ROUND((LEAD(total_amount) OVER (ORDER BY week) - total_amount) / total_amount * 100, 2) AS growth_rate
+FROM 
+    weekly_payments;
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> * postgresql://postgres:***@localhost:5432/dvdrental
+10 rows affected.
+</pre></div>
+</div>
+<div class="output text_html"><table>
+    <thead>
+        <tr>
+            <th>week</th>
+            <th>total_amount</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>2007-05-14 00:00:00</td>
+            <td>514.18</td>
+        </tr>
+        <tr>
+            <td>2007-03-19 00:00:00</td>
+            <td>13085.07</td>
+        </tr>
+        <tr>
+            <td>2007-04-23 00:00:00</td>
+            <td>8361.11</td>
+        </tr>
+        <tr>
+            <td>2007-02-26 00:00:00</td>
+            <td>5358.29</td>
+        </tr>
+        <tr>
+            <td>2007-04-30 00:00:00</td>
+            <td>5723.89</td>
+        </tr>
+        <tr>
+            <td>2007-02-12 00:00:00</td>
+            <td>4923.98</td>
+        </tr>
+        <tr>
+            <td>2007-02-19 00:00:00</td>
+            <td>3427.86</td>
+        </tr>
+        <tr>
+            <td>2007-04-02 00:00:00</td>
+            <td>6562.62</td>
+        </tr>
+        <tr>
+            <td>2007-03-12 00:00:00</td>
+            <td>5443.20</td>
+        </tr>
+        <tr>
+            <td>2007-04-09 00:00:00</td>
+            <td>7911.84</td>
+        </tr>
+    </tbody>
+</table></div></div>
+</div>
+</section>
+<section id="sum">
+<h3>7. SUM()<a class="headerlink" href="#sum" title="Link to this heading">#</a></h3>
+<p><strong>Task:</strong> Calculate the cummulative sum of payment amounts for each customer, ordered by payment date.</p>
+<p>For example, if a customer made payments of <span class="math notranslate nohighlight">\(10, \)</span>20, and <span class="math notranslate nohighlight">\(30 on three different dates, the running total after each payment would be \)</span>10, <span class="math notranslate nohighlight">\(30, and \)</span>60, respectively.</p>
+<p><strong>SQL with Window Function:</strong></p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">%%</span><span class="k">sql</span>
+SELECT 
+    customer_id, 
+    payment_date, 
+    SUM(amount) OVER (PARTITION BY customer_id ORDER BY payment_date) AS running_total
+FROM payment;
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> * postgresql://postgres:***@localhost:5432/dvdrental
+14596 rows affected.
+</pre></div>
+</div>
+<div class="output text_html"><table>
+    <thead>
+        <tr>
+            <th>customer_id</th>
+            <th>payment_date</th>
+            <th>running_total</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>1</td>
+            <td>2007-02-14 23:22:38.996577</td>
+            <td>5.99</td>
+        </tr>
+        <tr>
+            <td>1</td>
+            <td>2007-02-15 16:31:19.996577</td>
+            <td>6.98</td>
+        </tr>
+        <tr>
+            <td>1</td>
+            <td>2007-02-15 19:37:12.996577</td>
+            <td>16.97</td>
+        </tr>
+        <tr>
+            <td>1</td>
+            <td>2007-02-16 13:47:23.996577</td>
+            <td>21.96</td>
+        </tr>
+        <tr>
+            <td>1</td>
+            <td>2007-02-18 07:10:14.996577</td>
+            <td>26.95</td>
+        </tr>
+        <tr>
+            <td>1</td>
+            <td>2007-02-18 12:02:25.996577</td>
+            <td>27.94</td>
+        </tr>
+        <tr>
+            <td>1</td>
+            <td>2007-02-21 04:53:11.996577</td>
+            <td>31.93</td>
+        </tr>
+        <tr>
+            <td>1</td>
+            <td>2007-03-01 07:19:30.996577</td>
+            <td>36.92</td>
+        </tr>
+        <tr>
+            <td>1</td>
+            <td>2007-03-02 14:05:18.996577</td>
+            <td>40.91</td>
+        </tr>
+        <tr>
+            <td>1</td>
+            <td>2007-03-02 16:30:04.996577</td>
+            <td>41.90</td>
+        </tr>
+    </tbody>
+</table>
+<span style="font-style:italic;text-align:center;">14596 rows, truncated to displaylimit of 10</span></div></div>
+</div>
+</section>
+<section id="avg">
+<h3>8. AVG()<a class="headerlink" href="#avg" title="Link to this heading">#</a></h3>
+<p><strong>Task:</strong> Calculate the cummulative average of payment amounts for each customer, ordered by payment date.</p>
+<p><strong>SQL with Window Function:</strong></p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">%%</span><span class="k">sql</span>
+SELECT 
+    customer_id, 
+    payment_date, 
+    ROUND(AVG(amount) OVER (PARTITION BY customer_id ORDER BY payment_date), 2) AS running_avg
+FROM 
+    payment
+ORDER BY 
+    customer_id, 
+    payment_date;
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> * postgresql://postgres:***@localhost:5432/dvdrental
+14596 rows affected.
+</pre></div>
+</div>
+<div class="output text_html"><table>
+    <thead>
+        <tr>
+            <th>customer_id</th>
+            <th>payment_date</th>
+            <th>running_avg</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>1</td>
+            <td>2007-02-14 23:22:38.996577</td>
+            <td>5.99</td>
+        </tr>
+        <tr>
+            <td>1</td>
+            <td>2007-02-15 16:31:19.996577</td>
+            <td>3.49</td>
+        </tr>
+        <tr>
+            <td>1</td>
+            <td>2007-02-15 19:37:12.996577</td>
+            <td>5.66</td>
+        </tr>
+        <tr>
+            <td>1</td>
+            <td>2007-02-16 13:47:23.996577</td>
+            <td>5.49</td>
+        </tr>
+        <tr>
+            <td>1</td>
+            <td>2007-02-18 07:10:14.996577</td>
+            <td>5.39</td>
+        </tr>
+        <tr>
+            <td>1</td>
+            <td>2007-02-18 12:02:25.996577</td>
+            <td>4.66</td>
+        </tr>
+        <tr>
+            <td>1</td>
+            <td>2007-02-21 04:53:11.996577</td>
+            <td>4.56</td>
+        </tr>
+        <tr>
+            <td>1</td>
+            <td>2007-03-01 07:19:30.996577</td>
+            <td>4.62</td>
+        </tr>
+        <tr>
+            <td>1</td>
+            <td>2007-03-02 14:05:18.996577</td>
+            <td>4.55</td>
+        </tr>
+        <tr>
+            <td>1</td>
+            <td>2007-03-02 16:30:04.996577</td>
+            <td>4.19</td>
+        </tr>
+    </tbody>
+</table>
+<span style="font-style:italic;text-align:center;">14596 rows, truncated to displaylimit of 10</span></div></div>
+</div>
+</section>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./lectures"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="lecture9.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">Lecture 9: Joins &amp; subqueries in SQL</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="../installation_mac.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">Installation instruction for macOS</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#learning-objectives">Learning Objectives</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#introduction">Introduction</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#common-window-functions">Common Window Functions</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#example-dataset-dvdrental">Example Dataset: dvdrental</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#row-number">1. ROW_NUMBER()</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#rank">2. RANK()</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#dense-rank">3. DENSE_RANK()</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#differences-between-rank-dense-rank-and-row-number">Differences Between <code class="docutils literal notranslate"><span class="pre">RANK</span></code>, <code class="docutils literal notranslate"><span class="pre">DENSE_RANK</span></code>, and <code class="docutils literal notranslate"><span class="pre">ROW_NUMBER</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#ntile">4. NTILE()</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#lag">5. LAG()</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#lead">6. LEAD()</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#sum">7. SUM()</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#avg">8. AVG()</a></li>
+</ul>
+</li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By Quan Nguyen
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2023.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b"></script>
+<script src="../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>
