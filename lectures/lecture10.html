@@ -207,6 +207,14 @@
 <ul class="nav bd-sidenav">
 <li class="toctree-l1"><a class="reference internal" href="../midterm1.html">Midterm 1 instruction</a></li>
 </ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Worksheets solutions</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../worksheets/source/worksheet1.html">Worksheet 1: Introduction to databases</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../worksheets/source/worksheet2.html">Worksheet 2: Introduction to relational models</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../worksheets/source/worksheet3.html">Worksheet 3: PostgreSQL data manipulation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../worksheets/source/worksheet4.html">Worksheet 4: PostgreSQL data manipulation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../worksheets/source/worksheet5.html">Worksheet 5: Transactions, joins, subquerries</a></li>
+</ul>
 
     </div>
 </nav></div>
@@ -388,12 +396,7 @@ document.write(`
 <h2>Learning Objectives<a class="headerlink" href="#learning-objectives" title="Link to this heading">#</a></h2>
 <p>By the end of this lecture, students should understand:</p>
 <ul class="simple">
-<li><p>What JOIN statements are and why they are used.</p></li>
-<li><p>The different types of JOINs: INNER JOIN, LEFT JOIN, RIGHT JOIN, and FULL OUTER JOIN.</p></li>
-<li><p>How to deal with ambiguous column names in JOINs.</p></li>
-<li><p>How to join more than two tables.</p></li>
-<li><p>What subqueries are and why they are used.</p></li>
-<li><p>The different types of subqueries: single-row, multiple-row, and correlated subqueries.</p></li>
+<li><p>Window functions</p></li>
 </ul>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
@@ -410,6 +413,12 @@ document.write(`
 <span class="n">password</span> <span class="o">=</span> <span class="n">urllib</span><span class="o">.</span><span class="n">parse</span><span class="o">.</span><span class="n">quote</span><span class="p">(</span><span class="n">login</span><span class="p">[</span><span class="s1">&#39;password&#39;</span><span class="p">])</span>
 <span class="n">host</span> <span class="o">=</span> <span class="n">login</span><span class="p">[</span><span class="s1">&#39;host&#39;</span><span class="p">]</span>
 <span class="n">port</span> <span class="o">=</span> <span class="n">login</span><span class="p">[</span><span class="s1">&#39;port&#39;</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>The sql extension is already loaded. To reload it, use:
+  %reload_ext sql
 </pre></div>
 </div>
 </div>
@@ -534,6 +543,124 @@ FROM rental;
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">%%</span><span class="k">sql</span>
+SELECT * FROM rental LIMIT 10;
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> * postgresql://postgres:***@localhost:5432/dvdrental
+10 rows affected.
+</pre></div>
+</div>
+<div class="output text_html"><table>
+    <thead>
+        <tr>
+            <th>rental_id</th>
+            <th>rental_date</th>
+            <th>inventory_id</th>
+            <th>customer_id</th>
+            <th>return_date</th>
+            <th>staff_id</th>
+            <th>last_update</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>2</td>
+            <td>2005-05-24 22:54:33</td>
+            <td>1525</td>
+            <td>459</td>
+            <td>2005-05-28 19:40:33</td>
+            <td>1</td>
+            <td>2006-02-16 02:30:53</td>
+        </tr>
+        <tr>
+            <td>3</td>
+            <td>2005-05-24 23:03:39</td>
+            <td>1711</td>
+            <td>408</td>
+            <td>2005-06-01 22:12:39</td>
+            <td>1</td>
+            <td>2006-02-16 02:30:53</td>
+        </tr>
+        <tr>
+            <td>4</td>
+            <td>2005-05-24 23:04:41</td>
+            <td>2452</td>
+            <td>333</td>
+            <td>2005-06-03 01:43:41</td>
+            <td>2</td>
+            <td>2006-02-16 02:30:53</td>
+        </tr>
+        <tr>
+            <td>5</td>
+            <td>2005-05-24 23:05:21</td>
+            <td>2079</td>
+            <td>222</td>
+            <td>2005-06-02 04:33:21</td>
+            <td>1</td>
+            <td>2006-02-16 02:30:53</td>
+        </tr>
+        <tr>
+            <td>6</td>
+            <td>2005-05-24 23:08:07</td>
+            <td>2792</td>
+            <td>549</td>
+            <td>2005-05-27 01:32:07</td>
+            <td>1</td>
+            <td>2006-02-16 02:30:53</td>
+        </tr>
+        <tr>
+            <td>7</td>
+            <td>2005-05-24 23:11:53</td>
+            <td>3995</td>
+            <td>269</td>
+            <td>2005-05-29 20:34:53</td>
+            <td>2</td>
+            <td>2006-02-16 02:30:53</td>
+        </tr>
+        <tr>
+            <td>8</td>
+            <td>2005-05-24 23:31:46</td>
+            <td>2346</td>
+            <td>239</td>
+            <td>2005-05-27 23:33:46</td>
+            <td>2</td>
+            <td>2006-02-16 02:30:53</td>
+        </tr>
+        <tr>
+            <td>9</td>
+            <td>2005-05-25 00:00:40</td>
+            <td>2580</td>
+            <td>126</td>
+            <td>2005-05-28 00:22:40</td>
+            <td>1</td>
+            <td>2006-02-16 02:30:53</td>
+        </tr>
+        <tr>
+            <td>10</td>
+            <td>2005-05-25 00:02:21</td>
+            <td>1824</td>
+            <td>399</td>
+            <td>2005-05-31 22:44:21</td>
+            <td>2</td>
+            <td>2006-02-16 02:30:53</td>
+        </tr>
+        <tr>
+            <td>11</td>
+            <td>2005-05-25 00:09:02</td>
+            <td>4443</td>
+            <td>142</td>
+            <td>2005-06-02 20:56:02</td>
+            <td>2</td>
+            <td>2006-02-16 02:30:53</td>
+        </tr>
+    </tbody>
+</table></div></div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">%%</span><span class="k">sql</span>
 SELECT 
     customer_id, 
     rental_date
@@ -544,13 +671,13 @@ FROM (
         ROW_NUMBER() OVER (PARTITION BY customer_id ORDER BY rental_date) AS row_num
     FROM rental
 ) AS subquery
-WHERE row_num = 3;
+WHERE row_num &lt;= 3;
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> * postgresql://postgres:***@localhost:5432/dvdrental
-599 rows affected.
+1797 rows affected.
 </pre></div>
 </div>
 <div class="output text_html"><table>
@@ -563,7 +690,23 @@ WHERE row_num = 3;
     <tbody>
         <tr>
             <td>1</td>
+            <td>2005-05-25 11:30:37</td>
+        </tr>
+        <tr>
+            <td>1</td>
+            <td>2005-05-28 10:35:23</td>
+        </tr>
+        <tr>
+            <td>1</td>
             <td>2005-06-15 00:54:12</td>
+        </tr>
+        <tr>
+            <td>2</td>
+            <td>2005-05-27 00:09:24</td>
+        </tr>
+        <tr>
+            <td>2</td>
+            <td>2005-06-17 20:54:58</td>
         </tr>
         <tr>
             <td>2</td>
@@ -571,39 +714,23 @@ WHERE row_num = 3;
         </tr>
         <tr>
             <td>3</td>
+            <td>2005-05-27 17:17:09</td>
+        </tr>
+        <tr>
+            <td>3</td>
+            <td>2005-05-29 22:43:55</td>
+        </tr>
+        <tr>
+            <td>3</td>
             <td>2005-06-16 01:34:05</td>
         </tr>
         <tr>
             <td>4</td>
-            <td>2005-06-16 14:01:27</td>
-        </tr>
-        <tr>
-            <td>5</td>
-            <td>2005-05-31 19:46:38</td>
-        </tr>
-        <tr>
-            <td>6</td>
-            <td>2005-05-30 11:25:01</td>
-        </tr>
-        <tr>
-            <td>7</td>
-            <td>2005-05-29 09:27:00</td>
-        </tr>
-        <tr>
-            <td>8</td>
-            <td>2005-06-17 18:21:35</td>
-        </tr>
-        <tr>
-            <td>9</td>
-            <td>2005-05-31 10:13:34</td>
-        </tr>
-        <tr>
-            <td>10</td>
-            <td>2005-06-17 11:11:14</td>
+            <td>2005-06-15 09:31:28</td>
         </tr>
     </tbody>
 </table>
-<span style="font-style:italic;text-align:center;">599 rows, truncated to displaylimit of 10</span></div></div>
+<span style="font-style:italic;text-align:center;">1797 rows, truncated to displaylimit of 10</span></div></div>
 </div>
 </section>
 <section id="rank">
@@ -709,7 +836,7 @@ FROM (
 SELECT 
     customer_id, 
     rental_count, 
-    DENSE_RANK() OVER (ORDER BY rental_count DESC) AS rank
+    DENSE_RANK() OVER (ORDER BY rental_count DESC) AS dense_rank
 FROM (
     SELECT 
         customer_id, 
@@ -732,7 +859,7 @@ FROM (
         <tr>
             <th>customer_id</th>
             <th>rental_count</th>
-            <th>rank</th>
+            <th>dense_rank</th>
         </tr>
     </thead>
     <tbody>
@@ -829,13 +956,14 @@ SELECT
     customer_id, 
     rental_date, 
     NTILE(4) OVER (PARTITION BY customer_id ORDER BY rental_date) AS quartile
-FROM rental;
+FROM rental
+WHERE customer_id = 1;
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> * postgresql://postgres:***@localhost:5432/dvdrental
-16044 rows affected.
+32 rows affected.
 </pre></div>
 </div>
 <div class="output text_html"><table>
@@ -899,7 +1027,7 @@ FROM rental;
         </tr>
     </tbody>
 </table>
-<span style="font-style:italic;text-align:center;">16044 rows, truncated to displaylimit of 10</span></div></div>
+<span style="font-style:italic;text-align:center;">32 rows, truncated to displaylimit of 10</span></div></div>
 </div>
 </section>
 <section id="lag">
@@ -913,16 +1041,17 @@ SELECT
     customer_id, 
     rental_id, 
     rental_date, 
-    LAG(rental_date) OVER (PARTITION BY customer_id ORDER BY rental_date) AS prev_rental_date,
+    LAG(rental_date, 5) OVER (PARTITION BY customer_id ORDER BY rental_date) AS prev_rental_date,
     rental_date - LAG(rental_date) OVER (PARTITION BY customer_id ORDER BY rental_date) AS time_gap
 FROM 
-    rental;
+    rental
+WHERE customer_id = 4;
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> * postgresql://postgres:***@localhost:5432/dvdrental
-16044 rows affected.
+22 rows affected.
 </pre></div>
 </div>
 <div class="output text_html"><table>
@@ -937,78 +1066,78 @@ FROM
     </thead>
     <tbody>
         <tr>
-            <td>1</td>
-            <td>76</td>
-            <td>2005-05-25 11:30:37</td>
+            <td>4</td>
+            <td>1297</td>
+            <td>2005-06-15 09:31:28</td>
             <td>None</td>
             <td>None</td>
         </tr>
         <tr>
-            <td>1</td>
-            <td>573</td>
-            <td>2005-05-28 10:35:23</td>
-            <td>2005-05-25 11:30:37</td>
-            <td>2 days, 23:04:46</td>
+            <td>4</td>
+            <td>1633</td>
+            <td>2005-06-16 08:08:40</td>
+            <td>None</td>
+            <td>22:37:12</td>
         </tr>
         <tr>
-            <td>1</td>
-            <td>1185</td>
-            <td>2005-06-15 00:54:12</td>
-            <td>2005-05-28 10:35:23</td>
-            <td>17 days, 14:18:49</td>
+            <td>4</td>
+            <td>1707</td>
+            <td>2005-06-16 14:01:27</td>
+            <td>None</td>
+            <td>5:52:47</td>
         </tr>
         <tr>
-            <td>1</td>
-            <td>1422</td>
-            <td>2005-06-15 18:02:53</td>
-            <td>2005-06-15 00:54:12</td>
-            <td>17:08:41</td>
+            <td>4</td>
+            <td>1735</td>
+            <td>2005-06-16 15:51:52</td>
+            <td>None</td>
+            <td>1:50:25</td>
         </tr>
         <tr>
-            <td>1</td>
-            <td>1476</td>
-            <td>2005-06-15 21:08:46</td>
-            <td>2005-06-15 18:02:53</td>
-            <td>3:05:53</td>
+            <td>4</td>
+            <td>2043</td>
+            <td>2005-06-17 14:31:12</td>
+            <td>None</td>
+            <td>22:39:20</td>
         </tr>
         <tr>
-            <td>1</td>
-            <td>1725</td>
-            <td>2005-06-16 15:18:57</td>
-            <td>2005-06-15 21:08:46</td>
-            <td>18:10:11</td>
+            <td>4</td>
+            <td>2642</td>
+            <td>2005-06-19 09:39:01</td>
+            <td>2005-06-15 09:31:28</td>
+            <td>1 day, 19:07:49</td>
         </tr>
         <tr>
-            <td>1</td>
-            <td>2308</td>
-            <td>2005-06-18 08:41:48</td>
-            <td>2005-06-16 15:18:57</td>
-            <td>1 day, 17:22:51</td>
+            <td>4</td>
+            <td>7660</td>
+            <td>2005-07-28 02:10:10</td>
+            <td>2005-06-16 08:08:40</td>
+            <td>38 days, 16:31:09</td>
         </tr>
         <tr>
-            <td>1</td>
-            <td>2363</td>
-            <td>2005-06-18 13:33:59</td>
-            <td>2005-06-18 08:41:48</td>
-            <td>4:52:11</td>
+            <td>4</td>
+            <td>7718</td>
+            <td>2005-07-28 04:37:59</td>
+            <td>2005-06-16 14:01:27</td>
+            <td>2:27:49</td>
         </tr>
         <tr>
-            <td>1</td>
-            <td>3284</td>
-            <td>2005-06-21 06:24:45</td>
-            <td>2005-06-18 13:33:59</td>
-            <td>2 days, 16:50:46</td>
+            <td>4</td>
+            <td>8741</td>
+            <td>2005-07-29 18:44:57</td>
+            <td>2005-06-16 15:51:52</td>
+            <td>1 day, 14:06:58</td>
         </tr>
         <tr>
-            <td>1</td>
-            <td>4526</td>
-            <td>2005-07-08 03:17:05</td>
-            <td>2005-06-21 06:24:45</td>
-            <td>16 days, 20:52:20</td>
+            <td>4</td>
+            <td>9100</td>
+            <td>2005-07-30 08:46:09</td>
+            <td>2005-06-17 14:31:12</td>
+            <td>14:01:12</td>
         </tr>
     </tbody>
 </table>
-<span style="font-style:italic;text-align:center;">16044 rows, truncated to displaylimit of 10</span></div></div>
+<span style="font-style:italic;text-align:center;">22 rows, truncated to displaylimit of 10</span></div></div>
 </div>
 </section>
 <section id="lead">
@@ -1098,6 +1227,114 @@ FROM rental;
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">%%</span><span class="k">sql</span>
+SELECT * FROM payment
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> * postgresql://postgres:***@localhost:5432/dvdrental
+14596 rows affected.
+</pre></div>
+</div>
+<div class="output text_html"><table>
+    <thead>
+        <tr>
+            <th>payment_id</th>
+            <th>customer_id</th>
+            <th>staff_id</th>
+            <th>rental_id</th>
+            <th>amount</th>
+            <th>payment_date</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>17503</td>
+            <td>341</td>
+            <td>2</td>
+            <td>1520</td>
+            <td>7.99</td>
+            <td>2007-02-15 22:25:46.996577</td>
+        </tr>
+        <tr>
+            <td>17504</td>
+            <td>341</td>
+            <td>1</td>
+            <td>1778</td>
+            <td>1.99</td>
+            <td>2007-02-16 17:23:14.996577</td>
+        </tr>
+        <tr>
+            <td>17505</td>
+            <td>341</td>
+            <td>1</td>
+            <td>1849</td>
+            <td>7.99</td>
+            <td>2007-02-16 22:41:45.996577</td>
+        </tr>
+        <tr>
+            <td>17506</td>
+            <td>341</td>
+            <td>2</td>
+            <td>2829</td>
+            <td>2.99</td>
+            <td>2007-02-19 19:39:56.996577</td>
+        </tr>
+        <tr>
+            <td>17507</td>
+            <td>341</td>
+            <td>2</td>
+            <td>3130</td>
+            <td>7.99</td>
+            <td>2007-02-20 17:31:48.996577</td>
+        </tr>
+        <tr>
+            <td>17508</td>
+            <td>341</td>
+            <td>1</td>
+            <td>3382</td>
+            <td>5.99</td>
+            <td>2007-02-21 12:33:49.996577</td>
+        </tr>
+        <tr>
+            <td>17509</td>
+            <td>342</td>
+            <td>2</td>
+            <td>2190</td>
+            <td>5.99</td>
+            <td>2007-02-17 23:58:17.996577</td>
+        </tr>
+        <tr>
+            <td>17510</td>
+            <td>342</td>
+            <td>1</td>
+            <td>2914</td>
+            <td>5.99</td>
+            <td>2007-02-20 02:11:44.996577</td>
+        </tr>
+        <tr>
+            <td>17511</td>
+            <td>342</td>
+            <td>1</td>
+            <td>3081</td>
+            <td>2.99</td>
+            <td>2007-02-20 13:57:39.996577</td>
+        </tr>
+        <tr>
+            <td>17512</td>
+            <td>343</td>
+            <td>2</td>
+            <td>1547</td>
+            <td>4.99</td>
+            <td>2007-02-16 00:10:50.996577</td>
+        </tr>
+    </tbody>
+</table>
+<span style="font-style:italic;text-align:center;">14596 rows, truncated to displaylimit of 10</span></div></div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">%%</span><span class="k">sql</span>
 
 WITH weekly_payments AS (
     SELECT 
@@ -1128,48 +1365,70 @@ FROM
         <tr>
             <th>week</th>
             <th>total_amount</th>
+            <th>next_week_amount</th>
+            <th>growth_rate</th>
         </tr>
     </thead>
     <tbody>
         <tr>
-            <td>2007-05-14 00:00:00</td>
-            <td>514.18</td>
-        </tr>
-        <tr>
-            <td>2007-03-19 00:00:00</td>
-            <td>13085.07</td>
-        </tr>
-        <tr>
-            <td>2007-04-23 00:00:00</td>
-            <td>8361.11</td>
-        </tr>
-        <tr>
-            <td>2007-02-26 00:00:00</td>
-            <td>5358.29</td>
-        </tr>
-        <tr>
-            <td>2007-04-30 00:00:00</td>
-            <td>5723.89</td>
-        </tr>
-        <tr>
             <td>2007-02-12 00:00:00</td>
             <td>4923.98</td>
+            <td>3427.86</td>
+            <td>-30.38</td>
         </tr>
         <tr>
             <td>2007-02-19 00:00:00</td>
             <td>3427.86</td>
+            <td>5358.29</td>
+            <td>56.32</td>
         </tr>
         <tr>
-            <td>2007-04-02 00:00:00</td>
-            <td>6562.62</td>
+            <td>2007-02-26 00:00:00</td>
+            <td>5358.29</td>
+            <td>5443.20</td>
+            <td>1.58</td>
         </tr>
         <tr>
             <td>2007-03-12 00:00:00</td>
             <td>5443.20</td>
+            <td>13085.07</td>
+            <td>140.39</td>
+        </tr>
+        <tr>
+            <td>2007-03-19 00:00:00</td>
+            <td>13085.07</td>
+            <td>6562.62</td>
+            <td>-49.85</td>
+        </tr>
+        <tr>
+            <td>2007-04-02 00:00:00</td>
+            <td>6562.62</td>
+            <td>7911.84</td>
+            <td>20.56</td>
         </tr>
         <tr>
             <td>2007-04-09 00:00:00</td>
             <td>7911.84</td>
+            <td>8361.11</td>
+            <td>5.68</td>
+        </tr>
+        <tr>
+            <td>2007-04-23 00:00:00</td>
+            <td>8361.11</td>
+            <td>5723.89</td>
+            <td>-31.54</td>
+        </tr>
+        <tr>
+            <td>2007-04-30 00:00:00</td>
+            <td>5723.89</td>
+            <td>514.18</td>
+            <td>-91.02</td>
+        </tr>
+        <tr>
+            <td>2007-05-14 00:00:00</td>
+            <td>514.18</td>
+            <td>None</td>
+            <td>None</td>
         </tr>
     </tbody>
 </table></div></div>

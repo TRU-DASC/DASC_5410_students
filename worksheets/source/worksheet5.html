@@ -60,6 +60,7 @@
     <script>DOCUMENTATION_OPTIONS.pagename = 'worksheets/source/worksheet5';</script>
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" />
+    <link rel="prev" title="Worksheet 4: PostgreSQL data manipulation" href="worksheet4.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
   </head>
@@ -121,8 +122,6 @@
     <div class="bd-container__inner bd-page-width">
       
       
-      
-        
       
       <div class="bd-sidebar-primary bd-sidebar">
         
@@ -190,6 +189,7 @@
 <li class="toctree-l1"><a class="reference internal" href="../../lectures/lecture7.html">Lecture 7: PostgreSQL part 4</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../lectures/lecture8.html">Lecture 8: Transactions ACID in SQL</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../lectures/lecture9.html">Lecture 9: Joins &amp; subqueries in SQL</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../lectures/lecture10.html">Lecture 10: Window function in SQL</a></li>
 </ul>
 <p aria-level="2" class="caption" role="heading"><span class="caption-text">Installation Guide</span></p>
 <ul class="nav bd-sidenav">
@@ -203,6 +203,14 @@
 <p aria-level="2" class="caption" role="heading"><span class="caption-text">Midterms Information</span></p>
 <ul class="nav bd-sidenav">
 <li class="toctree-l1"><a class="reference internal" href="../../midterm1.html">Midterm 1 instruction</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Worksheets solutions</span></p>
+<ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="worksheet1.html">Worksheet 1: Introduction to databases</a></li>
+<li class="toctree-l1"><a class="reference internal" href="worksheet2.html">Worksheet 2: Introduction to relational models</a></li>
+<li class="toctree-l1"><a class="reference internal" href="worksheet3.html">Worksheet 3: PostgreSQL data manipulation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="worksheet4.html">Worksheet 4: PostgreSQL data manipulation</a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">Worksheet 5: Transactions, joins, subquerries</a></li>
 </ul>
 
     </div>
@@ -354,23 +362,25 @@ document.write(`
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-1-transactions-in-sql">Exercise 1: Transactions in SQL</a><ul class="nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#scenario">Scenario</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#task">Task</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-2-using-joins-with-the-dvd-rental-database">Exercise 2: Using JOINs with the DVD Rental Database</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-2-using-joins-with-the-dvd-rental-database">Exercise 2: Using JOINs with the DVD Rental Database</a><ul class="nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#tasks">Tasks</a><ul class="nav section-nav flex-column">
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#inner-join">1. Inner Join</a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#left-join">2. Left Join</a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#id1">3. Inner join</a></li>
 </ul>
 </li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-3-using-group-by-and-join-with-the-dvd-rental-database">Exercise 3: Using GROUP BY and JOIN with the DVD Rental Database</a><ul class="nav section-nav flex-column">
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#id2">Scenario</a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#id3">Task</a></li>
 </ul>
 </li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-4-using-join-group-by-where-and-having-with-the-dvd-rental-database">Exercise 4: Using JOIN, GROUP BY, WHERE, and HAVING with the DVD Rental Database</a><ul class="nav section-nav flex-column">
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#id4">Scenario</a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#id5">Task</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-3-using-group-by-and-join-with-the-dvd-rental-database">Exercise 3: Using GROUP BY and JOIN with the DVD Rental Database</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id2">Scenario</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id3">Task</a></li>
 </ul>
 </li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-4-using-join-group-by-where-and-having-with-the-dvd-rental-database">Exercise 4: Using JOIN, GROUP BY, WHERE, and HAVING with the DVD Rental Database</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id4">Scenario</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id5">Task</a></li>
 </ul>
 </li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-5-using-subqueries-with-the-dvd-rental-database">Exercise 5: Using Subqueries with the DVD Rental Database</a><ul class="nav section-nav flex-column">
@@ -591,11 +601,11 @@ SELECT * FROM sales;
 </div>
 <p>Now try to set the order quantity to 2000 and run the code, it should roll back the transaction and nothing changes</p>
 </section>
+</section>
 <section id="exercise-2-using-joins-with-the-dvd-rental-database">
-<h3>Exercise 2: Using JOINs with the DVD Rental Database<a class="headerlink" href="#exercise-2-using-joins-with-the-dvd-rental-database" title="Link to this heading">#</a></h3>
+<h2>Exercise 2: Using JOINs with the DVD Rental Database<a class="headerlink" href="#exercise-2-using-joins-with-the-dvd-rental-database" title="Link to this heading">#</a></h2>
 <p>rubric: {accuracy = 30}</p>
 <p>You are working with the DVD Rental database and need to retrieve information about customers, their rentals, and the films they have rented. You will use different types of JOINs to combine data from multiple tables.</p>
-</section>
 <section id="tasks">
 <h3>Tasks<a class="headerlink" href="#tasks" title="Link to this heading">#</a></h3>
 <section id="inner-join">
@@ -782,16 +792,17 @@ ORDER BY
 </div>
 </section>
 </section>
+</section>
 <section id="exercise-3-using-group-by-and-join-with-the-dvd-rental-database">
-<h3>Exercise 3: Using GROUP BY and JOIN with the DVD Rental Database<a class="headerlink" href="#exercise-3-using-group-by-and-join-with-the-dvd-rental-database" title="Link to this heading">#</a></h3>
+<h2>Exercise 3: Using GROUP BY and JOIN with the DVD Rental Database<a class="headerlink" href="#exercise-3-using-group-by-and-join-with-the-dvd-rental-database" title="Link to this heading">#</a></h2>
 <p>rubric: {accuracy = 10}</p>
 <p>In this exercise, you will learn how to use the <code class="docutils literal notranslate"><span class="pre">GROUP</span> <span class="pre">BY</span></code> clause in combination with <code class="docutils literal notranslate"><span class="pre">JOIN</span></code> to query data from the DVD Rental database.</p>
 <section id="id2">
-<h4>Scenario<a class="headerlink" href="#id2" title="Link to this heading">#</a></h4>
+<h3>Scenario<a class="headerlink" href="#id2" title="Link to this heading">#</a></h3>
 <p>You are working with the DVD Rental database and need to retrieve information about the <strong>total amount spent by each customer on rentals</strong>. Specifically, you want to list each customer along with the total amount they have spent.</p>
 </section>
 <section id="id3">
-<h4>Task<a class="headerlink" href="#id3" title="Link to this heading">#</a></h4>
+<h3>Task<a class="headerlink" href="#id3" title="Link to this heading">#</a></h3>
 <ol class="arabic simple">
 <li><p><strong>Retrieve Customer Spending Information</strong>: Use a <code class="docutils literal notranslate"><span class="pre">JOIN</span></code> to combine data from the <code class="docutils literal notranslate"><span class="pre">customer</span></code> and <code class="docutils literal notranslate"><span class="pre">payment</span></code> tables.</p></li>
 <li><p><strong>Group By Customer</strong>: Use the <code class="docutils literal notranslate"><span class="pre">GROUP</span> <span class="pre">BY</span></code> clause to calculate the total amount spent by each customer.</p></li>
@@ -821,14 +832,14 @@ ORDER BY
 </section>
 </section>
 <section id="exercise-4-using-join-group-by-where-and-having-with-the-dvd-rental-database">
-<h3>Exercise 4: Using JOIN, GROUP BY, WHERE, and HAVING with the DVD Rental Database<a class="headerlink" href="#exercise-4-using-join-group-by-where-and-having-with-the-dvd-rental-database" title="Link to this heading">#</a></h3>
+<h2>Exercise 4: Using JOIN, GROUP BY, WHERE, and HAVING with the DVD Rental Database<a class="headerlink" href="#exercise-4-using-join-group-by-where-and-having-with-the-dvd-rental-database" title="Link to this heading">#</a></h2>
 <p>rubric: {accuracy = 20}</p>
 <section id="id4">
-<h4>Scenario<a class="headerlink" href="#id4" title="Link to this heading">#</a></h4>
+<h3>Scenario<a class="headerlink" href="#id4" title="Link to this heading">#</a></h3>
 <p>You are working with the DVD Rental database and need to retrieve information about customers who have spent more than a certain amount on rentals. Specifically, you want to <strong>list each customer along with the total amount they have spent between ‘2007-02-01’ AND ‘2007-03-01’, but only include customers who have spent more than $30</strong>.</p>
 </section>
 <section id="id5">
-<h4>Task<a class="headerlink" href="#id5" title="Link to this heading">#</a></h4>
+<h3>Task<a class="headerlink" href="#id5" title="Link to this heading">#</a></h3>
 <ul class="simple">
 <li><p>Retrieve Customer Spending Information: Use a <code class="docutils literal notranslate"><span class="pre">JOIN</span></code> to combine data from the <code class="docutils literal notranslate"><span class="pre">customer</span></code> and <code class="docutils literal notranslate"><span class="pre">payment</span></code> tables.</p></li>
 <li><p>Filter by Date: Use the <code class="docutils literal notranslate"><span class="pre">WHERE</span></code> clause to filter <code class="docutils literal notranslate"><span class="pre">payments</span></code> made between ‘2007-02-01’ and ‘2007-03-01’.</p></li>
@@ -900,7 +911,6 @@ ORDER BY
 </div>
 </div>
 </div>
-</section>
 </section>
 </section>
 <section id="exercise-5-using-subqueries-with-the-dvd-rental-database">
@@ -1094,6 +1104,15 @@ ORDER BY
                 <footer class="prev-next-footer d-print-none">
                   
 <div class="prev-next-area">
+    <a class="left-prev"
+       href="worksheet4.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">Worksheet 4: PostgreSQL data manipulation</p>
+      </div>
+    </a>
 </div>
                 </footer>
               
@@ -1113,23 +1132,25 @@ ORDER BY
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-1-transactions-in-sql">Exercise 1: Transactions in SQL</a><ul class="nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#scenario">Scenario</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#task">Task</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-2-using-joins-with-the-dvd-rental-database">Exercise 2: Using JOINs with the DVD Rental Database</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-2-using-joins-with-the-dvd-rental-database">Exercise 2: Using JOINs with the DVD Rental Database</a><ul class="nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#tasks">Tasks</a><ul class="nav section-nav flex-column">
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#inner-join">1. Inner Join</a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#left-join">2. Left Join</a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#id1">3. Inner join</a></li>
 </ul>
 </li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-3-using-group-by-and-join-with-the-dvd-rental-database">Exercise 3: Using GROUP BY and JOIN with the DVD Rental Database</a><ul class="nav section-nav flex-column">
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#id2">Scenario</a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#id3">Task</a></li>
 </ul>
 </li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-4-using-join-group-by-where-and-having-with-the-dvd-rental-database">Exercise 4: Using JOIN, GROUP BY, WHERE, and HAVING with the DVD Rental Database</a><ul class="nav section-nav flex-column">
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#id4">Scenario</a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#id5">Task</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-3-using-group-by-and-join-with-the-dvd-rental-database">Exercise 3: Using GROUP BY and JOIN with the DVD Rental Database</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id2">Scenario</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id3">Task</a></li>
 </ul>
 </li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-4-using-join-group-by-where-and-having-with-the-dvd-rental-database">Exercise 4: Using JOIN, GROUP BY, WHERE, and HAVING with the DVD Rental Database</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id4">Scenario</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id5">Task</a></li>
 </ul>
 </li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise-5-using-subqueries-with-the-dvd-rental-database">Exercise 5: Using Subqueries with the DVD Rental Database</a><ul class="nav section-nav flex-column">
