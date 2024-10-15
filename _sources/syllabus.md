@@ -35,19 +35,19 @@ Please find the topics for each week based on the course outline:
 
 | **Week Number** | **Topic**                                                            |
 |-----------------|----------------------------------------------------------------------|
-| Week 1          | Data types and data structures                                       |
-| Week 2          | Data modeling and data management                                    |
-| Week 3          | Introduction to database management systems                          |
-| Week 4          | Structured, semi-structured, and unstructured data storage and processing |
-| Week 5          | Query languages (SQL, QBE, XQuery), data definition and manipulation |
-| Week 6          | Text and pattern analysis with regular expressions and fuzzy searches |
-| Week 7          | Temporal and spatial data; multimedia data                           |
-| Week 8          | Data quality (preparation, transformation, finding errors/outliers)  |
-| Week 9          | Big Data: Qualities, problems, potential, and storage (Hadoop and MapReduce) |
-| Week 10         | Data management in NoSQL databases (key-value, document, column-oriented, graph) |
-| Week 11         | Data warehousing and Online Analytical Processing (OLAP)             |
-| Week 12         | Data modeling (relational, OO, multidimensional)                     |
-| Week 13         | Data mining: Pattern finding, building descriptive and predictive models |
+| Week 1          | Introduction to database management systems                          |
+| Week 2          | Relationship in DBMSs                                 |
+| Week 3          | Data querry with SQL part 1                          |
+| Week 4          | Data querry with SQL part 2 |
+| Week 5          | Data querry with SQL part 3 |
+| Week 6          | Introduction to non-relational database |
+| Week 7          | Data modelling in MongoDB                           |
+| Week 8          | Data manipulation in MongoDB  |
+| Week 9          | Transactions in MongoDB |
+| Week 10         | Big data processing with PySpark |
+| Week 11         | Spark SQL and data manipulation              |
+| Week 12         | Spark Machine learning                     |
+| Week 13         | Data ethics and privacy |
 
 ## Assessment overview
 
